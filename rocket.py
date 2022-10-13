@@ -1,6 +1,9 @@
 import math
 import cv2
 
+from geometrics import *
+from rocket_laser import *
+
 
 class SimpleRocket:
   def __init__(self, x0=0, y0=0, color=(255, 0, 0)):
@@ -54,11 +57,13 @@ class Rocket:
     self.vx = 0
     self.vy = 0
 
+    self.lasers = []
+
   def rotate(self, angle):
     self.angle += angle
 
   def accelerate(self, a):
-    angle = self.angle * 3.141592653589793 / 180
+    angle = to_radians(self.angle)
     self.gx = a * math.cos(angle)
     self.gy = a * math.sin(angle)
 
@@ -81,30 +86,24 @@ class Rocket:
     if self.y < 0:
       self.y = h
 
-    angle = self.angle * 3.141592653589793 / 180
+    angle = to_radians(self.angle)
     p1 = (int(self.x + self.l * math.cos(angle)), int(self.y + self.l * math.sin(angle)))
     p2 = (int(self.x - self.l * math.cos(angle)), int(self.y - self.l * math.sin(angle)))
-    p3, p4 = self.perpendicular(p1, p2, self.l)
+    p3, p4 = line_perpendicular(p1, p2, self.l)
     cv2.line(frame, p1, p2, self.color, 2)
     cv2.line(frame, p3, p4, self.color, 4)
     cv2.line(frame, p3, p1, (0, 0, 255), 3)
     cv2.line(frame, p4, p1, (255, 0, 0), 3)
 
-    cv2.putText(frame, "V ({},{})".format(round(self.vx, 2), round(self.vy, 2)), (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
+    txt = "V ({},{}) L[{}]".format(round(self.vx, 2), round(self.vy, 2), len(self.lasers))
+    cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
-  def perpendicular(self, p1, p2, l):
-    x1, y1 = p1
-    x2, y2 = p2
+    self.move_lasers(frame)
 
-    x3 = x2 - x1
-    y3 = y2 - y1
+  def move_lasers(self, frame):
+    for laser in self.lasers:
+      if not laser.move(frame):
+        self.lasers.remove(laser)
 
-    mag = math.sqrt(x3 * x3 + y3 * y3)
-    x3 /= mag
-    y3 /= mag
-
-    x4 = x2 - y3 * l
-    y4 = y2 + x3 * l
-    x5 = x2 + y3 * l
-    y5 = y2 - x3 * l
-    return (int(x4), int(y4)), (int(x5), int(y5))
+  def fire(self):
+    self.lasers.append(RocketLaser(self.x, self.y, self.angle))

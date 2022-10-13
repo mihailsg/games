@@ -24,8 +24,9 @@ def main():
     if k == ord('i'):
       # rockets[0].accelerate(0, -g)
       rocket.accelerate(g)
-    if k == ord('m'):l;
+    if k == ord('m'):
       # rockets[0].accelerate(0, g)
+      rocket.fire()
     if k == ord('j'):
       # rockets[0].accelerate(-g, 0)
       rocket.rotate(-5)
