@@ -2,11 +2,17 @@ import cv2
 import time
 import numpy as np
 
-from games.rocket import SimpleRocket
+from rocket import *
+
 
 def main():
   
-  rocket = SimpleRocket(x0=100, y0=100, color=(0, 0, 255))
+  # rockets = [
+  #   SimpleRocket(x0=100, y0=100, color=(0, 0, 255)),
+  #   Rocket(x0=200, y0=200, color=(0, 255, 0))
+  # ]
+
+  rocket = Rocket(x0=200, y0=200, color=(0, 255, 0))
 
   g = 0.1
 
@@ -16,20 +22,23 @@ def main():
       break
 
     if k == ord('i'):
-      rocket.accelerate(0, -g)
-    if k == ord('m'):
-      rocket.accelerate(0, g)
+      # rockets[0].accelerate(0, -g)
+      rocket.accelerate(g)
+    if k == ord('m'):l;
+      # rockets[0].accelerate(0, g)
     if k == ord('j'):
-      rocket.accelerate(-g, 0)
+      # rockets[0].accelerate(-g, 0)
+      rocket.rotate(-5)
     if k == ord('k'):
-      rocket.accelerate(g, 0)
+      # rockets[0].accelerate(g, 0)
+      rocket.rotate(5)
 
     frame = np.zeros(shape=[600, 800, 3], dtype=np.uint8)
+
     rocket.move(frame)
+
     cv2.imshow('asteroids', frame)
     
-    
-    # time.sleep(0.03)
 
  
 if __name__=='__main__':
