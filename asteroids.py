@@ -21,9 +21,13 @@ def main():
     if k == 27:    # Esc key to stop
       break
 
+    if k == ord('u'):
+      rocket.accelerate(0.01)
     if k == ord('i'):
       # rockets[0].accelerate(0, -g)
-      rocket.accelerate(g)
+      rocket.accelerate(0.05)
+    if k == ord('o'):
+      rocket.accelerate(0.1)
     if k == ord('m'):
       # rockets[0].accelerate(0, g)
       rocket.fire()

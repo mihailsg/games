@@ -95,7 +95,7 @@ class Rocket:
     cv2.line(frame, p3, p1, (0, 0, 255), 3)
     cv2.line(frame, p4, p1, (255, 0, 0), 3)
 
-    txt = "V ({},{}) L[{}]".format(round(self.vx, 2), round(self.vy, 2), len(self.lasers))
+    txt = "V ({},{}) A[{}] L[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle, len(self.lasers))
     cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
     self.move_lasers(frame)
