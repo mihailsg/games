@@ -67,11 +67,16 @@ def main():
         d1 = math.sqrt((asteroid.x - laser[0][0]) ** 2 + (asteroid.y - laser[0][1]) ** 2)
         d2 = math.sqrt((asteroid.x - laser[1][0]) ** 2 + (asteroid.y - laser[1][1]) ** 2)
         if d1 < asteroid.r or d2 < asteroid.r:
-          print("collision", i, laser)
           asteroids.remove(asteroid)
           rocket.remove_laser(i)
 
+    for asteroid in asteroids:
+      if rocket.check_collision(asteroid.x, asteroid.y, asteroid.r):
+        asteroids.remove(asteroid)
+        rocket = RocketExplosion(rocket.x, rocket.y)
 
+    if not rocket.alive():
+      break
 
     cv2.imshow('asteroids', frame)
 

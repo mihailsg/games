@@ -6,13 +6,30 @@ from geometrics import *
 from laser import *
 
 
-class SimpleRocket:
-  def __init__(self, x0=0, y0=0, color=(255, 0, 0)):
-    self.color = color
-    self.r = 10
-
+class RocketBase:
+  def __init__(self, x0, y0):
     self.x = x0
     self.y = y0
+    self.l = 10000000000
+
+  def check_collision(self, x, y, r):
+    return False
+
+  def move(self, frame):
+    pass
+
+  def alive(self):
+    return True
+
+  def laser_positions(self):
+    return []
+
+
+class SimpleRocket(RocketBase):
+  def __init__(self, x0=0, y0=0, color=(255, 0, 0)):
+    super().__init__(x0, y0)
+    self.color = color
+    self.r = 10
 
     self.vx = 0
     self.vy = 0
@@ -34,17 +51,15 @@ class SimpleRocket:
     cv2.putText(frame, "V ({},{})".format(round(self.vx, 2), round(self.vy, 2)), (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
 
-class Rocket:
+class Rocket(RocketBase):
   def __init__(self, x0=0, y0=0, color=(255, 0, 0), txt_pos=(5, 20)):
+    super().__init__(x0, y0)
     self.color = color
     self.txt_pos = txt_pos
     self.l = 10
 
     self.thruster_default = 30
     self.thruster = 0
-
-    self.x = x0
-    self.y = y0
 
     self.angle = 0
 
@@ -120,3 +135,24 @@ class Rocket:
 
   def remove_laser(self, idx):
     del self.lasers[idx]
+
+  def check_collision(self, x, y, r):
+    d = math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
+    return d < r + self.l
+
+
+class RocketExplosion(RocketBase):
+  def __init__(self, x0, y0):
+    super().__init__(x0, y0)
+    self.r = 3
+
+  def move(self, frame):
+    w = frame.shape[1]
+    h = frame.shape[0]
+
+    cv2.circle(frame, (int(self.x), int(self.y)), int(self.r), (0, 0, 255), thickness=-1)
+
+    self.r += 1
+
+  def alive(self):
+    return self.r < 100
