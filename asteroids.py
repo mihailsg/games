@@ -30,7 +30,8 @@ def main():
         np.random.uniform(0, 0.7),
         np.random.uniform(0, 0.7),
         np.random.randint(5, 50),
-        color=(255, 255, 255)
+        color=(255, 255, 255),
+        size_contour=10
       )
     )
 
@@ -59,6 +60,18 @@ def main():
 
     for asteroid in asteroids:
       asteroid.move(frame)
+
+    laser_positions = rocket.laser_positions()
+    for asteroid in asteroids:
+      for i, laser in enumerate(laser_positions):
+        d1 = math.sqrt((asteroid.x - laser[0][0]) ** 2 + (asteroid.y - laser[0][1]) ** 2)
+        d2 = math.sqrt((asteroid.x - laser[1][0]) ** 2 + (asteroid.y - laser[1][1]) ** 2)
+        if d1 < asteroid.r or d2 < asteroid.r:
+          print("collision", i, laser)
+          asteroids.remove(asteroid)
+          rocket.remove_laser(i)
+
+
 
     cv2.imshow('asteroids', frame)
 

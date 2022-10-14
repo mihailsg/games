@@ -29,9 +29,9 @@ class Laser:
     self.path = math.sqrt((self.x - self.x0) ** 2 + (self.y - self.y0) ** 2)
 
     angle = to_radians(self.angle)
-    p1 = (int(self.x), int(self.y))
-    p2 = (int(self.x + self.l * math.cos(angle)), int(self.y + self.l * math.sin(angle)))
+    self.p1 = (int(self.x), int(self.y))
+    self.p2 = (int(self.x + self.l * math.cos(angle)), int(self.y + self.l * math.sin(angle)))
 
-    cv2.line(frame, p1, p2, (0, 0, 255), 2)
+    cv2.line(frame, self.p1, self.p2, (0, 0, 255), 2)
 
     return self.path < 1000 and self.x >= 0 and self.x <= w and self.y >= 0 and self.y <= h

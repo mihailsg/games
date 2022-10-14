@@ -111,3 +111,12 @@ class Rocket:
 
   def fire(self):
     self.lasers.append(Laser(self.x, self.y, self.angle))
+
+  def laser_positions(self):
+    positions = []
+    for laser in self.lasers:
+      positions.append([laser.p1, laser.p2])
+    return positions
+
+  def remove_laser(self, idx):
+    del self.lasers[idx]

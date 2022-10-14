@@ -37,7 +37,7 @@ class Asteroid:
   def generate_contour(self):
     self.list_points = []
     for i in range(self.size_contour):
-      r = self.r * np.sqrt(np.random.uniform())
+      r = self.r * np.sqrt(np.random.uniform(0.3, 1.0))
       # angle = np.random.uniform() * 2 * PI
       angle = i * 2 * PI / self.size_contour
       p = (r * math.cos(angle), r * math.sin(angle))
