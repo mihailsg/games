@@ -28,31 +28,24 @@ class SimpleRocket:
     self.x += self.vx
     self.y += self.vy
 
-    if self.x > w:
-      self.x = 0
-    if self.x < 0:
-      self.x = w
-    if self.y > h:
-      self.y = 0
-    if self.y < 0:
-      self.y = h
+    self.x, self.y = frame_bounds_rewind(w, h, self.x, self.y)
 
     cv2.circle(frame, (int(self.x), int(self.y)), self.r, self.color, thickness=-1)
     cv2.putText(frame, "V ({},{})".format(round(self.vx, 2), round(self.vy, 2)), (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
 
 class Rocket:
-  def __init__(self, x0=0, y0=0, color=(255, 0, 0)):
+  def __init__(self, x0=0, y0=0, color=(255, 0, 0), txt_pos=(5, 20)):
     self.color = color
+    self.txt_pos = txt_pos
     self.l = 10
 
-    self.thruster_default = 100
+    self.thruster_default = 30
     self.thruster = 0
 
     self.x = x0
     self.y = y0
 
-    # Angle in degrees
     self.angle = 0
 
     self.a = 0
@@ -85,14 +78,7 @@ class Rocket:
     self.x += self.vx
     self.y += self.vy
 
-    if self.x > w:
-      self.x = 0
-    if self.x < 0:
-      self.x = w
-    if self.y > h:
-      self.y = 0
-    if self.y < 0:
-      self.y = h
+    self.x, self.y = frame_bounds_rewind(w, h, self.x, self.y)
 
     angle = to_radians(self.angle)
     p1 = (int(self.x + self.l * math.cos(angle)), int(self.y + self.l * math.sin(angle)))
@@ -110,12 +96,11 @@ class Rocket:
       da = 0.3
       p2 = [int(p1[0] - l * math.cos(angle - da)), int(p1[1] - l * math.sin(angle - da))]
       p3 = [int(p1[0] - l * math.cos(angle + da)), int(p1[1] - l * math.sin(angle + da))]
-      # cv2.line(frame, p3, p4, (0, 0, 255), 10)
       cv2.drawContours(frame, [np.array([p1, p2, p3])], 0, (0, 0, 255), -1)
       self.thruster -= 1
 
     txt = "V ({},{}) A[{}] L[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle, len(self.lasers))
-    cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
+    cv2.putText(frame, txt, self.txt_pos, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
     self.move_lasers(frame)
 

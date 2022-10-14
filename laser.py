@@ -15,7 +15,7 @@ class Laser:
     self.l = 10
     self.angle = angle
 
-    self.v = 1.3
+    self.v = 2.5
     self.vx = self.v * math.cos(to_radians(self.angle))
     self.vy = self.v * math.sin(to_radians(self.angle))
 

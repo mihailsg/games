@@ -1,12 +1,15 @@
 import cv2
-import time
 import numpy as np
 
 from rocket import *
+from asteroid import *
 
 
 def main():
-  
+
+  W = 600
+  H = 800
+
   # rockets = [
   #   SimpleRocket(x0=100, y0=100, color=(0, 0, 255)),
   #   Rocket(x0=200, y0=200, color=(0, 255, 0))
@@ -14,7 +17,23 @@ def main():
 
   rocket = Rocket(x0=200, y0=200, color=(0, 255, 0))
 
-  g = 0.1
+  asteroids = [
+    Asteroid(100, 100, 0.2, 0.3, 20),
+    Asteroid(150, 150, 0.1, 0.2, 20),
+  ]
+
+  for i in range(10):
+    asteroids.append(
+      Asteroid(
+        np.random.randint(0, W),
+        np.random.randint(0, H),
+        np.random.uniform(0, 0.7),
+        np.random.uniform(0, 0.7),
+        np.random.randint(5, 50),
+        color=(255, 255, 255)
+      )
+    )
+
 
   while(True):
     k = cv2.waitKey(1)
@@ -24,28 +43,27 @@ def main():
     if k == ord('u'):
       rocket.accelerate(0.01)
     if k == ord('i'):
-      # rockets[0].accelerate(0, -g)
       rocket.accelerate(0.05)
     if k == ord('o'):
       rocket.accelerate(0.1)
     if k == ord('m'):
-      # rockets[0].accelerate(0, g)
       rocket.fire()
     if k == ord('j'):
-      # rockets[0].accelerate(-g, 0)
       rocket.rotate(-5)
     if k == ord('k'):
-      # rockets[0].accelerate(g, 0)
       rocket.rotate(5)
 
-    frame = np.zeros(shape=[600, 800, 3], dtype=np.uint8)
+    frame = np.zeros(shape=[W, H, 3], dtype=np.uint8)
 
     rocket.move(frame)
 
-    cv2.imshow('asteroids', frame)
-    
+    for asteroid in asteroids:
+      asteroid.move(frame)
 
- 
+    cv2.imshow('asteroids', frame)
+
+
+
 if __name__=='__main__':
         main()
 

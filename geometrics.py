@@ -2,8 +2,10 @@ import math
 import cv2
 
 
+PI = 3.141592653589793
+
 def to_radians(angle):
-  return angle * 3.141592653589793 / 180
+  return angle * PI / 180
 
 def line_perpendicular(p1, p2, l):
   x1, y1 = p1
@@ -21,3 +23,14 @@ def line_perpendicular(p1, p2, l):
   x5 = x2 + y3 * l
   y5 = y2 - x3 * l
   return (int(x4), int(y4)), (int(x5), int(y5))
+
+def frame_bounds_rewind(w, h, x, y):
+  if x > w:
+    x = 0
+  if x < 0:
+    x = w
+  if y > h:
+    y = 0
+  if y < 0:
+    y = h
+  return x, y
