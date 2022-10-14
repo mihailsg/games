@@ -4,7 +4,7 @@ import math
 from geometrics import to_radians
 
 
-class RocketLaser:
+class Laser:
   def __init__(self, x0, y0, angle):
     self.path = 0
     self.x0 = x0
@@ -15,7 +15,7 @@ class RocketLaser:
     self.l = 10
     self.angle = angle
 
-    self.v = 0.7
+    self.v = 1.3
     self.vx = self.v * math.cos(to_radians(self.angle))
     self.vy = self.v * math.sin(to_radians(self.angle))
 

@@ -1,8 +1,9 @@
 import math
 import cv2
+import numpy as np
 
 from geometrics import *
-from rocket_laser import *
+from laser import *
 
 
 class SimpleRocket:
@@ -45,14 +46,18 @@ class Rocket:
     self.color = color
     self.l = 10
 
+    self.thruster_default = 100
+    self.thruster = 0
+
     self.x = x0
     self.y = y0
 
     # Angle in degrees
     self.angle = 0
 
-    self.gx = 0
-    self.gy = 0
+    self.a = 0
+    self.ax = 0
+    self.ay = 0
 
     self.vx = 0
     self.vy = 0
@@ -64,11 +69,14 @@ class Rocket:
 
   def accelerate(self, a):
     angle = to_radians(self.angle)
-    self.gx = a * math.cos(angle)
-    self.gy = a * math.sin(angle)
+    self.ax = a * math.cos(angle)
+    self.ay = a * math.sin(angle)
+    self.a = a
 
-    self.vx += self.gx
-    self.vy += self.gy
+    self.vx += self.ax
+    self.vy += self.ay
+
+    self.thruster = self.thruster_default
 
   def move(self, frame):
     w = frame.shape[1]
@@ -90,10 +98,21 @@ class Rocket:
     p1 = (int(self.x + self.l * math.cos(angle)), int(self.y + self.l * math.sin(angle)))
     p2 = (int(self.x - self.l * math.cos(angle)), int(self.y - self.l * math.sin(angle)))
     p3, p4 = line_perpendicular(p1, p2, self.l)
+
     cv2.line(frame, p1, p2, self.color, 2)
     cv2.line(frame, p3, p4, self.color, 4)
     cv2.line(frame, p3, p1, (0, 0, 255), 3)
     cv2.line(frame, p4, p1, (255, 0, 0), 3)
+
+    if self.thruster > 0:
+      l = self.a * 300
+      p1 = p2
+      da = 0.3
+      p2 = [int(p1[0] - l * math.cos(angle - da)), int(p1[1] - l * math.sin(angle - da))]
+      p3 = [int(p1[0] - l * math.cos(angle + da)), int(p1[1] - l * math.sin(angle + da))]
+      # cv2.line(frame, p3, p4, (0, 0, 255), 10)
+      cv2.drawContours(frame, [np.array([p1, p2, p3])], 0, (0, 0, 255), -1)
+      self.thruster -= 1
 
     txt = "V ({},{}) A[{}] L[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle, len(self.lasers))
     cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
@@ -106,4 +125,4 @@ class Rocket:
         self.lasers.remove(laser)
 
   def fire(self):
-    self.lasers.append(RocketLaser(self.x, self.y, self.angle))
+    self.lasers.append(Laser(self.x, self.y, self.angle))
