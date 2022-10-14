@@ -15,24 +15,24 @@ def main():
   #   Rocket(x0=200, y0=200, color=(0, 255, 0))
   # ]
 
-  rocket = Rocket(x0=200, y0=200, color=(0, 255, 0), txt_pos=(300, 20), laser_count=200)
+  rocket = Rocket(x0=50, y0=50, color=(255, 255, 0), txt_pos=(300, 20), laser_count=200)
 
   asteroids = []
 
   for i in range(30):
     asteroids.append(
       Asteroid(
-        np.random.randint(0, W),
-        np.random.randint(0, H),
-        np.random.uniform(0, 0.7),
-        np.random.uniform(0, 0.7),
+        np.random.randint(200, W),
+        np.random.randint(200, H),
+        np.random.uniform(0, 1.1),
+        np.random.uniform(0, 1.1),
         np.random.randint(5, 50),
         color=(255, 255, 255),
         size_contour=10
       )
     )
 
-  rocket_lives = 3
+  rocket_lives = 5
   asteroids_removed = 0
 
 
@@ -81,16 +81,16 @@ def main():
 
     if not rocket.alive():
       if rocket_lives > 0:
-        rocket = Rocket(x0=400, y0=400, color=(0, 255, 0), txt_pos=(300, 20), laser_count=len(asteroids) * 10)
+        rocket = Rocket(x0=rocket.x, y0=rocket.y, color=(255, 255, 0), txt_pos=(300, 20), laser_count=len(asteroids) * 10)
       else:
         break
 
     if len(asteroids) == 0 and rocket_lives > 0:
-      rocket = Rocket(x0=400, y0=400, color=(0, 255, 0), txt_pos=(300, 20), l=50)
+      rocket = Rocket(x0=400, y0=400, color=(255, 255, 0), txt_pos=(300, 20), l=50)
       txt = "Winner"
       rocket_lives = -1
     else:
-      txt = "Lives {} Points {}".format(rocket_lives, asteroids_removed)
+      txt = "Lives {} Asteroids {} / {}".format(rocket_lives, len(asteroids), asteroids_removed)
 
     cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 

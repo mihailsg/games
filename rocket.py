@@ -109,7 +109,7 @@ class Rocket(RocketBase):
     cv2.line(frame, p1, p2, self.color, 2)
     cv2.line(frame, p3, p4, self.color, 4)
     cv2.line(frame, p3, p1, (0, 0, 255), 3)
-    cv2.line(frame, p4, p1, (255, 0, 0), 3)
+    cv2.line(frame, p4, p1, (0, 255, 0), 3)
 
     if self.thruster > 0:
       l = self.a * 300
