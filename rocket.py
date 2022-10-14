@@ -11,11 +11,21 @@ class RocketBase:
     self.x = x0
     self.y = y0
     self.l = 10000000000
+    self.angle = 0
 
   def check_collision(self, x, y, r):
     return False
 
+  def rotate(self, angle):
+    self.angle += angle
+
+  def accelerate(self, a):
+    pass
+
   def move(self, frame):
+    pass
+
+  def fire(self):
     pass
 
   def alive(self):
@@ -52,16 +62,14 @@ class SimpleRocket(RocketBase):
 
 
 class Rocket(RocketBase):
-  def __init__(self, x0=0, y0=0, color=(255, 0, 0), txt_pos=(5, 20)):
+  def __init__(self, x0=0, y0=0, color=(255, 0, 0), txt_pos=(5, 20), l=10, laser_count=100):
     super().__init__(x0, y0)
     self.color = color
     self.txt_pos = txt_pos
-    self.l = 10
+    self.l = l
 
     self.thruster_default = 30
     self.thruster = 0
-
-    self.angle = 0
 
     self.a = 0
     self.ax = 0
@@ -70,10 +78,8 @@ class Rocket(RocketBase):
     self.vx = 0
     self.vy = 0
 
+    self.laser_count = laser_count
     self.lasers = []
-
-  def rotate(self, angle):
-    self.angle += angle
 
   def accelerate(self, a):
     angle = to_radians(self.angle)
@@ -114,7 +120,7 @@ class Rocket(RocketBase):
       cv2.drawContours(frame, [np.array([p1, p2, p3])], 0, (0, 0, 255), -1)
       self.thruster -= 1
 
-    txt = "V ({},{}) A[{}] L[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle, len(self.lasers))
+    txt = "V ({},{}) A[{}] L[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle, self.laser_count)
     cv2.putText(frame, txt, self.txt_pos, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
     self.move_lasers(frame)
@@ -125,7 +131,9 @@ class Rocket(RocketBase):
         self.lasers.remove(laser)
 
   def fire(self):
-    self.lasers.append(Laser(self.x, self.y, self.angle))
+    if self.laser_count > 0:
+      self.laser_count -= 1
+      self.lasers.append(Laser(self.x, self.y, self.angle))
 
   def laser_positions(self):
     positions = []
@@ -147,12 +155,8 @@ class RocketExplosion(RocketBase):
     self.r = 3
 
   def move(self, frame):
-    w = frame.shape[1]
-    h = frame.shape[0]
-
     cv2.circle(frame, (int(self.x), int(self.y)), int(self.r), (0, 0, 255), thickness=-1)
-
-    self.r += 1
+    self.r += 0.8
 
   def alive(self):
     return self.r < 100
