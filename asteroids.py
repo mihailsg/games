@@ -7,7 +7,7 @@ from asteroid import *
 
 def main():
 
-  W = 600
+  W = 1000
   H = 800
 
   # rockets = [
@@ -35,6 +35,7 @@ def main():
   rocket_lives = 5
   asteroids_removed = 0
 
+  vrotate = 0
 
   while(True):
     k = cv2.waitKey(1)
@@ -42,19 +43,23 @@ def main():
       break
 
     if k == ord('u'):
-      rocket.accelerate(0.01)
-    if k == ord('i'):
-      rocket.accelerate(0.05)
-    if k == ord('o'):
       rocket.accelerate(0.1)
+    if k == ord('i'):
+      rocket.accelerate(0.2)
+    if k == ord('o'):
+      rocket.accelerate(0.3)
     if k == ord('m'):
       rocket.fire()
     if k == ord('j'):
-      rocket.rotate(-5)
+      vrotate = -1
     if k == ord('k'):
-      rocket.rotate(5)
+      vrotate = 0
+    if k == ord('l'):
+      vrotate = 1
 
-    frame = np.zeros(shape=[W, H, 3], dtype=np.uint8)
+    rocket.rotate(vrotate)
+
+    frame = np.zeros(shape=[H, W, 3], dtype=np.uint8)
 
     rocket.move(frame)
 
@@ -64,12 +69,41 @@ def main():
     laser_positions = rocket.laser_positions()
     for asteroid in asteroids:
       for i, laser in enumerate(laser_positions):
-        d1 = math.sqrt((asteroid.x - laser[0][0]) ** 2 + (asteroid.y - laser[0][1]) ** 2)
-        d2 = math.sqrt((asteroid.x - laser[1][0]) ** 2 + (asteroid.y - laser[1][1]) ** 2)
+        d1 = np.linalg.norm(np.array([asteroid.x, asteroid.y]) - np.array([laser[0][0], laser[0][1]]))
+        d2 = np.linalg.norm(np.array([asteroid.x, asteroid.y]) - np.array([laser[1][0], laser[1][1]]))
+        # d1 = math.sqrt((asteroid.x - laser[0][0]) ** 2 + (asteroid.y - laser[0][1]) ** 2)
+        # d2 = math.sqrt((asteroid.x - laser[1][0]) ** 2 + (asteroid.y - laser[1][1]) ** 2)
         if d1 < asteroid.r or d2 < asteroid.r:
           asteroids.remove(asteroid)
           rocket.remove_laser(i)
           asteroids_removed += 1
+
+          if asteroid.r > 10:
+            angle1 = to_radians(laser[2] + 90)
+            angle2 = to_radians(laser[2] - 90)
+            asteroids.append(
+              Asteroid(
+                asteroid.x,
+                asteroid.y,
+                math.cos(angle1) * asteroid.vx,
+                math.sin(angle1) * asteroid.vy,
+                asteroid.r / 2,
+                color=(255, 255, 255),
+                size_contour=10
+              )
+            )
+            asteroids.append(
+              Asteroid(
+                asteroid.x,
+                asteroid.y,
+                math.cos(angle2) * asteroid.vx,
+                math.sin(angle2) * asteroid.vy,
+                asteroid.r / 2,
+                color=(255, 255, 255),
+                size_contour=10
+              )
+            )
+
           break
 
     for asteroid in asteroids:

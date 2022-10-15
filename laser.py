@@ -1,5 +1,6 @@
 import cv2
 import math
+import numpy as np
 
 from geometrics import to_radians
 
@@ -26,7 +27,8 @@ class Laser:
     self.x += self.vx
     self.y += self.vy
 
-    self.path = math.sqrt((self.x - self.x0) ** 2 + (self.y - self.y0) ** 2)
+    self.path = np.linalg.norm(np.array([self.x, self.y]) - np.array([self.x0, self.y0]))
+    # self.path = math.sqrt((self.x - self.x0) ** 2 + (self.y - self.y0) ** 2)
 
     angle = to_radians(self.angle)
     self.p1 = (int(self.x), int(self.y))

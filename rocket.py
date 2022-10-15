@@ -138,14 +138,15 @@ class Rocket(RocketBase):
   def laser_positions(self):
     positions = []
     for laser in self.lasers:
-      positions.append([laser.p1, laser.p2])
+      positions.append([laser.p1, laser.p2, laser.angle])
     return positions
 
   def remove_laser(self, idx):
     del self.lasers[idx]
 
   def check_collision(self, x, y, r):
-    d = math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
+    d = np.linalg.norm(np.array([x, y]) - np.array([self.x, self.y]))
+    # d = math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
     return d < r + self.l
 
 
