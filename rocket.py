@@ -142,11 +142,12 @@ class Rocket(RocketBase):
     return positions
 
   def remove_laser(self, idx):
-    del self.lasers[idx]
+    if idx < len(self.lasers):
+      del self.lasers[idx]
 
   def check_collision(self, x, y, r):
-    d = np.linalg.norm(np.array([x, y]) - np.array([self.x, self.y]))
-    # d = math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
+    # d = np.linalg.norm(np.array([x, y]) - np.array([self.x, self.y]))
+    d = math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
     return d < r + self.l
 
 

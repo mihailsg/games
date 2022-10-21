@@ -27,7 +27,7 @@ class Laser:
     self.x += self.vx
     self.y += self.vy
 
-    self.path = np.linalg.norm(np.array([self.x, self.y]) - np.array([self.x0, self.y0]))
+    # self.path = np.linalg.norm(np.array([self.x, self.y]) - np.array([self.x0, self.y0]))
     # self.path = math.sqrt((self.x - self.x0) ** 2 + (self.y - self.y0) ** 2)
 
     angle = to_radians(self.angle)
