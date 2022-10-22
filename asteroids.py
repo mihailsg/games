@@ -3,6 +3,7 @@ import numpy as np
 
 from rocket import *
 from asteroid import *
+from volume_bar import *
 
 
 def main():
@@ -27,7 +28,7 @@ def main():
   asteroids = []
 
   dv = 1.1
-  while(len(asteroids) < 40):
+  while(len(asteroids) < 30):
     x0 = np.random.randint(200, W)
     y0 = np.random.randint(200, H)
     r0 = np.random.randint(5, 70)
@@ -52,6 +53,8 @@ def main():
 
   rocket_lives = 10
   asteroids_removed = 0
+
+  rocket_lives_bar = VolumeBar((200, 20), rocket_lives, name="LIVE", color=(0, 255, 0))
 
   vrotate = 0
 
@@ -155,9 +158,10 @@ def main():
       txt = "Winner"
       rocket_lives = -1
     else:
-      txt = "Lives {} Asteroids {} / {}".format(rocket_lives, len(asteroids), asteroids_removed)
-    cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
+      txt = "Asteroids {} / {}".format(len(asteroids), asteroids_removed)
+    cv2.putText(frame, txt, (5, 5), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
+    rocket_lives_bar.draw(frame, rocket_lives)
 
     cv2.imshow('asteroids', frame)
 

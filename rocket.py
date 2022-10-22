@@ -4,6 +4,7 @@ import numpy as np
 
 from geometrics import *
 from laser import *
+from volume_bar import *
 
 
 class RocketBase:
@@ -82,6 +83,9 @@ class Rocket(RocketBase):
     self.laser_count = laser_count
     self.lasers = []
 
+    self.fuel_bar = VolumeBar((400, 20), self.fuel, name="FUEL", color=(255, 0, 0))
+    self.laser_bar = VolumeBar((400, 50), self.laser_count, name="LASER", color=(0, 0, 255))
+
   def accelerate(self, a):
     if self.fuel < a:
       a = self.fuel
@@ -125,10 +129,13 @@ class Rocket(RocketBase):
       cv2.drawContours(frame, [np.array([p1, p2, p3])], 0, (0, 0, 255), -1)
       self.thruster -= 1
 
-    txt = "V ({},{}) A[{}] F[{}] L[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle, self.fuel, self.laser_count)
+    txt = "V ({},{}) A[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle)
     cv2.putText(frame, txt, self.txt_pos, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
     self.move_lasers(frame)
+
+    self.fuel_bar.draw(frame, self.fuel)
+    self.laser_bar.draw(frame, self.laser_count)
 
   def move_lasers(self, frame):
     for laser in self.lasers:
