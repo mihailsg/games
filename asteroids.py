@@ -7,7 +7,7 @@ from asteroid import *
 
 def main():
 
-  W = 1000
+  W = 1200
   H = 800
 
   # rockets = [
@@ -15,15 +15,22 @@ def main():
   #   Rocket(x0=200, y0=200, color=(0, 255, 0))
   # ]
 
+  # from circle import *
+  # circles = [
+  #   Circle(x0=300, y0=300, r=100, vx0=0.1, vy0=0.2),
+  #   Circle(x0=350, y0=350, r=150, vx0=0.3, vy0=0.3, color=(255, 0, 0)),
+  #   Circle(x0=450, y0=450, r=200, vx0=0.4, vy0=0.1, color=(0, 255, 0)),
+  # ]
+
   rocket = Rocket(x0=50, y0=50, color=(255, 255, 0), txt_pos=(300, 20), laser_count=200)
 
   asteroids = []
 
   dv = 1.1
-  while(len(asteroids) < 30):
+  while(len(asteroids) < 40):
     x0 = np.random.randint(200, W)
     y0 = np.random.randint(200, H)
-    r0 = np.random.randint(5, 50)
+    r0 = np.random.randint(5, 70)
     is_usable = True
     for asteroid in asteroids:
       d = math.sqrt((asteroid.x - x0) ** 2 + (asteroid.y - y0) ** 2)

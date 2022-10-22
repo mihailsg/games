@@ -62,7 +62,7 @@ class SimpleRocket(RocketBase):
 
 
 class Rocket(RocketBase):
-  def __init__(self, x0=0, y0=0, color=(255, 0, 0), txt_pos=(5, 20), l=10, laser_count=100):
+  def __init__(self, x0=0, y0=0, color=(255, 0, 0), txt_pos=(5, 20), l=10, laser_count=100, fuel=20):
     super().__init__(x0, y0)
     self.color = color
     self.txt_pos = txt_pos
@@ -70,6 +70,7 @@ class Rocket(RocketBase):
 
     self.thruster_default = 30
     self.thruster = 0
+    self.fuel = fuel
 
     self.a = 0
     self.ax = 0
@@ -82,6 +83,10 @@ class Rocket(RocketBase):
     self.lasers = []
 
   def accelerate(self, a):
+    if self.fuel < a:
+      a = self.fuel
+    self.fuel -= a
+
     angle = to_radians(self.angle)
     self.ax = a * math.cos(angle)
     self.ay = a * math.sin(angle)
@@ -120,7 +125,7 @@ class Rocket(RocketBase):
       cv2.drawContours(frame, [np.array([p1, p2, p3])], 0, (0, 0, 255), -1)
       self.thruster -= 1
 
-    txt = "V ({},{}) A[{}] L[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle, self.laser_count)
+    txt = "V ({},{}) A[{}] F[{}] L[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle, self.fuel, self.laser_count)
     cv2.putText(frame, txt, self.txt_pos, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
     self.move_lasers(frame)

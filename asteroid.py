@@ -3,31 +3,24 @@ import cv2
 import numpy as np
 
 from geometrics import *
+from base_move import *
 
 
-class Asteroid:
-  def __init__(self, x0, y0, vx0, vy0, r, color=(255, 0, 0), size_contour=10):
-    self.color = color
-    self.r = r
+class Asteroid(BaseMoveConstantVelocity):
+  def __init__(self, x0, y0, vx0, vy0, r0, color=(255, 0, 0), size_contour=20):
+    super().__init__(x0, y0, vx0, vy0, color)
+
+    self.r0 = r0
+    self.r = r0
     self.size_contour = size_contour
-
-    self.x = x0
-    self.y = y0
-
-    self.vx = vx0
-    self.vy = vy0
 
     self.generate_contour()
 
   def move(self, frame):
-    w = frame.shape[1]
-    h = frame.shape[0]
+    super().move(frame)
+    self.draw(frame)
 
-    self.x += self.vx
-    self.y += self.vy
-
-    self.x, self.y = frame_bounds_rewind(w, h, self.x, self.y)
-
+  def draw(self, frame):
     # self.generate_contour()
     list_points = []
     for p in self.list_points:
@@ -37,10 +30,8 @@ class Asteroid:
   def generate_contour(self):
     self.list_points = []
     for i in range(self.size_contour):
-      r = self.r * np.sqrt(np.random.uniform(0.3, 1.0))
+      r = self.r0 * np.sqrt(np.random.uniform(0.7, 1.0))
       # angle = np.random.uniform() * 2 * PI
       angle = i * 2 * PI / self.size_contour
       p = (r * math.cos(angle), r * math.sin(angle))
       self.list_points.append(p)
-
-
