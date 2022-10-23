@@ -16,21 +16,18 @@ class Asteroid(BaseMoveConstantVelocity):
 
     self.generate_contour()
 
-  def move(self, frame):
-    super().move(frame)
-    self.draw(frame)
-
   def draw(self, frame):
     # self.generate_contour()
     list_points = []
     for p in self.list_points:
       list_points.append((int(self.x + p[0]), int(self.y + p[1])))
     cv2.drawContours(frame, [np.array(list_points)], 0, self.color, 1)
+    cv2.circle(frame, (int(self.x), int(self.y)), int(self.r), (0, 0, 128), thickness=1)
 
   def generate_contour(self):
     self.list_points = []
     for i in range(self.size_contour):
-      r = self.r0 * np.sqrt(np.random.uniform(0.7, 1.0))
+      r = self.r0 * np.sqrt(np.random.uniform(0.3, 1.0))
       # angle = np.random.uniform() * 2 * PI
       angle = i * 2 * PI / self.size_contour
       p = (r * math.cos(angle), r * math.sin(angle))

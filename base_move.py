@@ -20,5 +20,7 @@ class BaseMoveConstantVelocity:
 
     self.x, self.y = frame_bounds_rewind(w, h, self.x, self.y)
 
+    self.draw(frame)
+
   def draw(self, frame):
     pass

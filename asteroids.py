@@ -159,7 +159,7 @@ def main():
       rocket_lives = -1
     else:
       txt = "Asteroids {} / {}".format(len(asteroids), asteroids_removed)
-    cv2.putText(frame, txt, (5, 5), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
+    cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
     rocket_lives_bar.draw(frame, rocket_lives)
 

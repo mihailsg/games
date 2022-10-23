@@ -5,12 +5,12 @@ import numpy as np
 from geometrics import *
 from laser import *
 from volume_bar import *
+from base_move import *
 
 
-class RocketBase:
+class RocketBase(BaseMoveConstantVelocity):
   def __init__(self, x0, y0):
-    self.x = x0
-    self.y = y0
+    super().__init__(x0, y0, 0, 0, (255, 0, 0))
     self.l = 10000000000
     self.angle = 0
 
@@ -21,9 +21,6 @@ class RocketBase:
     self.angle += angle
 
   def accelerate(self, a):
-    pass
-
-  def move(self, frame):
     pass
 
   def fire(self):
@@ -49,15 +46,7 @@ class SimpleRocket(RocketBase):
     self.vx += gx
     self.vy += gy
 
-  def move(self, frame):
-    w = frame.shape[1]
-    h = frame.shape[0]
-
-    self.x += self.vx
-    self.y += self.vy
-
-    self.x, self.y = frame_bounds_rewind(w, h, self.x, self.y)
-
+  def draw(self, frame):
     cv2.circle(frame, (int(self.x), int(self.y)), self.r, self.color, thickness=-1)
     cv2.putText(frame, "V ({},{})".format(round(self.vx, 2), round(self.vy, 2)), (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
@@ -101,27 +90,22 @@ class Rocket(RocketBase):
 
     self.thruster = self.thruster_default
 
-  def move(self, frame):
-    w = frame.shape[1]
-    h = frame.shape[0]
-
-    self.x += self.vx
-    self.y += self.vy
-
-    self.x, self.y = frame_bounds_rewind(w, h, self.x, self.y)
-
+  def draw(self, frame):
     angle = to_radians(self.angle)
+    p0 = (int(self.x), int(self.y))
     p1 = (int(self.x + self.l * math.cos(angle)), int(self.y + self.l * math.sin(angle)))
     p2 = (int(self.x - self.l * math.cos(angle)), int(self.y - self.l * math.sin(angle)))
     p3, p4 = line_perpendicular(p1, p2, self.l)
 
     cv2.line(frame, p1, p2, self.color, 2)
-    cv2.line(frame, p3, p4, self.color, 4)
+    # cv2.line(frame, p3, p4, self.color, 4)
     cv2.line(frame, p3, p1, (0, 0, 255), 3)
     cv2.line(frame, p4, p1, (0, 255, 0), 3)
+    cv2.line(frame, p3, p0, self.color, 2)
+    cv2.line(frame, p4, p0, self.color, 2)
 
     if self.thruster > 0:
-      l = self.a * 300
+      l = self.a * 200
       p1 = p2
       da = 0.3
       p2 = [int(p1[0] - l * math.cos(angle - da)), int(p1[1] - l * math.sin(angle - da))]

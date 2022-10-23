@@ -15,6 +15,6 @@ class VolumeBar:
 
   def draw(self, frame, vol):
     p3 = [int(self.p1[0] + self.w * vol / self.max_vol), self.p1[1] + self.h]
-    cv2.putText(frame, self.name, self.p2, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
+    cv2.putText(frame, self.name, (self.p2[0] + 3, self.p2[1]), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
     cv2.rectangle(frame, self.p1, p3, self.color, -1)
     cv2.rectangle(frame, self.p1, self.p2, (255, 255, 255), 1)
