@@ -18,6 +18,7 @@ class SpaceAsteroids:
     self.asteroids_removed = 0
     self.asteroids = []
     self.init_asteroids()
+    self.asteroids_bar = VolumeBar((200, 40), len(self.asteroids) * 2, name="ASTEROIDS", color=(0, 255, 255))
 
   def init_asteroids(self):
     dv = 1.1
@@ -145,9 +146,10 @@ class SpaceAsteroids:
         txt = "Winner"
         self.rocket_lives = -1
       else:
-        txt = "Asteroids {} / {}".format(len(self.asteroids), self.asteroids_removed)
+        txt = "Asteroids {} / {}".format(self.asteroids_removed, len(self.asteroids))
       cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
 
-      self.rocket_lives_bar.draw(frame, self.rocket_lives)
+      self.rocket_lives_bar(frame, self.rocket_lives)
+      self.asteroids_bar(frame, len(self.asteroids))
 
       cv2.imshow('asteroids', frame)

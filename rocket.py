@@ -118,8 +118,8 @@ class Rocket(RocketBase):
 
     self.move_lasers(frame)
 
-    self.fuel_bar.draw(frame, self.fuel)
-    self.laser_bar.draw(frame, self.laser_count)
+    self.fuel_bar(frame, self.fuel)
+    self.laser_bar(frame, self.laser_count)
 
   def move_lasers(self, frame):
     for laser in self.lasers:
