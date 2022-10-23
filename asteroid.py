@@ -22,7 +22,7 @@ class Asteroid(BaseMoveConstantVelocity):
     for p in self.list_points:
       list_points.append((int(self.x + p[0]), int(self.y + p[1])))
     cv2.drawContours(frame, [np.array(list_points)], 0, self.color, 1)
-    cv2.circle(frame, (int(self.x), int(self.y)), int(self.r), (0, 0, 128), thickness=1)
+    cv2.circle(frame, (int(self.x), int(self.y)), int(self.r), (0, 0, 200), thickness=1)
 
   def generate_contour(self):
     self.list_points = []
