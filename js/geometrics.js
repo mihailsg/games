@@ -6,10 +6,16 @@
 */
 
 
-PI = 3.141592653589793
+function randint(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function randuniform(min, max, decimals=3) {
+  return parseFloat((Math.random() * (max - min) + min).toFixed(decimals))
+}
 
 function to_radians(angle) {
-  return angle * PI / 180
+  return angle * Math.PI / 180
 }
 
 function line_perpendicular(p1, p2, l) {

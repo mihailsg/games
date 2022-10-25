@@ -6,6 +6,16 @@
 */
 
 
+function draw_filled(ctx, color, filled) {
+  if (filled) {
+    ctx.fillStyle = color;
+    ctx.fill();
+  } else {
+    ctx.strokeStyle = color;
+    ctx.stroke();
+  }
+}
+
 function draw_text(ctx, txt, x, y, size, color="black") {
   ctx.beginPath();
   ctx.font = size + 'px serif';
@@ -23,6 +33,7 @@ function draw_line(ctx, p1, p2, color, w) {
 }
 
 function draw_contours(ctx, points, color, w, filled=false) {
+  // console.log("draw_contours", points, color, w, filled)
   ctx.beginPath();
   ctx.lineWidth = w;
   ctx.moveTo(points[0][0], points[0][1]);
@@ -31,24 +42,19 @@ function draw_contours(ctx, points, color, w, filled=false) {
   }
   ctx.closePath();
 
-  if (filled) {
-    ctx.fillStyle = color;
-    ctx.fill();
-  } else {
-    ctx.strokeStyle = color;
-    ctx.stroke();
-  }
+  draw_filled(ctx, color, filled)
 }
 
 function draw_rect(ctx, x, y, w, h, color="black", filled=false) {
   ctx.beginPath();
   ctx.rect(x, y, w, h);
 
-  if (filled) {
-    ctx.fillStyle = color;
-    ctx.fill();
-  } else {
-    ctx.strokeStyle = color;
-    ctx.stroke();
-  }
+  draw_filled(ctx, color, filled)
+}
+
+function draw_circle(ctx, x, y, r, color="black", filled=false) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, 2 * Math.PI);
+
+  draw_filled(ctx, color, filled)
 }

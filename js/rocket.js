@@ -125,11 +125,31 @@ class Rocket extends RocketBase {
   }
 
   laser_positions() {
-    positions = []
-    for (laser in this.lasers) {
-      positions.push([laser.p1, laser.p2, laser.angle])
+    let positions = []
+    for (let i = 0; i < this.lasers.length; i++) {
+      positions.push([this.lasers[i].p1, this.lasers[i].p2, this.lasers[i].angle])
     }
     return positions
+  }
+
+  laser_collisions(list_movables) {
+    let list_movable_collisions = []
+    let list_laser_collisions = []
+    for (let i = 0; i < list_movables.length; i++) {
+      for (let j = 0; j < this.lasers.length; j++) {
+        if (j in list_laser_collisions) { continue }
+
+        let d1 = Math.sqrt((list_movables[i].x - this.lasers[j].p1[0]) ** 2 + (list_movables[i].y - this.lasers[j].p1[1]) ** 2)
+        let d2 = Math.sqrt((list_movables[i].x - this.lasers[j].p2[0]) ** 2 + (list_movables[i].y - this.lasers[j].p2[1]) ** 2)
+        if (d1 < list_movables[i].r || d2 < list_movables[i].r) {
+          list_movable_collisions.push(i)
+          list_laser_collisions.push(j)
+          console.log("Rocket::laser_collisions", i, j, [d1, d2, list_movables[i].r])
+          break
+        }
+      }
+    }
+    return [list_movable_collisions, list_laser_collisions]
   }
 
   remove_laser(idx) {
