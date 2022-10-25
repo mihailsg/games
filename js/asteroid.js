@@ -27,7 +27,7 @@ class Asteroid extends BaseMoveConstantVelocity {
       current_list_points.push([x1, y1])
     }
 
-    draw_contours(this.ctx, current_list_points, "black", 1)
+    draw_contours(this.ctx, current_list_points, this.color, 1)
     draw_circle(this.ctx, this.x, this.y, this.r, "#AA0000")
   }
 

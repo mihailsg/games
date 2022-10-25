@@ -12,7 +12,7 @@ class SpaceAsteroids extends Game {
 
     this.rocket_lives = rocket_lives
 
-    this.rocket = new Rocket(this.ctx, w, h, 50, 50, "blue", (5, 30), 10, 200, 20)
+    this.rocket = new Rocket(this.ctx, w, h, 50, 50, "#CCCC00", [5, 30], 10, 200, 20)
     this.rocket_lives_bar = new VolumeBar(this.ctx, [200, 20], this.rocket_lives, "LIVE", "green")
 
     this.asteroids_removed = 0
@@ -48,11 +48,18 @@ class SpaceAsteroids extends Game {
             x0, y0,
             randuniform(-dv, dv),
             randuniform(-dv, dv),
-            r0, "black", 10
+            r0, "white", 10
           )
         )
       }
     }
+  }
+
+  clear() {
+    super.clear()
+    this.ctx.rect(0, 0, this.W, this.H);
+    this.ctx.fillStyle = "black";
+    this.ctx.fill();
   }
 
   run() {
@@ -104,7 +111,7 @@ class SpaceAsteroids extends Game {
             Math.cos(angle1) * asteroid.vx,
             Math.sin(angle1) * asteroid.vy,
             asteroid.r / 2,
-            "black", 10
+            "white", 10
           )
         )
         this.asteroids.push(
@@ -115,7 +122,7 @@ class SpaceAsteroids extends Game {
             Math.cos(angle2) * asteroid.vx,
             Math.sin(angle2) * asteroid.vy,
             asteroid.r / 2,
-            "black", 10
+            "white", 10
           )
         )
       }
@@ -125,6 +132,31 @@ class SpaceAsteroids extends Game {
       this.asteroids_removed += 1
     }
 
+    for (let i = 0; i < this.asteroids.length; i++) {
+      let asteroid = this.asteroids[i]
+      if (this.rocket.check_collision(asteroid.x, asteroid.y, asteroid.r)) {
+        this.asteroids.splice(i, 1)
+        this.rocket = new RocketExplosion(this.ctx, this.W, this.H, this.rocket.x, this.rocket.y)
+        this.rocket_lives -= 1
+        break
+      }
+    }
+
+    if (!this.rocket.alive()) {
+      if (this.rocket_lives > 0) {
+        this.rocket = new Rocket(this.ctx, this.W, this.H, this.rocket.x, this.rocket.y, "#CCCC00", [5, 30], 10, this.asteroids.length * 10, 20)
+      } else {
+        return
+      }
+    }
+
+    let txt = "Asteroids " + this.asteroids_removed + " / " +  this.asteroids.length
+    if (this.asteroids.length == 0 && this.rocket_lives > 0) {
+      this.rocket = new Rocket(this.ctx, this.W, this.H, this.rocket.x, this.rocket.y, "#CCCC00", [5, 30], 50)
+      txt = "Winner"
+      this.rocket_lives = -1
+    }
+    draw_text(this.ctx, txt, 5, 20, 10, "white")
 
     requestAnimationFrame(this.run.bind(this));
   }

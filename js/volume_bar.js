@@ -22,8 +22,8 @@ class VolumeBar {
   draw(vol) {
     vol = Math.min(this.max_vol, vol)
 
-    draw_text(this.ctx, this.name, this.p2[0] + 3, this.p2[1], 8, "black")
+    draw_text(this.ctx, this.name, this.p2[0] + 3, this.p2[1], 8, "white")
     draw_rect(this.ctx, this.p1[0], this.p1[1], this.w * vol / this.max_vol, this.h, this.color, true)
-    draw_rect(this.ctx, this.p1[0], this.p1[1], this.w, this.h, "black")
+    draw_rect(this.ctx, this.p1[0], this.p1[1], this.w, this.h, "white")
   }
 }

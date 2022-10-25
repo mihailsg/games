@@ -13,7 +13,7 @@ class RocketBase extends BaseMoveConstantVelocity {
   }
 
   check_collision(x, y, r) {
-    return False
+    return false
   }
 
   rotate(angle) {
@@ -25,13 +25,18 @@ class RocketBase extends BaseMoveConstantVelocity {
   fire() {}
 
   alive() {
-    return True
+    return true
   }
 
   laser_positions() {
     return []
   }
+
+  laser_collisions(list_movables) {
+    return [[], []]
+  }
 }
+
 
 class Rocket extends RocketBase {
   constructor(ctx, w, h, x0=0, y0=0, color="blue", txt_pos=[5, 20], l=10, laser_count=100, fuel=20) {
@@ -98,7 +103,8 @@ class Rocket extends RocketBase {
       this.thruster -= 1
     }
 
-    // txt = "V ({},{}) A[{}]".format(round(this.vx, 3), round(this.vy, 3), this.angle)
+    let txt = "V ( " + this.vx.toFixed(2) + " , " + this.vy.toFixed(2) + " ) A " + this.angle
+    draw_text(this.ctx, txt, 5, 30, 10, "white")
 
     this.move_lasers()
 
@@ -144,7 +150,6 @@ class Rocket extends RocketBase {
         if (d1 < list_movables[i].r || d2 < list_movables[i].r) {
           list_movable_collisions.push(i)
           list_laser_collisions.push(j)
-          console.log("Rocket::laser_collisions", i, j, [d1, d2, list_movables[i].r])
           break
         }
       }
@@ -157,7 +162,24 @@ class Rocket extends RocketBase {
   }
 
   check_collision(x, y, r) {
-    d = Math.sqrt((x - this.x) ** 2 + (y - this.y) ** 2)
+    let d = Math.sqrt((x - this.x) ** 2 + (y - this.y) ** 2)
     return d < r + this.l
+  }
+}
+
+
+class RocketExplosion extends RocketBase {
+  constructor(ctx, w, h, x0, y0) {
+    super(ctx, w, h, x0, y0)
+    this.r = 3
+  }
+
+  move() {
+    draw_circle(this.ctx, this.x, this.y, this.r, "red", true)
+    this.r += 0.8
+  }
+
+  alive() {
+    return this.r < 100
   }
 }
