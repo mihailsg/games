@@ -6,4 +6,4 @@ pip install -r requirements.txt
 
 ## Run
 
-python asteroids.py
+python game.py
