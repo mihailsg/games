@@ -60,7 +60,7 @@ class Rocket extends RocketBase {
     this.lasers = []
 
     this.fuel_bar = new VolumeBar(this.ctx, [400, 20], this.fuel, "FUEL", "blue")
-    this.laser_bar = new VolumeBar(this.ctx, [400, 50], this.laser_count, "LASER", "red")
+    this.laser_bar = new VolumeBar(this.ctx, [400, 40], this.laser_count, "LASER", "red")
   }
 
   accelerate(a) {
@@ -105,6 +105,7 @@ class Rocket extends RocketBase {
 
     let txt = "V ( " + this.vx.toFixed(2) + " , " + this.vy.toFixed(2) + " ) A " + this.angle
     draw_text(this.ctx, txt, 5, 30, 10, "white")
+    // draw_text(this.ctx, this.x.toFixed(2) + ", " + this.y.toFixed(2), 5, 50, 10, "white")
 
     this.move_lasers()
 

@@ -39,9 +39,9 @@ function line_perpendicular(p1, p2, l) {
 }
 
 function frame_bounds_rewind(w, h, x, y) {
-  if (x > w) { x = 0 }
-  if (x < 0) { x = w }
-  if (y > h) { y = 0 }
-  if (y < 0) { y = h }
+  if (x > w) { x = 1 }
+  if (x < 0) { x = w - 1 }
+  if (y > h) { y = 1 }
+  if (y < 0) { y = h - 1 }
   return [x, y]
 }

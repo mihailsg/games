@@ -7,10 +7,11 @@
 
 
 class SpaceAsteroids extends Game {
-  constructor(canvas, w, h, rocket_lives=10) {
+  constructor(canvas, w, h, rocket_lives=10, asteroids_count=30) {
     super(canvas, w, h)
 
     this.rocket_lives = rocket_lives
+    this.asteroids_count = asteroids_count
 
     this.rocket = new Rocket(this.ctx, w, h, 50, 50, "#CCCC00", [5, 30], 10, 200, 20)
     this.rocket_lives_bar = new VolumeBar(this.ctx, [200, 20], this.rocket_lives, "LIVE", "green")
@@ -27,7 +28,7 @@ class SpaceAsteroids extends Game {
 
   init_asteroids() {
     let dv = 1.1
-    while(this.asteroids.length < 30) {
+    while(this.asteroids.length < this.asteroids_count) {
       let x0 = randint(200, this.W)
       let y0 = randint(200, this.H)
       let r0 = randint(5, 100)
