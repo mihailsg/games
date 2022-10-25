@@ -1,3 +1,11 @@
+/*
+ * Misho Georgiev game project
+ *
+ * 2022 Softel Labs
+ *
+*/
+
+
 class VolumeBar {
   constructor(ctx, p1, max_vol, name, color) {
     this.ctx = ctx
@@ -16,6 +24,6 @@ class VolumeBar {
 
     draw_text(this.ctx, this.name, this.p2[0] + 3, this.p2[1], 8, "black")
     draw_rect(this.ctx, this.p1[0], this.p1[1], this.w * vol / this.max_vol, this.h, this.color, true)
-    draw_rect(this.ctx, this.p1[0], this.p1[1], this.w * vol / this.max_vol, this.h, "black")
+    draw_rect(this.ctx, this.p1[0], this.p1[1], this.w, this.h, "black")
   }
 }

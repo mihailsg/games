@@ -7,7 +7,7 @@
 
 class RocketBase extends BaseMoveConstantVelocity {
   constructor(ctx, w, h, x0, y0) {
-    super(ctx, w, h, x0, y0, 0, 0, [255, 0, 0])
+    super(ctx, w, h, x0, y0, 0, 0, "blue")
     this.l = 10000000000
     this.angle = 0
   }
@@ -82,14 +82,6 @@ class Rocket extends RocketBase {
     let p3 = pr[0]
     let p4 = pr[1]
 
-    // console.log("X", this.x, "Y", this.y)
-    // console.log("angle", this.angle, "angle_radians", angle_radians)
-    // console.log("p0", p0)
-    // console.log("p1", p1)
-    // console.log("p2", p2)
-    // console.log("p3", p3)
-    // console.log("p4", p4)
-
     draw_line(this.ctx, p1, p2, this.color, 2)
     draw_line(this.ctx, p3, p1, "green", 3)
     draw_line(this.ctx, p4, p1, "red", 3)
@@ -115,15 +107,20 @@ class Rocket extends RocketBase {
   }
 
   move_lasers() {
-    for (laser in this.lasers) {
-      if (! laser.move()) { this.lasers.remove(laser) }
+    let lasers_to_remove = []
+    for (let i = 0; i < this.lasers.length; i++) {
+      let laser = this.lasers[i];
+      if (! laser.move()) { lasers_to_remove.push(i) }
+    }
+    for (let i = 0; i < lasers_to_remove.length; i++) {
+      this.remove_laser(i)
     }
   }
 
   fire() {
     if (this.laser_count > 0) {
-      this.laser_count -= 1
-      this.lasers.push(Laser(this.x, this.y, this.angle))
+      this.laser_count -= 1;
+      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle))
     }
   }
 
@@ -136,7 +133,7 @@ class Rocket extends RocketBase {
   }
 
   remove_laser(idx) {
-    if (idx < len(this.lasers)) { this.lasers.splice(idx, 1) }
+    if (idx < this.lasers.length) { this.lasers.splice(idx, 1) }
   }
 
   check_collision(x, y, r) {

@@ -1,3 +1,11 @@
+/*
+ * Misho Georgiev game project
+ *
+ * 2022 Softel Labs
+ *
+*/
+
+
 class SpaceAsteroids extends Game {
   constructor(canvas, w, h, rocket_lives=10) {
     super(canvas, w, h)
@@ -30,8 +38,6 @@ class SpaceAsteroids extends Game {
   }
 
   on_keydown(e) {
-    console.log(e.code, e.key)
-
     if (e.key == 'u') { this.rocket.accelerate(0.1) }
     if (e.key == 'i') { this.rocket.accelerate(0.2) }
     if (e.key == 'o') { this.rocket.accelerate(0.3) }

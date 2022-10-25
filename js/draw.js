@@ -1,3 +1,10 @@
+/*
+ * Misho Georgiev game project
+ *
+ * 2022 Softel Labs
+ *
+*/
+
 
 function draw_text(ctx, txt, x, y, size, color="black") {
   ctx.beginPath();

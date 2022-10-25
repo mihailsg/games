@@ -1,3 +1,10 @@
+/*
+ * Misho Georgiev game project
+ *
+ * 2022 Softel Labs
+ *
+*/
+
 
 PI = 3.141592653589793
 

@@ -1,3 +1,11 @@
+/*
+ * Misho Georgiev game project
+ *
+ * 2022 Softel Labs
+ *
+*/
+
+
 class Game {
   constructor(canvas, w, h) {
     this.W = w;

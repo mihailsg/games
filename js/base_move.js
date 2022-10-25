@@ -1,3 +1,11 @@
+/*
+ * Misho Georgiev game project
+ *
+ * 2022 Softel Labs
+ *
+*/
+
+
 class BaseMoveConstantVelocity {
   constructor(ctx, w, h, x0, y0, vx0, vy0, color=[0, 0, 255]) {
     this.ctx = ctx
