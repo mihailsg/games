@@ -114,7 +114,7 @@ class Rocket(RocketBase):
       self.thruster -= 1
 
     txt = "V ({},{}) A[{}]".format(round(self.vx, 3), round(self.vy, 3), self.angle)
-    cv2.putText(frame, txt, self.txt_pos, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
+    cv2.putText(frame, txt, self.txt_pos, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.3, color=(255, 255, 255), thickness=1)
 
     self.move_lasers(frame)
 

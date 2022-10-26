@@ -12,7 +12,7 @@ class SpaceAsteroids:
     self.H = h
     self.rocket_lives = rocket_lives
 
-    self.rocket = Rocket(x0=50, y0=50, color=(255, 255, 0), txt_pos=(300, 20), laser_count=200)
+    self.rocket = Rocket(x0=50, y0=50, color=(255, 255, 0), txt_pos=(5, 30), laser_count=200)
     self.rocket_lives_bar = VolumeBar((200, 20), self.rocket_lives, name="LIVE", color=(0, 255, 0))
 
     self.asteroids_removed = 0
@@ -137,17 +137,17 @@ class SpaceAsteroids:
 
       if not self.rocket.alive():
         if self.rocket_lives > 0:
-          self.rocket = Rocket(x0=self.rocket.x, y0=self.rocket.y, color=(255, 255, 0), txt_pos=(300, 20), laser_count=len(self.asteroids) * 10)
+          self.rocket = Rocket(x0=self.rocket.x, y0=self.rocket.y, color=(255, 255, 0), txt_pos=(5, 30), laser_count=len(self.asteroids) * 10)
         else:
           break
 
       if len(self.asteroids) == 0 and self.rocket_lives > 0:
-        self.rocket = Rocket(x0=400, y0=400, color=(255, 255, 0), txt_pos=(300, 20), l=50)
+        self.rocket = Rocket(x0=400, y0=400, color=(255, 255, 0), txt_pos=(5, 30), l=50)
         txt = "Winner"
         self.rocket_lives = -1
       else:
         txt = "Asteroids {} / {}".format(self.asteroids_removed, len(self.asteroids))
-      cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(255, 255, 255), thickness=1)
+      cv2.putText(frame, txt, (5, 20), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.4, color=(255, 255, 255), thickness=1)
 
       self.rocket_lives_bar(frame, self.rocket_lives)
       self.asteroids_bar(frame, len(self.asteroids))
