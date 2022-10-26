@@ -6,10 +6,35 @@
 */
 
 class RocketBase extends BaseMoveConstantVelocity {
-  constructor(ctx, w, h, x0, y0) {
+  constructor(ctx, w, h, x0, y0, controls={}) {
     super(ctx, w, h, x0, y0, 0, 0, "blue")
     this.l = 10000000000
     this.angle = 0
+    this.controls = controls
+
+    this.vrotate = 0
+    document.addEventListener('keydown', this.on_keydown.bind(this))
+  }
+
+  on_keydown(e) {
+    if ('fire' in this.controls && e.key == this.controls["fire"]) { this.fire() }
+
+    if ('accelerate' in this.controls) {
+      for (const [key, value] of Object.entries(this.controls["accelerate"])) {
+        if (e.key == key) { this.accelerate(value) }
+      }
+    }
+
+    if ('rotate' in this.controls) {
+      for (const [key, value] of Object.entries(this.controls["rotate"])) {
+        if (e.key == key) { this.vrotate = value }
+      }
+    }
+  }
+
+  move() {
+    this.rotate(this.vrotate)
+    super.move()
   }
 
   check_collision(x, y, r) {
@@ -39,11 +64,13 @@ class RocketBase extends BaseMoveConstantVelocity {
 
 
 class Rocket extends RocketBase {
-  constructor(ctx, w, h, x0=0, y0=0, color="blue", txt_pos=[5, 20], l=10, laser_count=100, fuel=20) {
-    super(ctx, w, h, x0, y0)
+  constructor(ctx, w, h, x0=0, y0=0, color="blue", txt_pos=[5, 20], l=10, laser_count=100, fuel=20, controls={}, tag="", volume_bar_pos=[300, 20]) {
+    super(ctx, w, h, x0, y0, controls)
     this.color = color
     this.txt_pos = txt_pos
     this.l = l
+    this.tag = tag
+    this.volume_bar_pos = volume_bar_pos
 
     this.thruster_default = 30
     this.thruster = 0
@@ -59,8 +86,8 @@ class Rocket extends RocketBase {
     this.laser_count = laser_count
     this.lasers = []
 
-    this.fuel_bar = new VolumeBar(this.ctx, [400, 20], this.fuel, "FUEL", "blue")
-    this.laser_bar = new VolumeBar(this.ctx, [400, 40], this.laser_count, "LASER", "red")
+    this.fuel_bar = new VolumeBar(this.ctx, this.volume_bar_pos, this.fuel, "FUEL " + this.tag, "blue")
+    this.laser_bar = new VolumeBar(this.ctx, [this.volume_bar_pos[0], this.volume_bar_pos[1] + 20], this.laser_count, "LASER " + this.tag, "red")
   }
 
   accelerate(a) {

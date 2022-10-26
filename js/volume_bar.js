@@ -7,12 +7,13 @@
 
 
 class VolumeBar {
-  constructor(ctx, p1, max_vol, name, color) {
+  constructor(ctx, p1, max_vol, name, color, min_vol=0.0) {
     this.ctx = ctx
     this.w = 100
     this.h = 10
     this.p1 = p1
     this.max_vol = max_vol
+    this.min_vol = min_vol
     this.name = name
     this.color = color
 
@@ -21,9 +22,10 @@ class VolumeBar {
 
   draw(vol) {
     vol = Math.min(this.max_vol, vol)
+    vol = Math.max(this.min_vol, vol)
 
     draw_text(this.ctx, this.name, this.p2[0] + 3, this.p2[1], 8, "white")
-    draw_rect(this.ctx, this.p1[0], this.p1[1], this.w * vol / this.max_vol, this.h, this.color, true)
+    draw_rect(this.ctx, this.p1[0], this.p1[1], this.w * vol / (this.max_vol - this.min_vol), this.h, this.color, true)
     draw_rect(this.ctx, this.p1[0], this.p1[1], this.w, this.h, "white")
   }
 }
