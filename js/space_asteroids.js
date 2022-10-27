@@ -45,8 +45,14 @@ class SpaceAsteroids extends Game {
     this.help_text = ["HELP", ""]
     for (let i = 0; i < this.rockets.length; i++) {
       this.help_text.push("Rocket " + i)
-      for (const [key, value] of Object.entries(this.rockets[i].controls)) {
-        this.help_text.push(key + " -> " + JSON.stringify(value))
+      for (const [action, action_controls] of Object.entries(this.rockets[i].controls)) {
+        if (action_controls.constructor == Object) {
+          for (const [key, value] of Object.entries(action_controls)) {
+            this.help_text.push("[" + key + "] " + action + " with " + value)
+          }
+        } else {
+          this.help_text.push("[" + action_controls + "] " + action)
+        }
       }
       this.help_text.push("")
     }

@@ -9,8 +9,6 @@ class Help {
     this.size = size
 
     this.show = false
-
-    console.log(txt)
   }
 
   draw() {
