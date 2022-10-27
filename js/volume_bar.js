@@ -27,5 +27,7 @@ class VolumeBar {
     draw_text(this.ctx, this.name, this.p2[0] + 3, this.p2[1], 8, "white")
     draw_rect(this.ctx, this.p1[0], this.p1[1], this.w * vol / (this.max_vol - this.min_vol), this.h, this.color, true)
     draw_rect(this.ctx, this.p1[0], this.p1[1], this.w, this.h, "white")
+
+    draw_text(this.ctx, parseInt(vol), this.p1[0] + this.w / 4, this.p1[1] + this.h / 2 + 3, 8, "white")
   }
 }

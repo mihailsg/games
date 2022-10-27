@@ -17,17 +17,26 @@ class RocketBase extends BaseMoveConstantVelocity {
   }
 
   on_keydown(e) {
-    if ('fire' in this.controls && e.key == this.controls["fire"]) { this.fire() }
+    if ('fire' in this.controls && e.key == this.controls["fire"]) {
+      this.fire()
+      return
+    }
 
     if ('accelerate' in this.controls) {
       for (const [key, value] of Object.entries(this.controls["accelerate"])) {
-        if (e.key == key) { this.accelerate(value) }
+        if (e.key == key) {
+          this.accelerate(value)
+          return
+        }
       }
     }
 
     if ('rotate' in this.controls) {
       for (const [key, value] of Object.entries(this.controls["rotate"])) {
-        if (e.key == key) { this.vrotate = value }
+        if (e.key == key) {
+          this.vrotate = value
+          return
+        }
       }
     }
   }

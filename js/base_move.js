@@ -16,13 +16,16 @@ class BaseMoveConstantVelocity {
     this.vx = vx0
     this.vy = vy0
     this.color = color
+
+    this.ox = 0
+    this.oy = 0
   }
 
   move() {
     this.x += this.vx
     this.y += this.vy
 
-    let xy = frame_bounds_rewind(this.W, this.H, this.x, this.y)
+    let xy = frame_bounds_rewind(this.W, this.H, this.x, this.y, this.ox, this.oy)
     this.x = xy[0]
     this.y = xy[1]
 

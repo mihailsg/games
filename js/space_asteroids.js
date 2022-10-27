@@ -23,15 +23,9 @@ class SpaceAsteroids extends Game {
       }
     }
 
-    this.rocket = new Rocket(this.ctx, w, h, 50, 50, "#CCCC00", [5, 30], 10, 200, 20, this.rocket_controls)
-    this.rocket_lives_bar = new VolumeBar(this.ctx, [100, 20], this.rocket_lives, "MISHO lives", "green")
-
-    this.asteroids_removed = 0
-    this.asteroids = []
-    this.init_asteroids()
-    this.asteroids_bar = new VolumeBar(this.ctx, [100, 40], this.asteroids.length * 2, "ASTEROIDS", "yellow")
-
-    this.rocket2 = new Rocket(
+    this.rockets = [
+      new Rocket(this.ctx, w, h, 50, 50, "#CCCC00", [5, 30], 10, 200, 20, this.rocket_controls),
+      new Rocket(
         this.ctx, w, h, 150, 150, "#00DDDD", [5, 50], 10, 200, 20,
         {
           "fire": 'x',
@@ -39,7 +33,32 @@ class SpaceAsteroids extends Game {
           "rotate": {'a': -1, 's': 0, 'd': 1}
         },
         "2", [450, 20]
-    )
+      )
+    ]
+    this.rocket_lives_bar = new VolumeBar(this.ctx, [100, 20], this.rocket_lives, "MISHO lives", "green")
+
+    this.asteroids_removed = 0
+    this.asteroids = []
+    this.init_asteroids()
+    this.asteroids_bar = new VolumeBar(this.ctx, [100, 40], this.asteroids.length * 2, "ASTEROIDS", "yellow")
+
+    this.help_text = ["HELP", ""]
+    for (let i = 0; i < this.rockets.length; i++) {
+      this.help_text.push("Rocket " + i)
+      for (const [key, value] of Object.entries(this.rockets[i].controls)) {
+        this.help_text.push(key + " -> " + JSON.stringify(value))
+      }
+      this.help_text.push("")
+    }
+    this.help = new Help(this.ctx, this.W, this.H, 100, 100, this.help_text, 20)
+
+    document.addEventListener('keydown', this.on_keydown.bind(this))
+  }
+
+  on_keydown(e) {
+    if (e.key === "Escape") {
+      this.help.show = ! this.help.show
+    }
   }
 
   init_asteroids() {
@@ -80,13 +99,24 @@ class SpaceAsteroids extends Game {
   }
 
   run() {
-    this.clear();
+    this.clear()
 
+    if (this.help.show) {
+      this.help.draw()
+    } else {
+      this.draw()
+    }
+
+    requestAnimationFrame(this.run.bind(this));
+  }
+
+  draw() {
     this.rocket_lives_bar.draw(this.rocket_lives)
     this.asteroids_bar.draw(this.asteroids.length)
 
-    this.rocket.move()
-    this.rocket2.move()
+    for (let i = 0; i < this.rockets.length; i++) {
+      this.rockets[i].move()
+    }
 
     for (let i = 0; i < this.asteroids.length; i++) {
       this.asteroids[i].move()
@@ -96,7 +126,7 @@ class SpaceAsteroids extends Game {
     for (let i = 0; i < this.asteroids.length; i++) {
       for (let j = i + 1; j < this.asteroids.length; j++) {
         let d = Math.sqrt((this.asteroids[i].x - this.asteroids[j].x) ** 2 + (this.asteroids[i].y - this.asteroids[j].y) ** 2)
-        if (d < this.asteroids[i].r + this.asteroids[j].r) {
+        if (d <= this.asteroids[i].r + this.asteroids[j].r) {
           let vx1 = ((this.asteroids[i].r - this.asteroids[j].r) * this.asteroids[i].vx + 2 * this.asteroids[j].r * this.asteroids[j].vx) / (this.asteroids[i].r + this.asteroids[j].r)
           let vy1 = ((this.asteroids[i].r - this.asteroids[j].r) * this.asteroids[i].vy + 2 * this.asteroids[j].r * this.asteroids[j].vy) / (this.asteroids[i].r + this.asteroids[j].r)
           let vx2 = ((this.asteroids[j].r - this.asteroids[i].r) * this.asteroids[j].vx + 2 * this.asteroids[i].r * this.asteroids[i].vx) / (this.asteroids[i].r + this.asteroids[j].r)
@@ -110,13 +140,13 @@ class SpaceAsteroids extends Game {
     }
 
     let asteroids_to_remove = []
-    let laser_asteroid_collisions = this.rocket.laser_collisions(this.asteroids)
+    let laser_asteroid_collisions = this.rockets[0].laser_collisions(this.asteroids)
     let list_movable_collisions = laser_asteroid_collisions[0]
     let list_laser_collisions = laser_asteroid_collisions[1]
 
     for (let i = list_movable_collisions.length - 1; i >= 0; i--) {
       let asteroid = this.asteroids[list_movable_collisions[i]]
-      let laser = this.rocket.lasers[list_laser_collisions[i]]
+      let laser = this.rockets[0].lasers[list_laser_collisions[i]]
       if (asteroid.r > 10) {
         let angle1 = to_radians(laser.angle + 90)
         let angle2 = to_radians(laser.angle - 90)
@@ -145,23 +175,23 @@ class SpaceAsteroids extends Game {
       }
 
       this.asteroids.splice(list_movable_collisions[i], 1)
-      this.rocket.remove_laser(list_laser_collisions[i])
+      this.rockets[0].remove_laser(list_laser_collisions[i])
       this.asteroids_removed += 1
     }
 
     for (let i = 0; i < this.asteroids.length; i++) {
       let asteroid = this.asteroids[i]
-      if (this.rocket.check_collision(asteroid.x, asteroid.y, asteroid.r)) {
+      if (this.rockets[0].check_collision(asteroid.x, asteroid.y, asteroid.r)) {
         this.asteroids.splice(i, 1)
-        this.rocket = new RocketExplosion(this.ctx, this.W, this.H, this.rocket.x, this.rocket.y)
+        this.rockets[0] = new RocketExplosion(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y)
         this.rocket_lives -= 1
         break
       }
     }
 
-    if (!this.rocket.alive()) {
+    if (!this.rockets[0].alive()) {
       if (this.rocket_lives > 0) {
-        this.rocket = new Rocket(this.ctx, this.W, this.H, this.rocket.x, this.rocket.y, "#CCCC00", [5, 30], 10, this.asteroids.length * 10, 20, this.rocket_controls)
+        this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", [5, 30], 10, this.asteroids.length * 10, 20, this.rocket_controls)
       } else {
         return
       }
@@ -169,12 +199,10 @@ class SpaceAsteroids extends Game {
 
     let txt = "Asteroids " + this.asteroids_removed + " / " +  this.asteroids.length
     if (this.asteroids.length == 0 && this.rocket_lives > 0) {
-      this.rocket = new Rocket(this.ctx, this.W, this.H, this.rocket.x, this.rocket.y, "#CCCC00", [5, 30], 50, 200, 50, this.rocket_controls)
+      this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", [5, 30], 50, 200, 50, this.rocket_controls)
       txt = "Winner"
       this.rocket_lives = -1
     }
     draw_text(this.ctx, txt, 5, 20, 10, "white")
-
-    requestAnimationFrame(this.run.bind(this));
   }
 }

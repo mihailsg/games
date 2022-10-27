@@ -13,6 +13,8 @@ class Asteroid extends BaseMoveConstantVelocity {
     this.r0 = r0
     this.r = r0
     this.size_contour = size_contour
+    this.ox = r0
+    this.oy = r0
 
     this.generate_contour()
   }

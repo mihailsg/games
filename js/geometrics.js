@@ -38,10 +38,10 @@ function line_perpendicular(p1, p2, l) {
   return [[x4, y4], [x5, y5]]
 }
 
-function frame_bounds_rewind(w, h, x, y) {
-  if (x > w) { x = 1 }
-  if (x < 0) { x = w - 1 }
-  if (y > h) { y = 1 }
-  if (y < 0) { y = h - 1 }
+function frame_bounds_rewind(w, h, x, y, dx=0, dy=0) {
+  if (x - dx > w) { x = 1 - dx }
+  if (x + dx < 0) { x = w - 1 + dx }
+  if (y - dy > h) { y = 1 - dx }
+  if (y + dy < 0) { y = h - 1 + dx }
   return [x, y]
 }
