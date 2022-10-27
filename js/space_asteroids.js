@@ -24,9 +24,9 @@ class SpaceAsteroids extends Game {
     }
 
     this.rockets = [
-      new Rocket(this.ctx, w, h, 50, 50, "#CCCC00", [5, 30], 10, 200, 20, this.rocket_controls),
+      new Rocket(this.ctx, w, h, 50, 50, "#CCCC00", 10, 200, 20, this.rocket_controls),
       new Rocket(
-        this.ctx, w, h, 150, 150, "#00DDDD", [5, 50], 10, 200, 20,
+        this.ctx, w, h, 150, 150, "#00DDDD", 10, 200, 20,
         {
           "fire": 'x',
           "accelerate": {'w': 0.2},
@@ -197,7 +197,7 @@ class SpaceAsteroids extends Game {
 
     if (!this.rockets[0].alive()) {
       if (this.rocket_lives > 0) {
-        this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", [5, 30], 10, this.asteroids.length * 10, 20, this.rocket_controls)
+        this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 10, this.asteroids.length * 10, 20, this.rocket_controls)
       } else {
         return
       }
@@ -205,7 +205,7 @@ class SpaceAsteroids extends Game {
 
     let txt = "Asteroids " + this.asteroids_removed + " / " +  this.asteroids.length
     if (this.asteroids.length == 0 && this.rocket_lives > 0) {
-      this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", [5, 30], 50, 200, 50, this.rocket_controls)
+      this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 50, 200, 50, this.rocket_controls)
       txt = "Winner"
       this.rocket_lives = -1
     }

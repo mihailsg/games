@@ -73,10 +73,9 @@ class RocketBase extends BaseMoveConstantVelocity {
 
 
 class Rocket extends RocketBase {
-  constructor(ctx, w, h, x0=0, y0=0, color="blue", txt_pos=[5, 20], l=10, laser_count=100, fuel=20, controls={}, tag="", volume_bar_pos=[300, 20]) {
+  constructor(ctx, w, h, x0=0, y0=0, color="blue", l=10, laser_count=100, fuel=20, controls={}, tag="", volume_bar_pos=[300, 20]) {
     super(ctx, w, h, x0, y0, controls)
     this.color = color
-    this.txt_pos = txt_pos
     this.l = l
     this.tag = tag
     this.volume_bar_pos = volume_bar_pos
@@ -140,7 +139,7 @@ class Rocket extends RocketBase {
     }
 
     let txt = "V ( " + this.vx.toFixed(2) + " , " + this.vy.toFixed(2) + " ) A " + this.angle
-    draw_text(this.ctx, txt, 5, 30, 10, "white")
+    draw_text(this.ctx, txt, this.volume_bar_pos[0], this.volume_bar_pos[1] + 40, 10, "white")
     // draw_text(this.ctx, this.x.toFixed(2) + ", " + this.y.toFixed(2), 5, 50, 10, "white")
 
     this.move_lasers()

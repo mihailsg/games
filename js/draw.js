@@ -16,9 +16,9 @@ function draw_filled(ctx, color, filled) {
   }
 }
 
-function draw_text(ctx, txt, x, y, size, color="black") {
+function draw_text(ctx, txt, x, y, size, color="black", font="arial") {
   ctx.beginPath();
-  ctx.font = size + 'px serif';
+  ctx.font = size + 'px ' + font;
   ctx.fillStyle = color;
   ctx.fillText(txt, x, y);
 }
