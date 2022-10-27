@@ -8,6 +8,9 @@ class Help {
     this.txt = txt
     this.size = size
 
+    this.txt.push("Misho Georgiev NPMG school project game")
+    this.txt.push("Next ideas:")
+
     this.show = false
   }
 
