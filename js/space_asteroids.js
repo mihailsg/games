@@ -57,6 +57,7 @@ class SpaceAsteroids extends Game {
       this.help_text.push("")
     }
     this.help = new Help(this.ctx, this.W, this.H, 100, 100, this.help_text, 20)
+    this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
   }
@@ -107,7 +108,9 @@ class SpaceAsteroids extends Game {
   run() {
     this.clear()
 
-    if (this.help.show) {
+    if (this.game_over.show) {
+      this.game_over.draw()
+    } else if (this.help.show) {
       this.help.draw()
     } else {
       this.draw()
@@ -199,7 +202,7 @@ class SpaceAsteroids extends Game {
       if (this.rocket_lives > 0) {
         this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 10, this.asteroids.length * 10, 20, this.rocket_controls)
       } else {
-        return
+        this.game_over.show = true
       }
     }
 
@@ -209,6 +212,7 @@ class SpaceAsteroids extends Game {
       txt = "Winner"
       this.rocket_lives = -1
     }
-    draw_text(this.ctx, txt, 5, 20, 10, "white")
+    draw_text(this.ctx, "ESC for HELP", 5, 20, 10, "white")
+    draw_text(this.ctx, txt, 5, 40, 10, "white")
   }
 }

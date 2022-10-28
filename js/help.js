@@ -8,8 +8,10 @@ class Help {
     this.txt = txt
     this.size = size
 
-    this.txt.push("Misho Georgiev NPMG school project game")
-    this.txt.push("Next ideas:")
+    this.left_side = [
+      "Misho Georgiev NPMG school project game",
+      "Next ideas:"
+    ]
 
     this.show = false
   }
@@ -17,6 +19,10 @@ class Help {
   draw() {
     for (let i = 0; i < this.txt.length; i++) {
       draw_text(this.ctx, this.txt[i], this.x, this.y + i * this.size + 3, this.size, "white")
+    }
+
+    for (let i = 0; i < this.left_side.length; i++) {
+      draw_text(this.ctx, this.left_side[i], this.x + 300, this.y + i * this.size + 3, this.size, "white")
     }
   }
 }
