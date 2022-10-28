@@ -42,6 +42,6 @@ class GameOver {
     }
 
     this.y += this.dy
-    if (this.y == this.y0 + 200 || this.y == this.y0) { this.dy = - this.dy }
+    if (this.y >= this.y0 + 200 || this.y <= this.y0) { this.dy = - this.dy }
   }
 }
