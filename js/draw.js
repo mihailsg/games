@@ -66,7 +66,7 @@ function draw_circle(ctx, x, y, r, color="black", filled=false) {
 
 
 class TextScroll {
-  constructor(ctx, x0, y0, txt, size) {
+  constructor(ctx, x0, y0, txt, size, dy=0.1) {
     this.ctx = ctx
     this.size = size
     this.txt = txt
@@ -75,7 +75,7 @@ class TextScroll {
     this.y0 = y0
     this.x = x0
     this.y = y0
-    this.dy = 0.1
+    this.dy = dy
     this.scroll_size = 300
   }
 
@@ -86,5 +86,32 @@ class TextScroll {
 
     this.y += this.dy
     if (this.y >= this.y0 + this.scroll_size) { this.y = this.y0 }
+  }
+}
+
+
+class TextHorizontalScroll {
+  constructor(ctx, x0, x1, y0, txt, size, dx=0.1) {
+    this.ctx = ctx
+    this.txt = txt
+    this.size = size
+
+    this.x0 = x0
+    this.x1 = x1
+    this.y0 = y0
+
+    this.dx = dx
+    this.x = x0
+    this.y = y0
+  }
+
+  draw() {
+    this.x = this.x + this.dx
+
+    if (this.x > this.x1 || this.x < this.x0) {
+      this.dx = - this.dx
+    }
+
+    draw_text(this.ctx, this.txt, this.x, this.y, this.size, "white")
   }
 }

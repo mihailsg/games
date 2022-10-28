@@ -1,3 +1,11 @@
+/*
+ * Misho Georgiev game project
+ *
+ * 2022 Softel Labs
+ *
+*/
+
+
 class GameOver {
   constructor(ctx, w, h, size=10) {
     this.ctx = ctx

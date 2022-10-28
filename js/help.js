@@ -1,3 +1,11 @@
+/*
+ * Misho Georgiev game project
+ *
+ * 2022 Softel Labs
+ *
+*/
+
+
 class Help {
   constructor(ctx, w, h, x0, y0, txt, size=12) {
     this.ctx = ctx
@@ -19,6 +27,8 @@ class Help {
     this.text_scroll = new TextScroll(this.ctx, this.x + 300, this.y, this.left_side, this.size)
 
     this.show = false
+
+    this.text_misho = new TextHorizontalScroll(this.ctx, 100, 400, 500, "Misho learn javascript", 14, 0.5)
   }
 
   draw() {
@@ -27,5 +37,6 @@ class Help {
     }
 
     this.text_scroll.draw()
+    this.text_misho.draw()
   }
 }
