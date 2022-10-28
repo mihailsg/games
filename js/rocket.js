@@ -13,19 +13,23 @@ class RocketBase extends BaseMoveConstantVelocity {
     this.controls = controls
 
     this.vrotate = 0
+    this.vaccelerate = 0
+    this.ratio_fire = new RatioRunner(10, this.fire.bind(this))
+
     document.addEventListener('keydown', this.on_keydown.bind(this))
+    document.addEventListener('keyup', this.on_keyup.bind(this))
   }
 
   on_keydown(e) {
     if ('fire' in this.controls && e.key == this.controls["fire"]) {
-      this.fire()
+      this.ratio_fire.set(1)
       return
     }
 
     if ('accelerate' in this.controls) {
       for (const [key, value] of Object.entries(this.controls["accelerate"])) {
         if (e.key == key) {
-          this.accelerate(value)
+          this.vaccelerate = value
           return
         }
       }
@@ -41,7 +45,25 @@ class RocketBase extends BaseMoveConstantVelocity {
     }
   }
 
+  on_keyup(e) {
+    if ('fire' in this.controls && e.key == this.controls["fire"]) {
+      this.ratio_fire.set(0)
+      return
+    }
+
+    if ('accelerate' in this.controls) {
+      for (const [key, value] of Object.entries(this.controls["accelerate"])) {
+        if (e.key == key) {
+          this.vaccelerate = 0
+          return
+        }
+      }
+    }
+  }
+
   move() {
+    this.ratio_fire.run()
+    this.accelerate(this.vaccelerate)
     this.rotate(this.vrotate)
     super.move()
   }
@@ -129,7 +151,7 @@ class Rocket extends RocketBase {
     draw_line(this.ctx, p4, p0, this.color, 2)
 
     if (this.thruster > 0) {
-      let l = this.a * 200
+      let l = this.a * 1000
       let p1 = [this.x - this.l * Math.cos(angle_radians), this.y - this.l * Math.sin(angle_radians)]
       let da = 0.3
       let p2 = [p1[0] - l * Math.cos(angle_radians - da), p1[1] - l * Math.sin(angle_radians - da)]

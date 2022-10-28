@@ -16,7 +16,7 @@ class SpaceAsteroids extends Game {
     this.rocket_controls={
       "fire": 'm',
       "accelerate": {
-        'u': 0.1, 'i': 0.2, 'o': 0.3
+        'u': 0.01, 'i': 0.02, 'o': 0.03
       },
       "rotate": {
         'j': -2, 'k': 0, 'l': 2
@@ -29,7 +29,7 @@ class SpaceAsteroids extends Game {
         this.ctx, w, h, 150, 150, "#00DDDD", 10, 200, 20,
         {
           "fire": 'x',
-          "accelerate": {'w': 0.2},
+          "accelerate": {'w': 0.01},
           "rotate": {'a': -1, 's': 0, 'd': 1}
         },
         "2", [450, 20]
