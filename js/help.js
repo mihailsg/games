@@ -10,8 +10,13 @@ class Help {
 
     this.left_side = [
       "Misho Georgiev NPMG school project game",
-      "Next ideas:"
+      "",
+      "Add 1P (1 extra player)",
+      "Weapon upgrade: Faster laser and 3 lasers at same time (2 additional from the wings).",
+      "Other extras with limited lifespan during the game.",
+      "Introduce gravity",
     ]
+    this.text_scroll = new TextScroll(this.ctx, this.x + 300, this.y, this.left_side, this.size)
 
     this.show = false
   }
@@ -21,8 +26,6 @@ class Help {
       draw_text(this.ctx, this.txt[i], this.x, this.y + i * this.size + 3, this.size, "white")
     }
 
-    for (let i = 0; i < this.left_side.length; i++) {
-      draw_text(this.ctx, this.left_side[i], this.x + 300, this.y + i * this.size + 3, this.size, "white")
-    }
+    this.text_scroll.draw()
   }
 }

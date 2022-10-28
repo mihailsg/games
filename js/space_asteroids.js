@@ -56,7 +56,7 @@ class SpaceAsteroids extends Game {
       }
       this.help_text.push("")
     }
-    this.help = new Help(this.ctx, this.W, this.H, 100, 100, this.help_text, 20)
+    this.help = new Help(this.ctx, this.W, this.H, 30, 30, this.help_text, 20)
     this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
