@@ -11,8 +11,8 @@ class GameOver {
 
     this.txt = [
       "Misho Georgiev 5th grade NPMG school project game",
-      "with the help of Stanislav Georgiev", "", "",
-      "Math: angle sin/cos square root",
+      "with the help of Stan Georgiev", "", "",
+      "Math: angle sin/cos, square root, circles, 2 points euclidean distance",
       "Physics: space flying, elastic collision",
       "", "",
       "Could introduce gravity",
