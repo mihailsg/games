@@ -14,8 +14,8 @@ class GameOver {
       "with the help of Stan Georgiev", "", "",
       "Math: angle sin/cos, square root, circles, 2 points euclidean distance",
       "Physics: space flying, elastic collision",
-      "Programming: variables, loops, conditions, classes"
-      "CS: improve collision detection using algorythms with lower time complexity"
+      "Programming: variables, loops, conditions, classes",
+      "CS: improve collision detection using algorythms with lower time complexity",
       "", "",
       "Add 1P (1 extra player)",
       "Weapon upgrade: Faster laser and 3 lasers at same time (2 additional from the wings).",
