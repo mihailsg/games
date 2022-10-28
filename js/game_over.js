@@ -14,8 +14,13 @@ class GameOver {
       "with the help of Stan Georgiev", "", "",
       "Math: angle sin/cos, square root, circles, 2 points euclidean distance",
       "Physics: space flying, elastic collision",
+      "Programming: variables, loops, conditions, classes"
+      "CS: improve collision detection using algorythms with lower time complexity"
       "", "",
-      "Could introduce gravity",
+      "Add 1P (1 extra player)",
+      "Weapon upgrade: Faster laser and 3 lasers at same time (2 additional from the wings).",
+      "Other extras with limited lifespan during the game.",
+      "Introduce gravity",
     ]
 
     this.x = this.W / 5
