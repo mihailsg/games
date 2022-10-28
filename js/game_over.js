@@ -23,25 +23,20 @@ class GameOver {
       "Introduce gravity",
     ]
 
-    this.x = this.W / 5
+    this.x = this.W / 6
     this.y = this.H / 8
-    this.dy = 0.1
-    this.x0 = this.x
-    this.y0 = this.y - 50
+
+    this.text_scroll = new TextScroll(ctx, this.x, this.y + 50, this.txt, this.size)
 
     this.show = false
   }
 
   draw() {
+    let size = 40
     for (let i = 0; i < this.top.length; i++) {
-      draw_text(this.ctx, this.top[i], this.x0, this.y0 + i * this.size + 3, this.size + 3, "white")
+      draw_text(this.ctx, this.top[i], this.x, this.y + i * size + 3, size, "#EE0000")
     }
 
-    for (let i = 0; i < this.txt.length; i++) {
-      draw_text(this.ctx, this.txt[i], this.x, this.y + i * this.size + 3, this.size, "white")
-    }
-
-    this.y += this.dy
-    if (this.y >= this.y0 + 200 || this.y <= this.y0) { this.dy = - this.dy }
+    this.text_scroll.draw()
   }
 }

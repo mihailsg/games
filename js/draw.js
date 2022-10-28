@@ -16,7 +16,12 @@ function draw_filled(ctx, color, filled) {
   }
 }
 
-function draw_text(ctx, txt, x, y, size, color="black", font="arial") {
+function draw_text(ctx, txt, x, y, size, color="black", font="arial", min_y=-1, max_y=-1) {
+  if (max_y > -1 || min_y > -1) {
+    if (y > max_y) { y = y - max_y + min_y }
+    if (y < min_y) { y = max_y - min_y + y}
+  }
+
   ctx.beginPath();
   ctx.font = size + 'px ' + font;
   ctx.fillStyle = color;
@@ -57,4 +62,29 @@ function draw_circle(ctx, x, y, r, color="black", filled=false) {
   ctx.arc(x, y, r, 0, 2 * Math.PI);
 
   draw_filled(ctx, color, filled)
+}
+
+
+class TextScroll {
+  constructor(ctx, x0, y0, txt, size) {
+    this.ctx = ctx
+    this.size = size
+    this.txt = txt
+
+    this.x0 = x0
+    this.y0 = y0
+    this.x = x0
+    this.y = y0
+    this.dy = 0.1
+    this.scroll_size = 300
+  }
+
+  draw() {
+    for (let i = 0; i < this.txt.length; i++) {
+      draw_text(this.ctx, this.txt[i], this.x, this.y + i * this.size + 3, this.size, "white", "arial", this.y0, this.y0 + this.scroll_size)
+    }
+
+    this.y += this.dy
+    if (this.y >= this.y0 + this.scroll_size) { this.y = this.y0 }
+  }
 }
