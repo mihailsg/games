@@ -142,8 +142,9 @@ class RocketBase extends BaseMoveConstantVelocity {
   }
 
   rotate_to(angle) {
+    let angle_speed = 0.7 + angle / 100
     this.last_rotate_to = angle
-    this.vrotate = this.angle < angle ? 3 : -3
+    this.vrotate = this.angle < angle ? angle_speed : -angle_speed
   }
 
   accelerate(a) {}
@@ -230,7 +231,7 @@ class Rocket extends RocketBase {
       this.thruster -= 1
     }
 
-    let txt = "V ( " + this.vx.toFixed(2) + " , " + this.vy.toFixed(2) + " ) A " + this.angle
+    let txt = "V ( " + this.vx.toFixed(2) + " , " + this.vy.toFixed(2) + " ) A " + Math.round(this.angle)
     draw_text(this.ctx, txt, this.volume_bar_pos[0], this.volume_bar_pos[1] + 40, 10, "white")
     // draw_text(this.ctx, this.x.toFixed(2) + ", " + this.y.toFixed(2), 5, 50, 10, "white")
 
