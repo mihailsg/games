@@ -7,7 +7,7 @@
 
 
 class SpaceAsteroids extends Game {
-  constructor(canvas, w, h, rocket_lives=10, asteroids_count=30) {
+  constructor(canvas, w, h, rocket_lives=10, asteroids_count=30, mouse=false) {
     super(canvas, w, h)
 
     this.rocket_lives = rocket_lives
@@ -21,7 +21,7 @@ class SpaceAsteroids extends Game {
       "завъртане": {
         'h': -1, 'j': -3, 'k': 3, 'l': 1
       },
-      "mouse": true
+      "mouse": mouse
     }
 
     this.rockets = [

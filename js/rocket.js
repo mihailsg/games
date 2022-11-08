@@ -23,23 +23,22 @@ class RocketBase extends BaseMoveConstantVelocity {
     this.mouse_listeners = {
       'mousemove': this.on_mouse_move.bind(this),
       'mouseup': this.on_mouse_up.bind(this),
-      'mousedown': this.on_mouse_down.bind(this)
+      'mousedown': this.on_mouse_down.bind(this),
+      'dblclick': this.on_dbl_click.bind(this),
     }
 
-    // if ("mouse" in this.controls) {
-
-    // } else {
-    //   for (const [key, value] of Object.entries(this.mouse_listeners)) {
-    //     document.addEventListener(key, value)
-    //   }
-    // }
+    if ("mouse" in this.controls && this.controls["mouse"]) {
+      for (const [key, value] of Object.entries(this.mouse_listeners)) {
+        document.addEventListener(key, value)
+      }
+    }
   }
 
   destructor() {
     document.removeEventListener('keydown', this.on_keydown.bind(this))
     document.removeEventListener('keyup', this.on_keyup.bind(this))
 
-    if ("mouse" in this.controls) {
+    if ("mouse" in this.controls && this.controls["mouse"]) {
       for (const [key, value] of Object.entries(this.mouse_listeners)) {
         document.removeEventListener(key, value)
       }
@@ -53,20 +52,20 @@ class RocketBase extends BaseMoveConstantVelocity {
 
     let angle_radians = to_radians(this.angle)
     let p0 = [this.x, this.y]
-    let p1 = [this.x + this.l * Math.cos(angle_radians), this.y + this.l * Math.sin(angle_radians)]
+    let p1 = [this.x + 100 * Math.cos(angle_radians), this.y + 100 * Math.sin(angle_radians)]
     let p2 = [mx, my]
 
-    let angle = get_angle(p0, p2)
+    let angle = this.angle - get_lines_angle([p0, p2], [p0, p1])
     this.rotate_to(angle)
-
-    // console.log("on_mouse_move", p0, p1, p2, angle)
   }
   on_mouse_up(e) {
-    console.log("on_mouse_up", e)
-    console.log(this.ctx["BoundingClientRect"])
+    this.vaccelerate = 0
   }
   on_mouse_down(e) {
-    // console.log("onmousedown", e)
+    this.vaccelerate = 0.03
+  }
+  on_dbl_click(e) {
+    this.fire()
   }
 
   on_keydown(e) {
@@ -143,10 +142,8 @@ class RocketBase extends BaseMoveConstantVelocity {
   }
 
   rotate_to(angle) {
-    // if (angle < 0) { angle += 360 }
-    // this.last_rotate_to = angle
-    // this.vrotate = this.angle < angle ? 3 : -3
-    console.log("rotate_to", this.angle, "--->", angle, this.vrotate)
+    this.last_rotate_to = angle
+    this.vrotate = this.angle < angle ? 3 : -3
   }
 
   accelerate(a) {}

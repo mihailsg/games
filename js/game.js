@@ -17,6 +17,7 @@ game = new SpaceAsteroids(
               params.get("w") || 1200,
               params.get("h") || 800,
               params.get("lives") || 10,
-              params.get("asteroids") || 20
+              params.get("asteroids") || 20,
+              params.get("mouse") || false
 )
 game.run()
