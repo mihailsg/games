@@ -70,13 +70,13 @@ class RocketBase extends BaseMoveConstantVelocity {
   }
 
   on_keydown(e) {
-    if ('fire' in this.controls && e.key == this.controls["fire"]) {
+    if ('огън' in this.controls && e.key == this.controls["огън"]) {
       this.ratio_fire.set(1)
       return
     }
 
-    if ('accelerate' in this.controls) {
-      for (const [key, value] of Object.entries(this.controls["accelerate"])) {
+    if ('ускорение' in this.controls) {
+      for (const [key, value] of Object.entries(this.controls["ускорение"])) {
         if (e.key == key) {
           this.vaccelerate = value
           return
@@ -84,8 +84,8 @@ class RocketBase extends BaseMoveConstantVelocity {
       }
     }
 
-    if ('rotate' in this.controls) {
-      for (const [key, value] of Object.entries(this.controls["rotate"])) {
+    if ('завъртане' in this.controls) {
+      for (const [key, value] of Object.entries(this.controls["завъртане"])) {
         if (e.key == key) {
           this.vrotate = value
           return
@@ -95,13 +95,13 @@ class RocketBase extends BaseMoveConstantVelocity {
   }
 
   on_keyup(e) {
-    if ('fire' in this.controls && e.key == this.controls["fire"]) {
+    if ('огън' in this.controls && e.key == this.controls["огън"]) {
       this.ratio_fire.set(0)
       return
     }
 
-    if ('accelerate' in this.controls) {
-      for (const [key, value] of Object.entries(this.controls["accelerate"])) {
+    if ('ускорение' in this.controls) {
+      for (const [key, value] of Object.entries(this.controls["ускорение"])) {
         if (e.key == key) {
           this.vaccelerate = 0
           return
@@ -180,8 +180,8 @@ class Rocket extends RocketBase {
     this.laser_count = laser_count
     this.lasers = []
 
-    this.fuel_bar = new VolumeBar(this.ctx, this.volume_bar_pos, this.fuel, "FUEL " + this.tag, "blue")
-    this.laser_bar = new VolumeBar(this.ctx, [this.volume_bar_pos[0], this.volume_bar_pos[1] + 20], this.laser_count, "LASER " + this.tag, "red")
+    this.fuel_bar = new VolumeBar(this.ctx, this.volume_bar_pos, this.fuel, "Гориво " + this.tag, "blue")
+    this.laser_bar = new VolumeBar(this.ctx, [this.volume_bar_pos[0], this.volume_bar_pos[1] + 20], this.laser_count, "Лазер " + this.tag, "red")
   }
 
   accelerate(a) {

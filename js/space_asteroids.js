@@ -14,11 +14,11 @@ class SpaceAsteroids extends Game {
     this.asteroids_count = asteroids_count
 
     this.rocket_controls={
-      "fire": 'm',
-      "accelerate": {
+      "огън": 'm',
+      "ускорение": {
         'u': 0.01, 'i': 0.02, 'o': 0.03
       },
-      "rotate": {
+      "завъртане": {
         'j': -2, 'k': 0, 'l': 2
       },
       "mouse": true
@@ -29,27 +29,27 @@ class SpaceAsteroids extends Game {
       new Rocket(
         this.ctx, w, h, 150, 150, "#00DDDD", 10, 200, 20,
         {
-          "fire": 'x',
-          "accelerate": {'w': 0.01},
-          "rotate": {'a': -1, 's': 0, 'd': 1}
+          "огън": 'x',
+          "ускорение": {'w': 0.01},
+          "завъртане": {'a': -1, 's': 0, 'd': 1}
         },
         "2", [450, 20]
       )
     ]
-    this.rocket_lives_bar = new VolumeBar(this.ctx, [100, 20], this.rocket_lives, "MISHO lives", "green")
+    this.rocket_lives_bar = new VolumeBar(this.ctx, [100, 20], this.rocket_lives, "Мишо животи", "green")
 
     this.asteroids_removed = 0
     this.asteroids = []
     this.init_asteroids()
-    this.asteroids_bar = new VolumeBar(this.ctx, [100, 40], this.asteroids.length * 2, "ASTEROIDS", "yellow")
+    this.asteroids_bar = new VolumeBar(this.ctx, [100, 40], this.asteroids.length * 2, "Астероиди", "yellow")
 
-    this.help_text = ["HELP", ""]
+    this.help_text = ["ПОМОЩ", ""]
     for (let i = 0; i < this.rockets.length; i++) {
-      this.help_text.push("Rocket " + i)
+      this.help_text.push("Ракета " + i)
       for (const [action, action_controls] of Object.entries(this.rockets[i].controls)) {
         if (action_controls.constructor == Object) {
           for (const [key, value] of Object.entries(action_controls)) {
-            this.help_text.push("[" + key + "] " + action + " with " + value)
+            this.help_text.push("[" + key + "] " + action + " с " + value)
           }
         } else {
           this.help_text.push("[" + action_controls + "] " + action)
@@ -208,14 +208,14 @@ class SpaceAsteroids extends Game {
       }
     }
 
-    let txt = "Asteroids " + this.asteroids_removed + " / " +  this.asteroids.length
+    let txt = "Астероиди " + this.asteroids_removed + " / " +  this.asteroids.length
     if (this.asteroids.length == 0 && this.rocket_lives > 0) {
       this.rockets[0].destructor()
       this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 50, 200, 50, this.rocket_controls)
-      txt = "Winner"
+      txt = "Победа"
       this.rocket_lives = -1
     }
-    draw_text(this.ctx, "ESC for HELP", 5, 20, 10, "white")
+    draw_text(this.ctx, "ESC за Помощ", 5, 20, 10, "white")
     draw_text(this.ctx, txt, 5, 40, 10, "white")
   }
 }
