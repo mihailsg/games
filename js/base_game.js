@@ -13,6 +13,7 @@ class Game {
     canvas.width = w;
     canvas.height = h;
     this.ctx = canvas.getContext('2d');
+    this.ctx["BoundingClientRect"] = canvas.getBoundingClientRect()
   }
 
   run() {

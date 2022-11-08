@@ -20,7 +20,8 @@ class SpaceAsteroids extends Game {
       },
       "rotate": {
         'j': -2, 'k': 0, 'l': 2
-      }
+      },
+      "mouse": true
     }
 
     this.rockets = [
@@ -200,6 +201,7 @@ class SpaceAsteroids extends Game {
 
     if (!this.rockets[0].alive()) {
       if (this.rocket_lives > 0) {
+        this.rockets[0].destructor()
         this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 10, this.asteroids.length * 10, 20, this.rocket_controls)
       } else {
         this.game_over.show = true
@@ -208,6 +210,7 @@ class SpaceAsteroids extends Game {
 
     let txt = "Asteroids " + this.asteroids_removed + " / " +  this.asteroids.length
     if (this.asteroids.length == 0 && this.rocket_lives > 0) {
+      this.rockets[0].destructor()
       this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 50, 200, 50, this.rocket_controls)
       txt = "Winner"
       this.rocket_lives = -1

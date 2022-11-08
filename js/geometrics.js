@@ -18,6 +18,10 @@ function to_radians(angle) {
   return angle * Math.PI / 180
 }
 
+function to_degrees(angle) {
+  return angle * 180 / Math.PI
+}
+
 function line_perpendicular(p1, p2, l) {
   x1 = p1[0]
   y1 = p1[1]
@@ -44,4 +48,21 @@ function frame_bounds_rewind(w, h, x, y, dx=0, dy=0) {
   if (y - dy > h) { y = 1 - dx }
   if (y + dy < 0) { y = h - 1 + dx }
   return [x, y]
+}
+
+function get_angle(p1, p2) {
+  x1 = p1[0]
+  y1 = p1[1]
+  x2 = p2[0]
+  y2 = p2[1]
+
+  if (y2 - y1 == 0) { return 90 }
+
+  return to_degrees(Math.atan((x2 - x1) / (y2 - y1)))
+}
+
+function get_lines_angle(p1, p2, p3) {
+  let angle = to_degrees(Math.atan2(p3[1] - p2[1], p3[0] - p3[0]) - Math.atan2(p1[1] - p2[1], p1[0] - p2[0]))
+  // if (angle < 0) { angle += 360 }
+  return angle
 }

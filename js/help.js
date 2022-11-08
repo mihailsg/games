@@ -17,18 +17,20 @@ class Help {
     this.size = size
 
     this.left_side = [
-      "Misho Georgiev NPMG school project game",
+      "Мишо Георгиев НПМГ училищен проект-игра",
+      "Управление на ракетата при липса на гравитация и триене.",
+      "Лимит на гориво и лазер.",
       "",
-      "Add 1P (1 extra player)",
-      "Weapon upgrade: Faster laser and 3 lasers at same time (2 additional from the wings).",
-      "Other extras with limited lifespan during the game.",
-      "Introduce gravity",
+      "Идеи за следващи допълнения",
+      "1P: (1 допълнителен играч)",
+      "1WS: по-бърз лазер",
+      "3W: допълнителни 2 лазера на всяко крило (общо 3 лазера)",
     ]
     this.text_scroll = new TextScroll(this.ctx, this.x + 300, this.y, this.left_side, this.size)
 
     this.show = false
 
-    this.text_misho = new TextHorizontalScroll(this.ctx, 100, 400, 500, "Misho learn javascript", 14, 0.5)
+    this.text_misho = new TextHorizontalScroll(this.ctx, 100, 400, 500, "Мишо учи javascript", 14, 0.5)
   }
 
   draw() {

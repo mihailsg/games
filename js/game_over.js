@@ -14,21 +14,21 @@ class GameOver {
     this.size = size
 
     this.top = [
-      "GAME OVER"
+      "КРАЙ на ИГРАТА"
     ]
 
     this.txt = [
-      "Misho Georgiev 5th grade NPMG school project game",
-      "with the help of Stan Georgiev", "", "",
-      "Math: angle sin/cos, square root, circles, 2 points euclidean distance",
-      "Physics: space flying, elastic collision",
-      "Programming: variables, loops, conditions, classes",
-      "CS: improve collision detection using algorythms with lower time complexity",
+      "Мишо Георгиев 5-ти клас в НПМГ училищен проект игра.",
+      "с помощта на Станислав Георгиев", "", "",
+      "Математика: ъгли sin/cos, корен квадратен, окръчности, евклидово разстояние м/у 2 точки",
+      "Физика: летене в космоса (без гравитация и триене), напълно еластичен удар м/у 2 тела",
+      "Програмиране: променливи, цикли, условно управление, класове",
+      "CS: Подобряване на детектора за колизии, ползване на по-ефективен алгоритъм с по-ниска времева сложност",
       "", "",
-      "Add 1P (1 extra player)",
-      "Weapon upgrade: Faster laser and 3 lasers at same time (2 additional from the wings).",
-      "Other extras with limited lifespan during the game.",
-      "Introduce gravity",
+      "Идеи за следващи допълнения",
+      "1P: (1 допълнителен играч)",
+      "1WS: по-бърз лазер",
+      "3W: допълнителни 2 лазера на всяко крило (общо 3 лазера)",
     ]
 
     this.x = this.W / 6
