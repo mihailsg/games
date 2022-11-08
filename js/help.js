@@ -32,7 +32,7 @@ class Help {
 
     this.show = false
 
-    this.text_misho = new TextHorizontalScroll(this.ctx, 100, 400, 500, "Мишо учи javascript", 14, 0.5)
+    this.text_misho = new TextHorizontalScroll(this.ctx, 100, 400, 500, "Мишо учи javascript", 32, 0.5)
   }
 
   draw() {

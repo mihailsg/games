@@ -16,10 +16,10 @@ class SpaceAsteroids extends Game {
     this.rocket_controls={
       "огън": 'm',
       "ускорение": {
-        'u': 0.01, 'i': 0.02, 'o': 0.03
+        'u': 0.01, 'i': 0.03, 'o': 0.02
       },
       "завъртане": {
-        'j': -2, 'k': 0, 'l': 2
+        'h': -1, 'j': -3, 'k': 3, 'l': 1
       },
       "mouse": true
     }
@@ -31,7 +31,7 @@ class SpaceAsteroids extends Game {
         {
           "огън": 'x',
           "ускорение": {'w': 0.01},
-          "завъртане": {'a': -1, 's': 0, 'd': 1}
+          "завъртане": {'a': -3, 's': 1, 'd': 3}
         },
         "2", [450, 20]
       )
@@ -45,7 +45,7 @@ class SpaceAsteroids extends Game {
 
     this.help_text = ["ПОМОЩ", ""]
     for (let i = 0; i < this.rockets.length; i++) {
-      this.help_text.push("Ракета " + i)
+      this.help_text.push("Ракета " + (i + 1))
       for (const [action, action_controls] of Object.entries(this.rockets[i].controls)) {
         if (action_controls.constructor == Object) {
           for (const [key, value] of Object.entries(action_controls)) {

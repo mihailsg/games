@@ -108,6 +108,15 @@ class RocketBase extends BaseMoveConstantVelocity {
         }
       }
     }
+
+    if ('завъртане' in this.controls) {
+      for (const [key, value] of Object.entries(this.controls["завъртане"])) {
+        if (e.key == key) {
+          this.vrotate = 0
+          return
+        }
+      }
+    }
   }
 
   move() {
