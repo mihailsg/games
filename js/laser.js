@@ -8,11 +8,10 @@
 
 class Laser extends BaseMoveConstantVelocity {
   constructor(ctx, w, h, x0, y0, angle, v, fps_ratio=1) {
-    super(ctx, w, h, x0, y0, 0, 0, "red")
+    super(ctx, w, h, x0, y0, 0, 0, fps_ratio, "red")
 
     this.l = 10
     this.angle = angle
-    this.fps_ratio = fps_ratio
 
     this.points()
 
