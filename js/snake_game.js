@@ -98,11 +98,10 @@ class SnakeGame extends Game {
       }
     }
 
-    if (randint(0, 1000) == 100) {
+    if (randint(0, 500) == 100) {
       this.apples.push(
         new Apple(this.ctx, randint(10, this.W - 10), randint(10, this.H - 10))
       )
-      console.log("new APPLE")
     }
   }
 }

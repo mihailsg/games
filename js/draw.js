@@ -65,6 +65,10 @@ function draw_circle(ctx, x, y, r, color="black", filled=false) {
 }
 
 
+class IDraw {
+  draw() {}
+}
+
 class TextScroll {
   constructor(ctx, x0, y0, txt, size, dy=0.1) {
     this.ctx = ctx

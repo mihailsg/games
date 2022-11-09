@@ -29,6 +29,8 @@ class Snake {
     this.lives = lives
     this.lives_bar = new VolumeBar(this.ctx, this.info_pos, this.lives, this.name + " животи", this.color)
 
+    this.bitten = new IDraw()
+
     document.addEventListener('keydown', this.on_keydown.bind(this))
     // document.addEventListener('keyup', this.on_keyup.bind(this))
   }
@@ -71,15 +73,15 @@ class Snake {
 
   check_next_move_collision(pn) {
     if (pn[0] < this.d / 2 || pn[0] > this.W - this.d / 2 || pn[1] < this.d || pn[1] > this.H - this.d / 2) {
-      return true
+      return this.body.length - 1
     }
 
     for (let i = 0; i < this.body.length - 1; i++) {
       let d = Math.sqrt((pn[0] - this.body[i][0]) ** 2 + (pn[1] - this.body[i][1]) ** 2)
-      if (d < this.d) { return true }
+      if (d < this.d) { return i }
     }
 
-    return false
+    return -1
   }
 
   move_body() {
@@ -87,10 +89,12 @@ class Snake {
       let p = this.body.slice(-1)[0]
       let pn = [p[0] + this.vx * this.d, p[1] + this.vy * this.d]
 
-      if (this.check_next_move_collision(pn)) {
+      let ic = this.check_next_move_collision(pn)
+      if (ic >= 0) {
         this.lives -= 1
         this.vx = 0
         this.vy = 0
+        this.bitten = new Bitten(this.ctx, this.body[ic][0], this.body[ic][1], this.d / 2)
         return
       }
 
@@ -110,6 +114,8 @@ class Snake {
     }
 
     draw_circle(this.ctx, this.body[this.body.length - 1][0], this.body[this.body.length - 1][1], this.d / 2 + 3, "#AA5511", true)
+
+    this.bitten.draw()
 
     this.lives_bar.draw(this.lives)
   }
@@ -139,5 +145,33 @@ class Apple {
 
   draw() {
     draw_circle(this.ctx, this.x, this.y, this.r, "red", true)
+  }
+}
+
+
+class Bitten {
+  constructor(ctx, x0, y0, r) {
+    this.ctx = ctx
+    this.x = x0
+    this.y = y0
+    this.r = r
+
+    this.counter = 100
+    this.active = true
+  }
+
+  draw() {
+    if (this.active) {
+      this.draw_active()
+    }
+  }
+
+  draw_active() {
+    draw_circle(this.ctx, this.x, this.y, this.r + this.counter / 10, "red", true)
+    this.counter -= 1
+
+    if (this.counter == 0) {
+      this.active = false
+    }
   }
 }
