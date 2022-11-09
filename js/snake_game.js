@@ -110,7 +110,7 @@ class SnakeGame extends Game {
       }
     }
 
-    if (randint(0, this.vapples) == this.vapples / 2) {
+    if (randint(0, this.vapples) == 1) {
       this.apples.push(
         new Apple(this.ctx, randint(10, this.W - 10), randint(10, this.H - 10))
       )
