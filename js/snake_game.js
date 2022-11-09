@@ -18,10 +18,10 @@ class SnakeGame extends Game {
         50, 50,
         this.lives,
         {
-          "up": 'i',
-          "down": 'm',
-          "left": 'j',
-          "right": 'k'
+          "нагоре": 'i',
+          "надолу": 'm',
+          "наляво": 'j',
+          "надясно": 'k'
         },
         "змия 1", "green",
         [250, 20]
@@ -31,10 +31,10 @@ class SnakeGame extends Game {
         150, 150,
         this.lives,
         {
-          "up": 'w',
-          "down": 'z',
-          "left": 'a',
-          "right": 's'
+          "нагоре": 'w',
+          "надолу": 'z',
+          "наляво": 'a',
+          "надясно": 's'
         },
         "змия 2", "blue",
         [450, 20]
@@ -98,7 +98,7 @@ class SnakeGame extends Game {
       }
     }
 
-    if (randint(0, 500) == 100) {
+    if (randint(0, 100) == 50) {
       this.apples.push(
         new Apple(this.ctx, randint(10, this.W - 10), randint(10, this.H - 10))
       )

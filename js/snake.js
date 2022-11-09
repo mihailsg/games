@@ -36,25 +36,25 @@ class Snake {
   }
 
   on_keydown(e) {
-    if ('up' in this.controls && e.key == this.controls["up"]) {
+    if ('нагоре' in this.controls && e.key == this.controls["нагоре"]) {
       this.vx = 0
       this.vy = - this.v
       return
     }
 
-    if ('down' in this.controls && e.key == this.controls["down"]) {
+    if ('надолу' in this.controls && e.key == this.controls["надолу"]) {
       this.vx = 0
       this.vy = this.v
       return
     }
 
-    if ('left' in this.controls && e.key == this.controls["left"]) {
+    if ('наляво' in this.controls && e.key == this.controls["наляво"]) {
       this.vx = - this.v
       this.vy = 0
       return
     }
 
-    if ('right' in this.controls && e.key == this.controls["right"]) {
+    if ('надясно' in this.controls && e.key == this.controls["надясно"]) {
       this.vx = this.v
       this.vy = 0
       return
