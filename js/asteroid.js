@@ -7,8 +7,8 @@
 
 
 class Asteroid extends BaseMoveConstantVelocity {
-  constructor(ctx, w, h, x0, y0, vx0, vy0, r0, color="white", size_contour=20) {
-    super(ctx, w, h, x0, y0, vx0, vy0, color)
+  constructor(ctx, w, h, x0, y0, vx0, vy0, r0, fps_ratio=1, color="white", size_contour=20) {
+    super(ctx, w, h, x0, y0, vx0, vy0, fps_ratio, color)
 
     this.r0 = r0
     this.r = r0

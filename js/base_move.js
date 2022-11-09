@@ -7,7 +7,7 @@
 
 
 class BaseMoveConstantVelocity {
-  constructor(ctx, w, h, x0, y0, vx0, vy0, color=[0, 0, 255]) {
+  constructor(ctx, w, h, x0, y0, vx0, vy0, fps_ratio=1, color=[0, 0, 255]) {
     this.ctx = ctx
     this.W = w
     this.H = h
@@ -16,14 +16,15 @@ class BaseMoveConstantVelocity {
     this.vx = vx0
     this.vy = vy0
     this.color = color
+    this.fps_ratio = fps_ratio
 
     this.ox = 0
     this.oy = 0
   }
 
   move() {
-    this.x += this.vx
-    this.y += this.vy
+    this.x += this.vx * this.fps_ratio
+    this.y += this.vy * this.fps_ratio
 
     let xy = frame_bounds_rewind(this.W, this.H, this.x, this.y, this.ox, this.oy)
     this.x = xy[0]

@@ -13,6 +13,8 @@ class SpaceAsteroids extends Game {
     this.rocket_lives = rocket_lives
     this.asteroids_count = asteroids_count
 
+    this.fps_ratio = 1
+
     this.rocket_controls={
       "огън": 'm',
       "ускорение": {
@@ -24,10 +26,30 @@ class SpaceAsteroids extends Game {
       "mouse": mouse
     }
 
+    this.rocket_lives_bar = new VolumeBar(this.ctx, [100, 20], this.rocket_lives, "Мишо животи", "green")
+
+    this.help = new Help(this.ctx, this.W, this.H, 30, 30, [], 20)
+    this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
+
+    this.asteroids_removed = 0
+    this.asteroids = []
+    this.rockets = []
+
+    document.addEventListener('keydown', this.on_keydown.bind(this))
+
+    this.help.show = true
+    setTimeout(this.on_fps.bind(this), 500)
+  }
+
+  on_fps() {
+    let fps = this.fps_counter.fps
+    this.fps_ratio = 120 / fps
+
     this.rockets = [
-      new Rocket(this.ctx, w, h, 50, 50, "#CCCC00", 10, 200, 20, this.rocket_controls),
+      new Rocket(this.ctx, this.W, this.H, 50, 50, "#CCCC00", 10, 200, 20, this.fps_ratio, this.rocket_controls),
       new Rocket(
-        this.ctx, w, h, 150, 150, "#00DDDD", 10, 200, 20,
+        this.ctx, this.W, this.H, 150, 150, "#00DDDD", 10, 200, 20,
+        this.fps_ratio,
         {
           "огън": 'x',
           "ускорение": {'w': 0.01},
@@ -36,48 +58,25 @@ class SpaceAsteroids extends Game {
         "2", [450, 20]
       )
     ]
-    this.rocket_lives_bar = new VolumeBar(this.ctx, [100, 20], this.rocket_lives, "Мишо животи", "green")
 
-    this.asteroids_removed = 0
-    this.asteroids = []
     this.init_asteroids()
-    this.asteroids_bar = new VolumeBar(this.ctx, [100, 40], this.asteroids.length * 2, "Астероиди", "yellow")
 
-    this.help_text = ["ПОМОЩ", ""]
+    this.help.txt = ["ПОМОЩ", ""]
     for (let i = 0; i < this.rockets.length; i++) {
-      this.help_text.push("Ракета " + (i + 1))
+      this.help.txt.push("Ракета " + (i + 1))
       for (const [action, action_controls] of Object.entries(this.rockets[i].controls)) {
         if (action_controls.constructor == Object) {
           for (const [key, value] of Object.entries(action_controls)) {
-            this.help_text.push("[" + key + "] " + action + " с " + value)
+            this.help.txt.push("[" + key + "] " + action + " с " + value)
           }
         } else {
-          this.help_text.push("[" + action_controls + "] " + action)
+          this.help.txt.push("[" + action_controls + "] " + action)
         }
       }
-      this.help_text.push("")
-    }
-    this.help = new Help(this.ctx, this.W, this.H, 30, 30, this.help_text, 20)
-    this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
-
-    document.addEventListener('keydown', this.on_keydown.bind(this))
-
-    setTimeout(this.fix_fps.bind(this), 1500)
-  }
-
-  fix_fps() {
-    let fps = this.fps_counter.fps
-    let ratio = 120 / fps
-
-    for (let i = 0; i < this.asteroids.length; i++) {
-      this.asteroids[i].vx *= ratio
-      this.asteroids[i].vy *= ratio
+      this.help.txt.push("")
     }
 
-    for (let i = 0; i < this.rockets.length; i++) {
-      this.rockets[i].ratio_fire.ratio = fps / 12
-      this.rockets[i].fps_ratio = ratio
-    }
+    this.help.show = false
   }
 
   on_keydown(e) {
@@ -109,11 +108,14 @@ class SpaceAsteroids extends Game {
             x0, y0,
             randuniform(-dv, dv),
             randuniform(-dv, dv),
-            r0, "white", 10
+            r0, this.fps_ratio,
+            "white", 10
           )
         )
       }
     }
+
+    this.asteroids_bar = new VolumeBar(this.ctx, [100, 40], this.asteroids.length * 2, "Астероиди", "yellow")
   }
 
   draw() {
@@ -174,6 +176,7 @@ class SpaceAsteroids extends Game {
             Math.cos(angle1) * asteroid.vx,
             Math.sin(angle1) * asteroid.vy,
             asteroid.r / 2,
+            this.fps_ratio,
             "white", 10
           )
         )
@@ -185,6 +188,7 @@ class SpaceAsteroids extends Game {
             Math.cos(angle2) * asteroid.vx,
             Math.sin(angle2) * asteroid.vy,
             asteroid.r / 2,
+            this.fps_ratio,
             "white", 10
           )
         )
@@ -199,7 +203,7 @@ class SpaceAsteroids extends Game {
       let asteroid = this.asteroids[i]
       if (this.rockets[0].check_collision(asteroid.x, asteroid.y, asteroid.r)) {
         this.asteroids.splice(i, 1)
-        this.rockets[0] = new RocketExplosion(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y)
+        this.rockets[0] = new RocketExplosion(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, this.fps_ratio)
         this.rocket_lives -= 1
         break
       }
@@ -208,7 +212,7 @@ class SpaceAsteroids extends Game {
     if (!this.rockets[0].alive()) {
       if (this.rocket_lives > 0) {
         this.rockets[0].destructor()
-        this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 10, this.asteroids.length * 10, 20, this.rocket_controls)
+        this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 10, this.asteroids.length * 10, 20, this.fps_ratio, this.rocket_controls)
       } else {
         this.game_over.show = true
       }
@@ -217,7 +221,7 @@ class SpaceAsteroids extends Game {
     let txt = "Астероиди " + this.asteroids_removed + " / " +  this.asteroids.length
     if (this.asteroids.length == 0 && this.rocket_lives > 0) {
       this.rockets[0].destructor()
-      this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 50, 200, 50, this.rocket_controls)
+      this.rockets[0] = new Rocket(this.ctx, this.W, this.H, this.rockets[0].x, this.rockets[0].y, "#CCCC00", 50, 200, 50, this.fps_ratio, this.rocket_controls)
       txt = "Победа"
       this.rocket_lives = -1
     }

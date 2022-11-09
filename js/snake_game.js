@@ -64,15 +64,18 @@ class SnakeGame extends Game {
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
 
-    setTimeout(this.fix_fps.bind(this), 1500)
+    this.help.show = true
+    setTimeout(this.on_fps.bind(this), 500)
   }
 
-  fix_fps() {
+  on_fps() {
     let fps = this.fps_counter.fps
     this.vapples = fps
     for (let i = 0; i < this.snakes.length; i++) {
       this.snakes[i].ratio_move.ratio = fps / 12
     }
+
+    this.help.show = false
   }
 
   on_keydown(e) {

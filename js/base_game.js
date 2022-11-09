@@ -15,7 +15,7 @@ class FPSCounter {
 
     this.last_timestamp = Date.now()
 
-    setInterval(this.calc_fps.bind(this), this.interval)
+    setTimeout(this.calc_fps.bind(this), 400)
   }
 
   calc_fps() {
@@ -24,6 +24,8 @@ class FPSCounter {
     this.fps = this.n_frames * 1000 / p
     this.n_frames = 0
     this.last_timestamp = Date.now()
+
+    setTimeout(this.calc_fps.bind(this), this.interval)
   }
 
   update() {
@@ -42,7 +44,7 @@ class Game {
     this.ctx = canvas.getContext('2d')
     this.ctx["BoundingClientRect"] = canvas.getBoundingClientRect()
 
-    this.fps_counter = new FPSCounter(1000)
+    this.fps_counter = new FPSCounter(10000)
   }
 
   count_fps() {

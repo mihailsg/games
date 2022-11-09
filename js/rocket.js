@@ -6,17 +6,16 @@
 */
 
 class RocketBase extends BaseMoveConstantVelocity {
-  constructor(ctx, w, h, x0, y0, controls={}) {
-    super(ctx, w, h, x0, y0, 0, 0, "blue")
+  constructor(ctx, w, h, x0, y0, fps_ratio=1, controls={}) {
+    super(ctx, w, h, x0, y0, 0, 0, fps_ratio, "blue")
     this.l = 10000000000
     this.angle = 0
     this.controls = controls
 
-    this.fps_ratio = 1
     this.vrotate = 0
     this.last_rotate_to = -1
     this.vaccelerate = 0
-    this.ratio_fire = new RatioRunner(10, this.fire.bind(this))
+    this.ratio_fire = new RatioRunner(10 / this.fps_ratio, this.fire.bind(this))
 
     this.mx = -1
     this.my = -1
@@ -171,8 +170,8 @@ class RocketBase extends BaseMoveConstantVelocity {
 
 
 class Rocket extends RocketBase {
-  constructor(ctx, w, h, x0=0, y0=0, color="blue", l=10, laser_count=100, fuel=20, controls={}, tag="", volume_bar_pos=[300, 20]) {
-    super(ctx, w, h, x0, y0, controls)
+  constructor(ctx, w, h, x0=0, y0=0, color="blue", l=10, laser_count=100, fuel=20, fps_ratio=1, controls={}, tag="", volume_bar_pos=[300, 20]) {
+    super(ctx, w, h, x0, y0, fps_ratio, controls)
     this.color = color
     this.l = l
     this.tag = tag
@@ -272,7 +271,7 @@ class Rocket extends RocketBase {
   fire() {
     if (this.laser_count > 0) {
       this.laser_count -= 1;
-      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle, 2.5 * this.fps_ratio))
+      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle, 2.5, this.fps_ratio))
     }
   }
 
@@ -315,14 +314,14 @@ class Rocket extends RocketBase {
 
 
 class RocketExplosion extends RocketBase {
-  constructor(ctx, w, h, x0, y0) {
-    super(ctx, w, h, x0, y0)
+  constructor(ctx, w, h, x0, y0, fps_ratio=1) {
+    super(ctx, w, h, x0, y0, fps_ratio)
     this.r = 3
   }
 
   move() {
     draw_circle(this.ctx, this.x, this.y, this.r, "red", true)
-    this.r += 0.8
+    this.r += 0.8 * this.fps_ratio
   }
 
   alive() {
