@@ -39,11 +39,11 @@ class BaseMoveConstantVelocity {
 
 
 class RatioRunner {
-  constructor(ratio, fn) {
+  constructor(ratio, fn, count_inc=0) {
     this.ratio = ratio
     this.fn = fn
     this.count = 0
-    this.count_inc = 0
+    this.count_inc = count_inc
   }
 
   set(count_inc) { this.count_inc = count_inc }

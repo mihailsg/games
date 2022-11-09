@@ -99,28 +99,17 @@ class SpaceAsteroids extends Game {
     }
   }
 
-  clear() {
-    super.clear()
-    this.ctx.rect(0, 0, this.W, this.H);
-    this.ctx.fillStyle = "black";
-    this.ctx.fill();
-  }
-
-  run() {
-    this.clear()
-
+  draw() {
     if (this.game_over.show) {
       this.game_over.draw()
     } else if (this.help.show) {
       this.help.draw()
     } else {
-      this.draw()
+      this.draw_game()
     }
-
-    requestAnimationFrame(this.run.bind(this));
   }
 
-  draw() {
+  draw_game() {
     this.rocket_lives_bar.draw(this.rocket_lives)
     this.asteroids_bar.draw(this.asteroids.length)
 

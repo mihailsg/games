@@ -17,6 +17,9 @@ class RocketBase extends BaseMoveConstantVelocity {
     this.vaccelerate = 0
     this.ratio_fire = new RatioRunner(10, this.fire.bind(this))
 
+    this.mx = -1
+    this.my = -1
+
     document.addEventListener('keydown', this.on_keydown.bind(this))
     document.addEventListener('keyup', this.on_keyup.bind(this))
 
@@ -47,13 +50,13 @@ class RocketBase extends BaseMoveConstantVelocity {
 
   on_mouse_move(e) {
     let rect = this.ctx["BoundingClientRect"]
-    let mx = e.clientX - rect.left
-    let my = e.clientY - rect.top
+    this.mx = e.clientX - rect.left
+    this.my = e.clientY - rect.top
 
     let angle_radians = to_radians(this.angle)
     let p0 = [this.x, this.y]
     let p1 = [this.x + 100 * Math.cos(angle_radians), this.y + 100 * Math.sin(angle_radians)]
-    let p2 = [mx, my]
+    let p2 = [this.mx, this.my]
 
     let angle = this.angle - get_lines_angle([p0, p2], [p0, p1])
     this.rotate_to(angle)
@@ -123,6 +126,7 @@ class RocketBase extends BaseMoveConstantVelocity {
     this.accelerate(this.vaccelerate)
 
     if (this.last_rotate_to > 0 && Math.abs(this.angle - this.last_rotate_to) < Math.abs(this.vrotate)) {
+      this.rotate(this.angle - this.last_rotate_to)
       this.vrotate = 0
       this.last_rotate_to = -1
     }
@@ -142,7 +146,7 @@ class RocketBase extends BaseMoveConstantVelocity {
   }
 
   rotate_to(angle) {
-    let angle_speed = 0.7 + angle / 100
+    let angle_speed = 1.0 + angle / 100
     this.last_rotate_to = angle
     this.vrotate = this.angle < angle ? angle_speed : -angle_speed
   }
@@ -221,6 +225,8 @@ class Rocket extends RocketBase {
     draw_line(this.ctx, p3, p0, this.color, 2)
     draw_line(this.ctx, p4, p0, this.color, 2)
 
+    this.draw_mouse()
+
     if (this.thruster > 0) {
       let l = this.a * 1000
       let p1 = [this.x - this.l * Math.cos(angle_radians), this.y - this.l * Math.sin(angle_radians)]
@@ -231,7 +237,7 @@ class Rocket extends RocketBase {
       this.thruster -= 1
     }
 
-    let txt = "V ( " + this.vx.toFixed(2) + " , " + this.vy.toFixed(2) + " ) A " + Math.round(this.angle)
+    let txt = "V ( " + this.vx.toFixed(2) + " , " + this.vy.toFixed(2) + " ) A " + this.angle.toFixed(2) //Math.round(this.angle, 3)
     draw_text(this.ctx, txt, this.volume_bar_pos[0], this.volume_bar_pos[1] + 40, 10, "white")
     // draw_text(this.ctx, this.x.toFixed(2) + ", " + this.y.toFixed(2), 5, 50, 10, "white")
 
@@ -239,6 +245,16 @@ class Rocket extends RocketBase {
 
     this.fuel_bar.draw(this.fuel)
     this.laser_bar.draw(this.laser_count)
+  }
+
+  draw_mouse() {
+    if ("mouse" in this.controls && this.controls["mouse"]) {
+      let p0 = [this.x, this.y]
+      let angle_radians = to_radians(this.angle)
+      let l = Math.sqrt((p0[0] - this.mx) ** 2 + (p0[1] - this.my) ** 2)
+      draw_line(this.ctx, p0, [this.mx, this.my], "#555555", 1)
+      draw_line(this.ctx, p0, [this.x + l * Math.cos(angle_radians), this.y + l * Math.sin(angle_radians)], "#880000", 1)
+    }
   }
 
   move_lasers() {

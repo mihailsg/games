@@ -7,21 +7,30 @@
 
 
 class Game {
-  constructor(canvas, w, h) {
-    this.W = w;
-    this.H = h;
-    canvas.width = w;
-    canvas.height = h;
-    this.ctx = canvas.getContext('2d');
+  constructor(canvas, w, h, background_color="black") {
+    this.W = w
+    this.H = h
+    this.background_color = background_color
+    canvas.width = w
+    canvas.height = h
+    this.ctx = canvas.getContext('2d')
     this.ctx["BoundingClientRect"] = canvas.getBoundingClientRect()
   }
 
-  run() {
-    this.clear();
-    requestAnimationFrame(this.run.bind(this));
+  clear() {
+    this.ctx.clearRect(0, 0, this.W, this.H)
+    this.ctx.rect(0, 0, this.W, this.H)
+    this.ctx.fillStyle = this.background_color
+    this.ctx.fill()
   }
 
-  clear() {
-    this.ctx.clearRect(0, 0, this.W, this.H);
+  run() {
+    this.clear()
+    this.draw()
+    requestAnimationFrame(this.run.bind(this))
+  }
+
+  draw() {
+
   }
 }
