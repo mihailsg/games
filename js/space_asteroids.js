@@ -61,6 +61,23 @@ class SpaceAsteroids extends Game {
     this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
+
+    setTimeout(this.fix_fps.bind(this), 1500)
+  }
+
+  fix_fps() {
+    let fps = this.fps_counter.fps
+    let ratio = 120 / fps
+
+    for (let i = 0; i < this.asteroids.length; i++) {
+      this.asteroids[i].vx *= ratio
+      this.asteroids[i].vy *= ratio
+    }
+
+    for (let i = 0; i < this.rockets.length; i++) {
+      this.rockets[i].ratio_fire.ratio = fps / 12
+      this.rockets[i].fps_ratio = ratio
+    }
   }
 
   on_keydown(e) {

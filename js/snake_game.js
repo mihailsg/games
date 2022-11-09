@@ -12,6 +12,8 @@ class SnakeGame extends Game {
 
     this.lives = lives
 
+    this.vapples = 100
+
     this.snakes = [
       new Snake(
         this.ctx, this.W, this.H,
@@ -61,6 +63,16 @@ class SnakeGame extends Game {
     this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
+
+    setTimeout(this.fix_fps.bind(this), 1500)
+  }
+
+  fix_fps() {
+    let fps = this.fps_counter.fps
+    this.vapples = fps
+    for (let i = 0; i < this.snakes.length; i++) {
+      this.snakes[i].ratio_move.ratio = fps / 12
+    }
   }
 
   on_keydown(e) {
@@ -98,7 +110,7 @@ class SnakeGame extends Game {
       }
     }
 
-    if (randint(0, 100) == 50) {
+    if (randint(0, this.vapples) == this.vapples / 2) {
       this.apples.push(
         new Apple(this.ctx, randint(10, this.W - 10), randint(10, this.H - 10))
       )

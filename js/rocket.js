@@ -12,6 +12,7 @@ class RocketBase extends BaseMoveConstantVelocity {
     this.angle = 0
     this.controls = controls
 
+    this.fps_ratio = 1
     this.vrotate = 0
     this.last_rotate_to = -1
     this.vaccelerate = 0
@@ -65,7 +66,7 @@ class RocketBase extends BaseMoveConstantVelocity {
     this.vaccelerate = 0
   }
   on_mouse_down(e) {
-    this.vaccelerate = 0.03
+    this.vaccelerate = 0.03 * this.fps_ratio
   }
   on_dbl_click(e) {
     this.fire()
@@ -80,7 +81,7 @@ class RocketBase extends BaseMoveConstantVelocity {
     if ('ускорение' in this.controls) {
       for (const [key, value] of Object.entries(this.controls["ускорение"])) {
         if (e.key == key) {
-          this.vaccelerate = value
+          this.vaccelerate = value * this.fps_ratio
           return
         }
       }
@@ -89,7 +90,7 @@ class RocketBase extends BaseMoveConstantVelocity {
     if ('завъртане' in this.controls) {
       for (const [key, value] of Object.entries(this.controls["завъртане"])) {
         if (e.key == key) {
-          this.vrotate = value
+          this.vrotate = value * this.fps_ratio
           return
         }
       }
@@ -271,7 +272,7 @@ class Rocket extends RocketBase {
   fire() {
     if (this.laser_count > 0) {
       this.laser_count -= 1;
-      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle))
+      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle, 2.5 * this.fps_ratio))
     }
   }
 

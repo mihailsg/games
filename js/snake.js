@@ -24,7 +24,7 @@ class Snake {
 
     this.body = [[x0, y0], [x0 + this.d, y0]]
 
-    this.ratio_move = new RatioRunner(10, this.move_body.bind(this), 1)
+    this.ratio_move = new RatioRunner(5, this.move_body.bind(this), 1)
 
     this.lives = lives
     this.lives_bar = new VolumeBar(this.ctx, this.info_pos, this.lives, this.name + " животи", this.color)

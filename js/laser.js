@@ -7,7 +7,7 @@
 
 
 class Laser extends BaseMoveConstantVelocity {
-  constructor(ctx, w, h, x0, y0, angle) {
+  constructor(ctx, w, h, x0, y0, angle, v) {
     super(ctx, w, h, x0, y0, 0, 0, "red")
 
     this.l = 10
@@ -15,7 +15,7 @@ class Laser extends BaseMoveConstantVelocity {
 
     this.points()
 
-    this.v = 2.5
+    this.v = v
     this.vx = this.v * Math.cos(to_radians(this.angle))
     this.vy = this.v * Math.sin(to_radians(this.angle))
   }
