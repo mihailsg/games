@@ -103,6 +103,9 @@ class SnakeGame extends Game {
         new Apple(this.ctx, randint(10, this.W - 10), randint(10, this.H - 10))
       )
     }
+
+    draw_text(this.ctx, "ESC за Помощ", 5, 20, 10, "white")
+    draw_text(this.ctx, "FPS " + Math.round(this.fps_counter.fps), 5, 40, 10, "white")
   }
 }
 

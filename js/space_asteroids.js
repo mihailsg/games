@@ -205,6 +205,7 @@ class SpaceAsteroids extends Game {
       this.rocket_lives = -1
     }
     draw_text(this.ctx, "ESC за Помощ", 5, 20, 10, "white")
-    draw_text(this.ctx, txt, 5, 40, 10, "white")
+    draw_text(this.ctx, txt, 5, 30, 10, "white")
+    draw_text(this.ctx, "FPS " + Math.round(this.fps_counter.fps), 5, 40, 10, "white")
   }
 }
