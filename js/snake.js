@@ -60,11 +60,11 @@ class Snake {
       return
     }
 
-    if (e.key == 'o') {
-      this.vx = 0
-      this.vy = 0
-      return
-    }
+    // if (e.key == 'o') {
+    //   this.vx = 0
+    //   this.vy = 0
+    //   return
+    // }
   }
 
   on_keyup(e) {
