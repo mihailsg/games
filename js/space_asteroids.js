@@ -38,7 +38,7 @@ class SpaceAsteroids extends Game {
     document.addEventListener('keydown', this.on_keydown.bind(this))
 
     this.help.show = true
-    setTimeout(this.on_fps.bind(this), 500)
+    setTimeout(this.on_fps.bind(this), 1500)
   }
 
   on_fps() {
@@ -61,16 +61,16 @@ class SpaceAsteroids extends Game {
 
     this.init_asteroids()
 
-    this.help.txt = ["ПОМОЩ", ""]
+    this.help.txt = ["ESC за ПОМОЩ", ""]
     for (let i = 0; i < this.rockets.length; i++) {
       this.help.txt.push("Ракета " + (i + 1))
       for (const [action, action_controls] of Object.entries(this.rockets[i].controls)) {
         if (action_controls.constructor == Object) {
           for (const [key, value] of Object.entries(action_controls)) {
-            this.help.txt.push("[" + key + "] " + action + " с " + value)
+            this.help.txt.push("[ " + key + " ] " + action + " с " + value)
           }
         } else {
-          this.help.txt.push("[" + action_controls + "] " + action)
+          this.help.txt.push("[ " + action_controls + " ] " + action)
         }
       }
       this.help.txt.push("")

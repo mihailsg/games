@@ -15,7 +15,7 @@ class FPSCounter {
 
     this.last_timestamp = Date.now()
 
-    setTimeout(this.calc_fps.bind(this), 400)
+    setTimeout(this.calc_fps.bind(this), 1000)
   }
 
   calc_fps() {

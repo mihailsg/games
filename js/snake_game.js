@@ -45,16 +45,16 @@ class SnakeGame extends Game {
 
     this.apples = []
 
-    this.help_text = ["ПОМОЩ", ""]
+    this.help_text = ["ESC за ПОМОЩ", ""]
     for (let i = 0; i < this.snakes.length; i++) {
       this.help_text.push("Змия " + (i + 1))
       for (const [action, action_controls] of Object.entries(this.snakes[i].controls)) {
         if (action_controls.constructor == Object) {
           for (const [key, value] of Object.entries(action_controls)) {
-            this.help_text.push("[" + key + "] " + action + " с " + value)
+            this.help_text.push("[ " + key + " ] " + action + " с " + value)
           }
         } else {
-          this.help_text.push("[" + action_controls + "] " + action)
+          this.help_text.push("[ " + action_controls + " ] " + action)
         }
       }
       this.help_text.push("")
@@ -65,7 +65,7 @@ class SnakeGame extends Game {
     document.addEventListener('keydown', this.on_keydown.bind(this))
 
     this.help.show = true
-    setTimeout(this.on_fps.bind(this), 500)
+    setTimeout(this.on_fps.bind(this), 1500)
   }
 
   on_fps() {
