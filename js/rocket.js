@@ -8,7 +8,7 @@
 class RocketBase extends BaseMoveConstantVelocity {
   constructor(ctx, w, h, x0, y0, fps_ratio=1, controls={}) {
     super(ctx, w, h, x0, y0, 0, 0, fps_ratio, "blue")
-    this.l = 10000000000
+    this.l = 0
     this.angle = 0
     this.controls = controls
 
