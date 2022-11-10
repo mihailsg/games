@@ -11,10 +11,16 @@ class BaseMoveConstantVelocity {
     this.ctx = ctx
     this.W = w
     this.H = h
+
     this.x = x0
     this.y = y0
     this.vx = vx0
     this.vy = vy0
+    this.ax = 0
+    this.ay = 0
+    this.gx = 0
+    this.gy = 0
+
     this.color = color
     this.fps_ratio = fps_ratio
 
@@ -22,7 +28,22 @@ class BaseMoveConstantVelocity {
     this.oy = 0
   }
 
+  set_gravity(gx, gy) {
+    this.gx = gx
+    this.gy = gy
+  }
+
+  full_stop() {
+    this.vx = 0
+    this.vy = 0
+    this.ax = 0
+    this.ay = 0
+  }
+
   move() {
+    this.vx += this.gx
+    this.vy += this.gy
+
     this.x += this.vx * this.fps_ratio
     this.y += this.vy * this.fps_ratio
 
