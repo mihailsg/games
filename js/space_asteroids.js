@@ -28,7 +28,7 @@ class SpaceAsteroids extends Game {
 
     this.rocket_lives_bar = new VolumeBar(this.ctx, [100, 20], this.rocket_lives, "Мишо животи", "green")
 
-    this.help = new Help(this.ctx, this.W, this.H, 30, 30, [], 20)
+    this.help = new Help(this.ctx, this.W, this.H, 30, 30, 20)
     this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
 
     this.asteroids_removed = 0
@@ -61,21 +61,7 @@ class SpaceAsteroids extends Game {
 
     this.init_asteroids()
 
-    this.help.txt = ["ESC за ПОМОЩ", ""]
-    for (let i = 0; i < this.rockets.length; i++) {
-      this.help.txt.push("Ракета " + (i + 1))
-      for (const [action, action_controls] of Object.entries(this.rockets[i].controls)) {
-        if (action_controls.constructor == Object) {
-          for (const [key, value] of Object.entries(action_controls)) {
-            this.help.txt.push("[ " + key + " ] " + action + " с " + value)
-          }
-        } else {
-          this.help.txt.push("[ " + action_controls + " ] " + action)
-        }
-      }
-      this.help.txt.push("")
-    }
-
+    this.help.controls(this.rockets, "Ракета")
     this.help.show = false
   }
 

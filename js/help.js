@@ -7,13 +7,13 @@
 
 
 class Help {
-  constructor(ctx, w, h, x0, y0, txt, size=12) {
+  constructor(ctx, w, h, x0, y0, size=12) {
     this.ctx = ctx
     this.W = w
     this.H = h
     this.x = x0
     this.y = y0
-    this.txt = txt
+    this.txt = ["ESC за ПОМОЩ", ""]
     this.size = size
 
     this.left_side = [
@@ -33,6 +33,22 @@ class Help {
     this.show = false
 
     this.text_misho = new TextHorizontalScroll(this.ctx, 100, 400, 500, "Мишо учи javascript", 32, 0.5)
+  }
+
+  controls(list_controls, tag="") {
+    for (let i = 0; i < list_controls.length; i++) {
+      this.txt.push(tag + " " + (i + 1))
+      for (const [action, action_controls] of Object.entries(list_controls[i].controls)) {
+        if (action_controls.constructor == Object) {
+          for (const [key, value] of Object.entries(action_controls)) {
+            this.txt.push("[ " + key + " ] " + action + " с " + value)
+          }
+        } else {
+          this.txt.push("[ " + action_controls + " ] " + action)
+        }
+      }
+      this.txt.push("")
+    }
   }
 
   draw() {
