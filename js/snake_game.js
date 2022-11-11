@@ -11,19 +11,37 @@ class SnakeGame extends Game {
     super(canvas, w, h)
 
     this.lives = lives
-
     this.vapples = 100
+
+    this.snakes = []
+    this.apples = []
+
+    this.help = new Help(this.ctx, this.W, this.H, 30, 30, 20)
+    this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
+
+    this.help.show = true
+    setTimeout(this.on_fps.bind(this), 1500)
+    document.addEventListener('keydown', this.on_keydown.bind(this))
+  }
+
+  on_fps() {
+    let fps = this.fps_counter.fps
+    this.fps_ratio = 120 / fps
+
+    this.vapples = fps
 
     this.snakes = [
       new Snake(
         this.ctx, this.W, this.H,
         50, 50,
         this.lives,
+        this.fps_ratio,
         {
           "нагоре": 'i',
           "надолу": 'm',
           "наляво": 'j',
-          "надясно": 'k'
+          "надясно": 'k',
+          "бързо": ' ',
         },
         "змия 1", "green",
         [250, 20]
@@ -32,36 +50,20 @@ class SnakeGame extends Game {
         this.ctx, this.W, this.H,
         150, 150,
         this.lives,
+        this.fps_ratio,
         {
           "нагоре": 'w',
           "надолу": 'z',
           "наляво": 'a',
-          "надясно": 's'
+          "надясно": 's',
+          "бързо": ' ',
         },
         "змия 2", "blue",
         [450, 20]
       )
     ]
 
-    this.apples = []
-
-    this.help = new Help(this.ctx, this.W, this.H, 30, 30, 20)
-    this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
-
-    document.addEventListener('keydown', this.on_keydown.bind(this))
-
     this.help.controls(this.snakes, "Змия")
-    this.help.show = true
-    setTimeout(this.on_fps.bind(this), 1500)
-  }
-
-  on_fps() {
-    let fps = this.fps_counter.fps
-    this.vapples = fps
-    for (let i = 0; i < this.snakes.length; i++) {
-      this.snakes[i].ratio_move.ratio = fps / 12
-    }
-
     this.help.show = false
   }
 

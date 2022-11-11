@@ -7,10 +7,11 @@
 
 
 class Snake {
-  constructor(ctx, w, h, x0, y0, lives, controls={}, name="", color="green", info_pos=[300, 20]) {
+  constructor(ctx, w, h, x0, y0, lives, fps_ratio=1, controls={}, name="", color="green", info_pos=[300, 20]) {
     this.ctx = ctx
     this.W = w
     this.H = h
+    this.fps_ratio = fps_ratio
     this.controls = controls
 
     this.name = name
@@ -24,7 +25,7 @@ class Snake {
 
     this.body = [[x0, y0], [x0 + this.d, y0]]
 
-    this.ratio_move = new RatioRunner(5, this.move_body.bind(this), 1)
+    this.ratio_move = new RatioRunner(10 / this.fps_ratio, this.move_body.bind(this), 1)
 
     this.lives = lives
     this.lives_bar = new VolumeBar(this.ctx, this.info_pos, this.lives, this.name + " животи", this.color)
@@ -39,24 +40,33 @@ class Snake {
     if ('нагоре' in this.controls && e.key == this.controls["нагоре"]) {
       this.vx = 0
       this.vy = - this.v
+      this.ratio_move.normal()
       return
     }
 
     if ('надолу' in this.controls && e.key == this.controls["надолу"]) {
       this.vx = 0
       this.vy = this.v
+      this.ratio_move.normal()
       return
     }
 
     if ('наляво' in this.controls && e.key == this.controls["наляво"]) {
       this.vx = - this.v
       this.vy = 0
+      this.ratio_move.normal()
       return
     }
 
     if ('надясно' in this.controls && e.key == this.controls["надясно"]) {
       this.vx = this.v
       this.vy = 0
+      this.ratio_move.normal()
+      return
+    }
+
+    if ('бързо' in this.controls && e.key == this.controls["бързо"]) {
+      this.ratio_move.speed(6 / this.fps_ratio)
       return
     }
 
