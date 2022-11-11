@@ -216,3 +216,18 @@ class SpaceAsteroids extends Game {
     draw_text(this.ctx, "FPS " + Math.round(this.fps_counter.fps), 5, 40, 10, "white")
   }
 }
+
+
+
+const query = window.location.search
+const params = new URLSearchParams(query)
+
+game = new SpaceAsteroids(
+              document.getElementsByTagName('canvas')[0],
+              params.get("w") || 1200,
+              params.get("h") || 800,
+              params.get("lives") || 10,
+              params.get("asteroids") || 20,
+              params.get("mouse") || false
+)
+game.run()
