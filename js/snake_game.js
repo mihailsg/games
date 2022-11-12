@@ -117,8 +117,6 @@ class SnakeGame extends Game {
 const query = window.location.search
 const params = new URLSearchParams(query)
 
-var lives = params.get("lives")
-
 game = new SnakeGame(
               document.getElementsByTagName('canvas')[0],
               params.get("w") || 1200,

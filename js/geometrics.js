@@ -50,6 +50,14 @@ function frame_bounds_rewind(w, h, x, y, dx=0, dy=0) {
   return [x, y]
 }
 
+function frame_bounds(w, h, x, y, ldx=0, ldy=0, rdx=0, rdy=0) {
+  x = Math.max(x, 0 + ldx)
+  x = Math.min(x, w - rdx)
+  y = Math.max(y, 0 + ldy)
+  y = Math.min(y, h - rdy)
+  return [x, y]
+}
+
 function get_angle(p1, p2) {
   x1 = p1[0]
   y1 = p1[1]
