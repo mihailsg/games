@@ -72,11 +72,12 @@ class PopCornGame extends Game {
 
     let bw = 80
     let bh = 40
+    let o = 5
 
     for (let i = 0; i < 5; i++) {
       for (let j = 0; j < parseInt(this.W / bw); j++) {
         this.bricks.push(
-          new Brick(this.ctx, this.W, this.H, (bw + 1) * j + 2, 100 + (bh + 1) * i, bw, bh, "green", randint(1, 3))
+          new Brick(this.ctx, this.W, this.H, (bw + o) * j + 2, 100 + (bh + o) * i, bw, bh, "green", Math.max(1, randint(1, 10) - 7))
         )
       }
     }
@@ -92,8 +93,8 @@ class PopCornGame extends Game {
     if (e.key === " ") {
       for (let i = 0; i < this.balls.length; i++) {
         if (this.balls[i].vx == 0 && this.balls[i].vy == 0) {
-          this.balls[i].vx = 0 //randint(0, 1)
-          this.balls[i].vy = - 3 // randint(5, 10)
+          this.balls[i].vx = randint(1, 3)
+          this.balls[i].vy = - randint(3, 5)
         }
       }
       this.paddle.vx = 0
@@ -118,33 +119,62 @@ class PopCornGame extends Game {
     this.paddle.move()
 
     let list_balls_remove = []
-    let list_bricks_remove = []
 
     for (let i = 0; i < this.balls.length; i++) {
-      this.balls[i].move()
-
+      let flag_paddle_hit = false
       if (this.paddle.y - this.balls[i].y <= 1.5 * this.balls[i].r + this.balls[i].vy / this.balls[i].r) {
         if (Math.abs(this.balls[i].x - this.paddle.x) <= this.paddle.w / 2 + this.balls[i].r) {
-          this.balls[i].vy = - this.balls[i].vy // TODO: V could depend on paddle velocity and d
+          this.balls[i].vy = - this.balls[i].vy + 0.05 * this.paddle.vx
+          this.balls[i].vx += 0.5 * (this.balls[i].x - this.paddle.x) / this.paddle.w + 0.1 * this.paddle.vx
+          flag_paddle_hit = true
         }
       }
 
-      if (this.balls[i].y > this.paddle.y) {
+      if (this.balls[i].y > this.paddle.y && flag_paddle_hit == false) {
         list_balls_remove.push(i)
       }
 
+      let h = false
       for (let j = 0; j < this.bricks.length; j++) {
-
+        for (let k = 0; k < 2; k++) {
+          if (this.balls[i].x >= this.bricks[j].sides[k][0][0] && this.balls[i].x <= this.bricks[j].sides[k][1][0]) {
+            if (Math.abs(this.balls[i].y - this.bricks[j].sides[k][0][1]) <= this.balls[i].r) {
+              if (this.balls[i].hit()) {
+                this.balls[i].vy = - this.balls[i].vy
+                this.bricks[j].hit()
+                h = true
+                break
+              }
+            }
+          }
+        }
+        for (let k = 2; k < this.bricks[j].sides.length; k++) {
+          if (this.balls[i].y >= this.bricks[j].sides[k][0][1] && this.balls[i].y <= this.bricks[j].sides[k][1][1]) {
+            if (Math.abs(this.balls[i].x - this.bricks[j].sides[k][0][0]) <= this.balls[i].r) {
+              if (this.balls[i].hit()) {
+                this.balls[i].vx = - this.balls[i].vx
+                this.bricks[j].hit()
+                h = true
+                break
+              }
+            }
+          }
+        }
+        if (h) { break }
       }
+
+      this.balls[i].move()
     }
 
     list_balls_remove = Array.from(new Set(list_balls_remove))
     for (let i = list_balls_remove.length - 1; i >= 0; i--) {
       this.balls.splice(list_balls_remove[i], 1)
     }
-    list_bricks_remove = Array.from(new Set(list_bricks_remove))
-    for (let i = list_bricks_remove.length - 1; i >= 0; i--) {
-      this.bricks.splice(list_bricks_remove[i], 1)
+
+    for (let i = this.bricks.length - 1; i >= 0; i--) {
+      if (! this.bricks[i].alive()) {
+        this.bricks.splice(i, 1)
+      }
     }
 
     if (this.balls.length == 0) {

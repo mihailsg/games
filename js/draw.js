@@ -50,8 +50,9 @@ function draw_contours(ctx, points, color, w, filled=false) {
   draw_filled(ctx, color, filled)
 }
 
-function draw_rect(ctx, x, y, w, h, color="black", filled=false) {
+function draw_rect(ctx, x, y, w, h, color="black", filled=false, width=1) {
   ctx.beginPath();
+  ctx.lineWidth = width;
   ctx.rect(x, y, w, h);
 
   draw_filled(ctx, color, filled)

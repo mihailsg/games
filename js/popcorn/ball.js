@@ -12,6 +12,17 @@ class Ball extends BaseMoveConstantVelocity {
     this.ratio_move = new RatioRunner(2 / this.fps_ratio, this.move_ball.bind(this), 1)
 
     this.r = 5
+
+    this.last_hit = [this.x, this.y]
+  }
+
+  hit() {
+    let d = Math.sqrt((this.x - this.last_hit[0]) ** 2 + (this.y - this.last_hit[1]) ** 2)
+    if (d > this.r) {
+      this.last_hit = [this.x, this.y]
+      return true
+    }
+    return false
   }
 
   move_ball() {
