@@ -70,11 +70,11 @@ class PopCornGame extends Game {
   generate_bricks() {
     this.bricks = []
 
-    let bw = 80
-    let bh = 40
-    let o = 5
+    let bw = 60
+    let bh = 30
+    let o = 3
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 8; i++) {
       for (let j = 0; j < parseInt(this.W / bw); j++) {
         this.bricks.push(
           new Brick(this.ctx, this.W, this.H, (bw + o) * j + 2, 100 + (bh + o) * i, bw, bh, "green", Math.max(1, randint(1, 10) - 7))
@@ -122,11 +122,13 @@ class PopCornGame extends Game {
 
     for (let i = 0; i < this.balls.length; i++) {
       let flag_paddle_hit = false
-      if (this.paddle.y - this.balls[i].y <= 1.5 * this.balls[i].r + this.balls[i].vy / this.balls[i].r) {
+      if (this.paddle.y - this.balls[i].y <= this.balls[i].r + this.balls[i].vy / this.balls[i].r) {
         if (Math.abs(this.balls[i].x - this.paddle.x) <= this.paddle.w / 2 + this.balls[i].r) {
-          this.balls[i].vy = - this.balls[i].vy + 0.05 * this.paddle.vx
-          this.balls[i].vx += 0.5 * (this.balls[i].x - this.paddle.x) / this.paddle.w + 0.1 * this.paddle.vx
-          flag_paddle_hit = true
+          if (this.balls[i].hit()) {
+            this.balls[i].vy = - this.balls[i].vy + 0.05 * this.paddle.vx
+            this.balls[i].vx += 0.5 * (this.balls[i].x - this.paddle.x) / this.paddle.w + 0.1 * this.paddle.vx
+            flag_paddle_hit = true
+          }
         }
       }
 

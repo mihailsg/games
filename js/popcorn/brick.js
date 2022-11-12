@@ -37,7 +37,7 @@ class Brick {
   }
 
   draw() {
-    draw_rect(this.ctx, this.x, this.y, this.w, this.h, this.color, false, 3)
+    draw_rect(this.ctx, this.x, this.y, this.w, this.h, this.color, false, 2)
     draw_text(this.ctx, this.count_strikes, this.x + this.w / 2, this.y + this.h / 2, 10, "white")
   }
 }
