@@ -12,8 +12,8 @@ class Paddle extends BaseMoveConstantVelocity {
 
     this.ratio_move = new RatioRunner(2 / this.fps_ratio, this.move_paddle.bind(this), 1)
 
-    this.w = 80
-    this.h = 5
+    this.w = this.W / 10
+    this.h = 10
 
     this.v = 10
 
@@ -41,7 +41,17 @@ class Paddle extends BaseMoveConstantVelocity {
   }
 
   on_keyup(e) {
+    if ('наляво' in this.controls && e.key == this.controls["наляво"]) {
+      this.vx = 0
+      this.vy = 0
+      return
+    }
 
+    if ('надясно' in this.controls && e.key == this.controls["надясно"]) {
+      this.vx = 0
+      this.vy = 0
+      return
+    }
   }
 
   move_paddle() {

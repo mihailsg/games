@@ -7,14 +7,18 @@
 
 
 class PopCornGame extends Game {
-  constructor(canvas, w, h, lives) {
+  constructor(canvas, w, h, lives, n_balls) {
     super(canvas, w, h)
-
-    this.lives = lives
-    this.lives_bar = new VolumeBar(this.ctx, [100, 20], this.lives, "Мишо животи", "green")
 
     this.paddle = 0
     this.balls = 0
+    this.n_balls = n_balls
+
+    this.lives = lives
+    this.lives_bar = new VolumeBar(this.ctx, [100, 10], this.lives, "животи", "green")
+
+    this.level = 1
+    this.level_bar = new VolumeBar(this.ctx, [250, 10], 20, "ниво", "blue")
 
     this.help = new Help(this.ctx, this.W, this.H, 30, 30, 20)
     this.game_over = new GameOver(this.ctx, this.W, this.H, 14)
@@ -32,12 +36,12 @@ class PopCornGame extends Game {
 
     this.paddle = new Paddle(
       this.ctx, this.W, this.H,
-      this.W / 2, this.H - 20,
+      this.W / 2, this.H - 40,
       this.fps_ratio,
       {
         "наляво": 'j',
         "надясно": 'k',
-        "старт":  ' '
+        "стрелба":  ' '
       }
     )
 
@@ -48,36 +52,33 @@ class PopCornGame extends Game {
   }
 
   generate_balls() {
-    this.balls = [
-      new Ball(
-        this.ctx, this.W, this.H,
-        this.W / 2 - 20, this.H - 40,
-        this.fps_ratio
-      ),
-      new Ball(
-        this.ctx, this.W, this.H,
-        this.W / 2, this.H - 40,
-        this.fps_ratio
-      ),
-      new Ball(
-        this.ctx, this.W, this.H,
-        this.W / 2 + 20, this.H - 40,
-        this.fps_ratio
+    this.balls = []
+
+    for (let i = 0; i < this.n_balls; i++) {
+      this.balls.push(
+        new Ball(
+          this.ctx, this.W, this.H,
+          this.W / 2 + (i - this.n_balls / 2) * 20, this.H - 45,
+          this.fps_ratio
+        )
       )
-    ]
+    }
   }
 
   generate_bricks() {
     this.bricks = []
 
-    let bw = 60
-    let bh = 30
-    let o = 3
+    let nx = 12
+    let ny = 8
 
-    for (let i = 0; i < 8; i++) {
-      for (let j = 0; j < parseInt(this.W / bw); j++) {
+    let o = 1
+    let bw = Math.floor(this.W / nx) - o
+    let bh = Math.floor(bw / 2)
+
+    for (let i = 0; i < ny; i++) {
+      for (let j = 0; j < nx; j++) {
         this.bricks.push(
-          new Brick(this.ctx, this.W, this.H, (bw + o) * j + 2, 100 + (bh + o) * i, bw, bh, "green", Math.max(1, randint(1, 10) - 7))
+          new Brick(this.ctx, this.W, this.H, (bw + o) * j + 2, this.H / 10 + (bh + o) * i, bw, bh, Math.max(1, randint(1, 20) - 18 + this.level))
         )
       }
     }
@@ -93,8 +94,8 @@ class PopCornGame extends Game {
     if (e.key === " ") {
       for (let i = 0; i < this.balls.length; i++) {
         if (this.balls[i].vx == 0 && this.balls[i].vy == 0) {
-          this.balls[i].vx = randint(1, 3)
-          this.balls[i].vy = - randint(3, 5)
+          this.balls[i].vx = Math.min(10, randint(1, 2 + this.level))
+          this.balls[i].vy = - Math.min(10, randint(3 + this.level, 7 + this.level))
         }
       }
       this.paddle.vx = 0
@@ -132,7 +133,7 @@ class PopCornGame extends Game {
         }
       }
 
-      if (this.balls[i].y > this.paddle.y && flag_paddle_hit == false) {
+      if (this.balls[i].y > this.paddle.y + 2 * this.paddle.h && flag_paddle_hit == false) {
         list_balls_remove.push(i)
       }
 
@@ -179,6 +180,12 @@ class PopCornGame extends Game {
       }
     }
 
+    if (this.bricks.length == 0) {
+      this.level += 1
+      this.generate_balls()
+      this.generate_bricks()
+    }
+
     if (this.balls.length == 0) {
       this.lives -= 1
       this.generate_balls()
@@ -188,6 +195,7 @@ class PopCornGame extends Game {
     }
 
     this.lives_bar.draw(this.lives)
+    this.level_bar.draw(this.level)
 
     draw_text(this.ctx, "ESC за Помощ", 5, 20, 10, "white")
     draw_text(this.ctx, "FPS " + Math.round(this.fps_counter.fps), 5, 40, 10, "white")
@@ -202,6 +210,7 @@ game = new PopCornGame(
               document.getElementsByTagName('canvas')[0],
               params.get("w") || 1200,
               params.get("h") || 800,
-              params.get("lives") || 10
+              params.get("lives") || 10,
+              params.get("balls") || 1
 )
 game.run()
