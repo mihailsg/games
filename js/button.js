@@ -7,26 +7,30 @@
 
 
 class Button {
-  constructor(ctx, w, h, x0, y0, name, url_link, color) {
+  constructor(ctx, W, H, x0, y0, w, h, name, click_callback, color, text_size=32) {
     this.ctx = ctx
-    this.W = w
-    this.H = h
+    this.W = W
+    this.H = H
+    this.W_ratio = this.W / 1200
+    this.H_ratio = this.H / 800
 
     this.name = name
-    this.url_link = url_link
+    this.click_callback = click_callback
 
     this.color = color
     this.color_text = "white"
 
-    this.x0 = x0
-    this.y0 = y0
-    this.x = x0
-    this.y = y0
-    this.w = 400 * this.W / 1200
-    this.h = 100 * this.H / 800
-    this.l0 = 20 * this.H / 800
+    this.x0 = x0 * this.W_ratio
+    this.y0 = y0 * this.H_ratio
+    this.x = this.x0
+    this.y = this.y0
+    this.w = w * this.W_ratio
+    this.h = h * this.H_ratio
+    this.l0 = 0.3 * this.h * this.H_ratio
     this.l = this.l0
     this.alpha = to_radians(30)
+
+    this.text_size = text_size * this.W_ratio
 
     this.mouse_listeners = {
       'mousemove': this.on_mouse_move.bind(this),
@@ -57,10 +61,11 @@ class Button {
   on_mouse_up(e) {
     if (this.mouse_hover()) {
       console.log("clicked button", this.name, this.url_link)
-      window.open(this.url_link, '_blank');
       this.l = this.l0
       this.x = this.x0
       this.y = this.y0
+
+      this.click_callback()
     }
   }
   on_dbl_click(e) {
@@ -85,6 +90,14 @@ class Button {
     draw_line(this.ctx, p1, p2, this.color, 3)
     draw_line(this.ctx, p2, p3, this.color, 3)
 
-    draw_text(this.ctx, this.name, this.x + this.w / 6, this.y + this.h / 2, 32, this.color_text)
+    draw_text(this.ctx, this.name, this.x + this.w / 6, this.y + this.h / 2, this.text_size, this.color_text)
+  }
+}
+
+
+class ButtonURL extends Button {
+  constructor(ctx, W, H, x0, y0, w, h, name, url_link, color) {
+    super(ctx, W, H, x0, y0, w, h, name, function() { window.open(url_link, '_blank') }, color)
+    this.url_link = url_link
   }
 }

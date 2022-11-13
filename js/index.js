@@ -21,7 +21,11 @@ class IndexGame extends Game {
 
     for (let i = 0; i < this.list_games.length; i++) {
       this.list_buttons.push(
-        new Button(this.ctx, this.W, this.H, 50 * this.W / 1200, 50 + i * 150 * this.H / 800, this.list_games[i][0], this.list_games[i][1], "blue")
+        new ButtonURL(
+          this.ctx, this.W, this.H,
+          50 * this.W / 1200, 50 + i * 150 * this.H / 800,
+          400, 100,
+          this.list_games[i][0], this.list_games[i][1], "blue")
       )
     }
 

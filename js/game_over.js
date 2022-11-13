@@ -11,7 +11,9 @@ class GameOver {
     this.ctx = ctx
     this.W = w
     this.H = h
-    this.size = size
+    this.W_ratio = this.W / 1200
+    this.H_ratio = this.H / 800
+    this.size = size * this.W_ratio
 
     this.top = [
       "КРАЙ на ИГРАТА"
@@ -34,17 +36,26 @@ class GameOver {
     this.x = this.W / 6
     this.y = this.H / 8
 
-    this.text_scroll = new TextScroll(ctx, this.x, this.y + 50, this.txt, this.size)
+    this.text_scroll = new TextScroll(ctx, this.x, this.y + 50 * this.H_ratio, this.txt, this.size)
+
+    this.button_new_game = new Button(
+      this.ctx, this.W, this.H,
+      10, 50,
+      100, 40,
+      "Нова игра", function() { window.location.reload() },
+      "blue", 12
+    )
 
     this.show = false
   }
 
   draw() {
-    let size = 40
+    let size = 40 * this.W_ratio
     for (let i = 0; i < this.top.length; i++) {
       draw_text(this.ctx, this.top[i], this.x, this.y + i * size + 3, size, "#EE0000")
     }
 
     this.text_scroll.draw()
+    this.button_new_game.draw()
   }
 }
