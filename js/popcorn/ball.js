@@ -13,6 +13,9 @@ class Ball extends BaseMoveConstantVelocity {
 
     this.r = 5
 
+    this.kvx = this.fps_ratio * this.W / 1000
+    this.kvy = this.fps_ratio * this.H / 1000
+
     this.last_hit = [this.x, this.y]
   }
 
@@ -26,8 +29,8 @@ class Ball extends BaseMoveConstantVelocity {
   }
 
   move_ball() {
-    this.x += this.vx * this.fps_ratio
-    this.y += this.vy * this.fps_ratio
+    this.x += this.vx * this.kvx
+    this.y += this.vy * this.kvy
 
     if (this.x < this.r || this.x > this.W - this.r) { this.vx = - this.vx }
     if (this.y < this.r || this.y > this.H - this.r) { this.vy = - this.vy }

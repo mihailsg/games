@@ -94,7 +94,7 @@ class PopCornGame extends Game {
     if (e.key === " ") {
       for (let i = 0; i < this.balls.length; i++) {
         if (this.balls[i].vx == 0 && this.balls[i].vy == 0) {
-          this.balls[i].vx = Math.min(10, randint(1, 2 + this.level))
+          this.balls[i].vx = Math.min(10, randint(2, 2 + this.level))
           this.balls[i].vy = - Math.min(10, randint(3 + this.level, 7 + this.level))
         }
       }
@@ -129,11 +129,29 @@ class PopCornGame extends Game {
             this.balls[i].vy = - this.balls[i].vy + 0.05 * this.paddle.vx
             this.balls[i].vx += 0.5 * (this.balls[i].x - this.paddle.x) / this.paddle.w + 0.1 * this.paddle.vx
             flag_paddle_hit = true
+            this.balls[i].move()
           }
         }
       }
 
-      if (this.balls[i].y > this.paddle.y + 2 * this.paddle.h && flag_paddle_hit == false) {
+      if (
+        flag_paddle_hit == false &&
+        (
+          (this.balls[i].x > this.paddle.x + this.paddle.w / 2 && this.balls[i].x - this.paddle.x - this.paddle.w / 2 <= this.balls[i].r + this.balls[i].vx / this.balls[i].r) ||
+          (this.balls[i].x < this.paddle.x - this.paddle.w / 2 && this.paddle.x - this.paddle.w / 2 - this.balls[i].x <= this.balls[i].r + this.balls[i].vx / this.balls[i].r)
+        )
+      ) {
+        if (Math.abs(this.balls[i].y - this.paddle.y) <= this.paddle.h / 2 + this.balls[i].r) {
+          if (this.balls[i].hit()) {
+            this.balls[i].vx = - this.balls[i].vx + 0.1 * this.paddle.vx
+            this.balls[i].vy = - this.balls[i].vy + 0.05 * this.paddle.vx
+            flag_paddle_hit = true
+            this.balls[i].move()
+          }
+        }
+      }
+
+      if (this.balls[i].y > this.paddle.y + 0.1 * this.paddle.h && flag_paddle_hit == false) {
         list_balls_remove.push(i)
       }
 
@@ -151,6 +169,8 @@ class PopCornGame extends Game {
             }
           }
         }
+        if (h) { break }
+
         for (let k = 2; k < this.bricks[j].sides.length; k++) {
           if (this.balls[i].y >= this.bricks[j].sides[k][0][1] && this.balls[i].y <= this.bricks[j].sides[k][1][1]) {
             if (Math.abs(this.balls[i].x - this.bricks[j].sides[k][0][0]) <= this.balls[i].r) {
