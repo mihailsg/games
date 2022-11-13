@@ -59,12 +59,11 @@ class Button {
     }
   }
   on_mouse_up(e) {
-    if (this.mouse_hover()) {
-      console.log("clicked button", this.name, this.url_link)
-      this.l = this.l0
-      this.x = this.x0
-      this.y = this.y0
+    this.l = this.l0
+    this.x = this.x0
+    this.y = this.y0
 
+    if (this.mouse_hover()) {
       this.click_callback()
     }
   }
