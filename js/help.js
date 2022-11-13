@@ -38,6 +38,7 @@ class Help {
   }
 
   controls(list_controls, tag="") {
+    this.txt = ["ESC за ПОМОЩ", ""]
     for (let i = 0; i < list_controls.length; i++) {
       this.txt.push(tag + " " + (i + 1))
       for (const [action, action_controls] of Object.entries(list_controls[i].controls)) {
