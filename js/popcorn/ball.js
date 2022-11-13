@@ -32,8 +32,17 @@ class Ball extends BaseMoveConstantVelocity {
     this.x += this.vx * this.kvx
     this.y += this.vy * this.kvy
 
-    if (this.x < this.r || this.x > this.W - this.r) { this.vx = - this.vx }
-    if (this.y < this.r || this.y > this.H - this.r) { this.vy = - this.vy }
+    if (this.x < this.r || this.x > this.W - this.r) {
+      this.vx = - this.vx
+    }
+    if (this.y < this.r || this.y > this.H - this.r) {
+      this.vy = - this.vy
+    }
+
+    this.x = Math.max(this.x, this.r)
+    this.x = Math.min(this.x, this.W - this.r)
+    this.y = Math.max(this.y, this.r)
+    this.y = Math.min(this.y, this.H - this.r)
   }
 
   move() {

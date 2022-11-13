@@ -14,7 +14,9 @@ class Help {
     this.x = x0
     this.y = y0
     this.txt = ["ESC за ПОМОЩ", ""]
-    this.size = size
+    this.W_ratio = this.W / 1200
+    this.H_ratio = this.H / 800
+    this.size = size * this.W_ratio
 
     this.left_side = [
       "Мишо Георгиев НПМГ училищен проект-игра",
@@ -28,11 +30,11 @@ class Help {
       "1WS: по-бърз лазер",
       "3W: допълнителни 2 лазера на всяко крило (общо 3 лазера)",
     ]
-    this.text_scroll = new TextScroll(this.ctx, this.x + 300, this.y, this.left_side, this.size)
+    this.text_scroll = new TextScroll(this.ctx, this.x + (300 * this.W_ratio), this.y, this.left_side, this.size)
 
     this.show = false
 
-    this.text_misho = new TextHorizontalScroll(this.ctx, 100, 400, 500, "Мишо учи javascript", 32, 0.5)
+    this.text_misho = new TextHorizontalScroll(this.ctx, 100 * this.W_ratio, 400 * this.W_ratio, 500 * this.H_ratio, "Мишо учи javascript", 32 * this.W_ratio, 0.5)
   }
 
   controls(list_controls, tag="") {
