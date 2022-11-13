@@ -21,7 +21,6 @@ class SnakeGame extends Game {
 
     this.help.show = true
     setTimeout(this.on_fps.bind(this), 1500)
-    document.addEventListener('keydown', this.on_keydown.bind(this))
   }
 
   on_fps() {
@@ -65,6 +64,8 @@ class SnakeGame extends Game {
 
     this.help.controls(this.snakes, "Змия")
     this.help.show = false
+
+    document.addEventListener('keydown', this.on_keydown.bind(this))
   }
 
   on_keydown(e) {

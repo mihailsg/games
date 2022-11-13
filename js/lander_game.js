@@ -42,8 +42,6 @@ class LanderGame extends Game {
       }
     ]
 
-    document.addEventListener('keydown', this.on_keydown.bind(this))
-
     this.help.show = true
     setTimeout(this.on_fps.bind(this), 1500)
   }
@@ -75,6 +73,8 @@ class LanderGame extends Game {
 
     this.help.controls(this.rockets, "Ракета")
     this.help.show = false
+
+    document.addEventListener('keydown', this.on_keydown.bind(this))
   }
 
   on_keydown(e) {
