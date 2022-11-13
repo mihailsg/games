@@ -87,7 +87,7 @@ class SnakeGame extends Game {
   draw_game() {
     for (let i = 0; i < this.snakes.length; i++) {
       this.snakes[i].move()
-      if (this.snakes[i].lives == 0) {
+      if (this.snakes[i].lives <= 0) {
         this.game_over.show = true
       }
     }

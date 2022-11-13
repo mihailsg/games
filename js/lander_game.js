@@ -94,7 +94,7 @@ class LanderGame extends Game {
   }
 
   draw_game() {
-    if (this.rocket_lives == 0) {
+    if (this.rocket_lives <= 0) {
       this.game_over.show = true
     }
 

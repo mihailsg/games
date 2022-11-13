@@ -18,12 +18,13 @@ class IndexGame extends Game {
     ]
 
     this.list_buttons = []
+    let button_space = this.H / this.list_games.length
 
     for (let i = 0; i < this.list_games.length; i++) {
       this.list_buttons.push(
         new ButtonURL(
           this.ctx, this.W, this.H,
-          50 * this.W / 1200, 50 + i * 150 * this.H / 800,
+          50 * this.W_ratio, 50 * this.H_ratio + i * button_space,
           400, 100,
           this.list_games[i][0], this.list_games[i][1], "blue")
       )

@@ -210,7 +210,7 @@ class PopCornGame extends Game {
       this.lives -= 1
       this.generate_balls()
     }
-    if (this.lives == 0) {
+    if (this.lives <= 0) {
       this.game_over.show = true
     }
 

@@ -38,6 +38,9 @@ class Game {
   constructor(canvas, w, h, background_color="black") {
     this.W = w
     this.H = h
+    this.W_ratio = this.W / 1200
+    this.H_ratio = this.H / 800
+
     this.background_color = background_color
     canvas.width = w
     canvas.height = h
