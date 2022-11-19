@@ -102,6 +102,10 @@ class LanderGame extends Game {
 
     for (let i = 0; i < this.rockets.length; i++) {
       this.rockets[i].move()
+      if (this.rockets[i].y <= this.rockets[i].l) {
+        this.rocket_lives -= 1
+        this.rockets[i] = new RocketExplosion(this.ctx, this.W, this.H, this.rockets[i].x, this.rockets[i].y, this.fps_ratio)
+      }
     }
 
     for (let i = 0; i < this.rocks.length; i++) {
