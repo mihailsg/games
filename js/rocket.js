@@ -225,6 +225,13 @@ class Rocket extends RocketBase {
     draw_line(this.ctx, p3, p0, this.color, 2)
     draw_line(this.ctx, p4, p0, this.color, 2)
 
+    draw_circle(this.ctx, p1[0], p1[1], 10, "red")
+
+    this.pr_left = line_perpendicular(p4, p3, 15)
+    this.pr_right = line_perpendicular(p3, p4, 15)
+    draw_line(this.ctx, this.pr_left[0], this.pr_left[1], "blue", 1)
+    draw_line(this.ctx, this.pr_right[0], this.pr_right[1], "blue", 1)
+
     this.draw_mouse()
 
     if (this.thruster > 0) {
@@ -272,6 +279,15 @@ class Rocket extends RocketBase {
     if (this.laser_count > 0) {
       this.laser_count -= 1;
       this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle, 2.5, this.fps_ratio))
+
+      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle, 3.0, this.fps_ratio))
+      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle, 3.0, this.fps_ratio))
+
+      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle - 30, 2.0, this.fps_ratio))
+      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle + 30, 2.0, this.fps_ratio))
+
+      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle - 60, 1.5, this.fps_ratio))
+      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle + 60, 1.5, this.fps_ratio))
     }
   }
 

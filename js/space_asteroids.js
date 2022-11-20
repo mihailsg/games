@@ -151,6 +151,7 @@ class SpaceAsteroids extends Game {
     for (let i = list_movable_collisions.length - 1; i >= 0; i--) {
       let asteroid = this.asteroids[list_movable_collisions[i]]
       let laser = this.rockets[0].lasers[list_laser_collisions[i]]
+      if (!laser) { continue }
       if (asteroid.r > 10) {
         let angle1 = to_radians(laser.angle + 90)
         let angle2 = to_radians(laser.angle - 90)
