@@ -17,6 +17,10 @@ class RocketBase extends BaseMoveConstantVelocity {
     this.vaccelerate = 0
     this.ratio_fire = new RatioRunner(10 / this.fps_ratio, this.fire.bind(this))
 
+    this.my_bonuses = {
+      "weapon": 0
+    }
+
     this.mx = -1
     this.my = -1
 
@@ -166,6 +170,10 @@ class RocketBase extends BaseMoveConstantVelocity {
   laser_collisions(list_movables) {
     return [[], []]
   }
+
+  bonus_collisions(list_bonuses) {
+    return []
+  }
 }
 
 
@@ -280,14 +288,24 @@ class Rocket extends RocketBase {
       this.laser_count -= 1;
       this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle, 2.5, this.fps_ratio))
 
-      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle, 3.0, this.fps_ratio))
-      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle, 3.0, this.fps_ratio))
+      if (this.my_bonuses["weapon"] > 0) {
+        this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle, 3.0, this.fps_ratio))
+        this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle, 3.0, this.fps_ratio))
+      }
 
-      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle - 30, 2.0, this.fps_ratio))
-      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle + 30, 2.0, this.fps_ratio))
+      if (this.my_bonuses["weapon"] > 1) {
+        this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle - 30, 2.0, this.fps_ratio))
+        this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle + 30, 2.0, this.fps_ratio))
+      }
 
-      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle - 60, 1.5, this.fps_ratio))
-      this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle + 60, 1.5, this.fps_ratio))
+      if (this.my_bonuses["weapon"] > 2) {
+        this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle - 60, 1.5, this.fps_ratio))
+        this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle + 60, 1.5, this.fps_ratio))
+      }
+
+      if (this.my_bonuses["weapon"] > 3) {
+        this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle, -2.5, this.fps_ratio))
+      }
     }
   }
 
@@ -325,6 +343,22 @@ class Rocket extends RocketBase {
   check_collision(x, y, r) {
     let d = Math.sqrt((x - this.x) ** 2 + (y - this.y) ** 2)
     return d < r + this.l
+  }
+
+  bonus_collisions(list_movables) {
+    let list_collected_bonuses = []
+    for (let i = 0; i < list_movables.length; i++) {
+      let pb = [list_movables[i].x + list_movables[i].l / 2, list_movables[i].y + list_movables[i].l / 2]
+      let d = Math.sqrt((pb[0] - this.x) ** 2 + (pb[1] - this.y) ** 2)
+      if (d < this.l + list_movables[i].l / 2) {
+        list_collected_bonuses.push(i)
+        this.my_bonuses[list_movables[i].name()]++
+      }
+    }
+
+    if (list_collected_bonuses.length > 0) { console.log("list_collected_bonuses", list_collected_bonuses) }
+
+    return list_collected_bonuses
   }
 }
 

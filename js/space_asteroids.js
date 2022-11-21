@@ -119,8 +119,15 @@ class SpaceAsteroids extends Game {
     this.rocket_lives_bar.draw(this.rocket_lives)
     this.asteroids_bar.draw(this.asteroids.length)
 
+    let list_remove_bonuses = []
     for (let i = 0; i < this.rockets.length; i++) {
       this.rockets[i].move()
+      list_remove_bonuses = list_remove_bonuses.concat(this.rockets[i].bonus_collisions(this.bonuses))
+    }
+
+    for (let i = list_remove_bonuses.length - 1; i >= 0; i--) {
+      console.log("remove bonus", list_remove_bonuses[i])
+      this.bonuses.splice(list_remove_bonuses[i], 1)
     }
 
     for (let i = 0; i < this.asteroids.length; i++) {
@@ -185,7 +192,7 @@ class SpaceAsteroids extends Game {
           )
         )
 
-        if (randint(0, 3) == 1) {
+        if (randint(0, 10) == 1) {
           this.bonuses.push(
             new BonusWeapon(
               this.ctx, this.W, this.H,
