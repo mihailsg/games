@@ -34,6 +34,7 @@ class SpaceAsteroids extends Game {
     this.asteroids_removed = 0
     this.asteroids = []
     this.rockets = []
+    this.bonuses = []
 
     this.help.show = true
     setTimeout(this.on_fps.bind(this), 1500)
@@ -126,6 +127,10 @@ class SpaceAsteroids extends Game {
       this.asteroids[i].move()
     }
 
+    for (let i = 0; i < this.bonuses.length; i++) {
+      this.bonuses[i].move()
+    }
+
     // Collisions between asteroids as pure elastic collision
     for (let i = 0; i < this.asteroids.length; i++) {
       for (let j = i + 1; j < this.asteroids.length; j++) {
@@ -179,6 +184,17 @@ class SpaceAsteroids extends Game {
             "white", 10
           )
         )
+
+        if (randint(0, 3) == 1) {
+          this.bonuses.push(
+            new BonusWeapon(
+              this.ctx, this.W, this.H,
+              asteroid.x, asteroid.y,
+              randint(0, 360), randuniform(-0.5, 0.5),
+              this.fps_ratio
+            )
+          )
+        }
       }
 
       this.asteroids.splice(list_movable_collisions[i], 1)
