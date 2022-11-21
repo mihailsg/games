@@ -271,7 +271,7 @@ class Rocket extends RocketBase {
       if (! laser.move()) { lasers_to_remove.push(i) }
     }
     for (let i = 0; i < lasers_to_remove.length; i++) {
-      this.remove_laser(i)
+      this.remove_laser(lasers_to_remove[i])
     }
   }
 
