@@ -126,7 +126,6 @@ class SpaceAsteroids extends Game {
     }
 
     for (let i = list_remove_bonuses.length - 1; i >= 0; i--) {
-      console.log("remove bonus", list_remove_bonuses[i])
       this.bonuses.splice(list_remove_bonuses[i], 1)
     }
 

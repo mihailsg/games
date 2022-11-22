@@ -356,8 +356,6 @@ class Rocket extends RocketBase {
       }
     }
 
-    if (list_collected_bonuses.length > 0) { console.log("list_collected_bonuses", list_collected_bonuses) }
-
     return list_collected_bonuses
   }
 }

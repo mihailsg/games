@@ -16,7 +16,7 @@ class Bonus extends BaseMoveConstantVelocity {
     this.vx = this.fps_ratio * this.v * Math.cos(to_radians(this.angle))
     this.vy = this.fps_ratio * this.v * Math.sin(to_radians(this.angle))
   }
-  
+
   draw() {
     draw_rect(this.ctx, this.x, this.y, 50, 50, this.color, false, 3)
   }
@@ -27,19 +27,19 @@ class BonusWeapon extends Bonus {
     constructor(ctx, w, h, x0, y0, angle, v, fps_ratio) {
       super(ctx, w, h, x0, y0, angle, v, fps_ratio, "red")
 
-      this.l = 25 * this.fps_ratio
-  
+      this.l = 40
+
       this.angle = angle
-  
+
       this.v = v
       this.vx = this.fps_ratio * this.v * Math.cos(to_radians(this.angle))
       this.vy = this.fps_ratio * this.v * Math.sin(to_radians(this.angle))
     }
-    
+
     draw() {
-      draw_rect(this.ctx, this.x, this.y, this.l, this.l, this.color, false, 3)
-      draw_text(this.ctx, "+2", this.x + 5, this.y + 25, 20, this.color)
-      draw_text(this.ctx, "Lasers", this.x + 5, this.y + 40, 12, this.color)
+      draw_rect(this.ctx, this.x, this.y, this.l * this.W_ratio, this.l * this.H_ratio, this.color, false, 3)
+      draw_text(this.ctx, "+2", this.x + 5, this.y + 20 * this.W_ratio, 17 * this.W_ratio, this.color)
+      draw_text(this.ctx, "Lasers", this.x + 3, this.y + 32 * this.W_ratio, 11 * this.W_ratio, this.color)
     }
 
     name() {

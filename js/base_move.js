@@ -11,6 +11,8 @@ class BaseMoveConstantVelocity {
     this.ctx = ctx
     this.W = w
     this.H = h
+    this.W_ratio = this.W / 1200
+    this.H_ratio = this.H / 800
 
     this.x = x0
     this.y = y0
