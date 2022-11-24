@@ -18,7 +18,8 @@ class RocketBase extends BaseMoveConstantVelocity {
     this.ratio_fire = new RatioRunner(10 / this.fps_ratio, this.fire.bind(this))
 
     this.my_bonuses = {
-      "weapon": 0
+      "weapon": 0,
+      "fuel": 0
     }
 
     this.mx = -1
@@ -352,7 +353,10 @@ class Rocket extends RocketBase {
       let d = Math.sqrt((pb[0] - this.x) ** 2 + (pb[1] - this.y) ** 2)
       if (d < this.l + list_movables[i].l / 2) {
         list_collected_bonuses.push(i)
-        this.my_bonuses[list_movables[i].name()]++
+        this.my_bonuses[list_movables[i].name()] += list_movables[i].value()
+        if (list_movables[i].name() == "fuel") {
+          this.fuel += list_movables[i].value()
+        }
       }
     }
 

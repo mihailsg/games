@@ -34,7 +34,9 @@ class SpaceAsteroids extends Game {
     this.asteroids_removed = 0
     this.asteroids = []
     this.rockets = []
+
     this.bonuses = []
+    this.bonus_types = [BonusWeapon, BonusFuel]
 
     this.help.show = true
     setTimeout(this.on_fps.bind(this), 1500)
@@ -192,8 +194,9 @@ class SpaceAsteroids extends Game {
         )
 
         if (randint(0, 10) == 1) {
+
           this.bonuses.push(
-            new BonusWeapon(
+            new this.bonus_types[randint(0, this.bonus_types.length - 1)](
               this.ctx, this.W, this.H,
               asteroid.x, asteroid.y,
               randint(0, 360), randuniform(-0.5, 0.5),
