@@ -15,6 +15,16 @@ class Bonus extends BaseMoveConstantVelocity {
     this.v = v
     this.vx = this.fps_ratio * this.v * Math.cos(to_radians(this.angle))
     this.vy = this.fps_ratio * this.v * Math.sin(to_radians(this.angle))
+
+    this.bonus_value = 0
+  }
+
+  name() {
+    return this.constructor.name
+  }
+
+  value() {
+    return this.bonus_value
   }
 
   draw() {
@@ -22,49 +32,55 @@ class Bonus extends BaseMoveConstantVelocity {
   }
 }
 
-
-class BonusWeapon extends Bonus {
-  constructor(ctx, w, h, x0, y0, angle, v, fps_ratio) {
-    super(ctx, w, h, x0, y0, angle, v, fps_ratio, "red")
+class BonusRectangle extends Bonus {
+  constructor(ctx, w, h, x0, y0, angle, v, fps_ratio, color) {
+    super(ctx, w, h, x0, y0, angle, v, fps_ratio, color)
 
     this.l = 40
+    this.tag = "NONE"
   }
 
   draw() {
     draw_rect(this.ctx, this.x, this.y, this.l * this.W_ratio, this.l * this.H_ratio, this.color, false, 3)
-    draw_text(this.ctx, "+2", this.x + 5, this.y + 20 * this.W_ratio, 17 * this.W_ratio, this.color)
-    draw_text(this.ctx, "LASER", this.x + 3, this.y + 32 * this.W_ratio, 11 * this.W_ratio, this.color)
-  }
-
-  name() {
-    return "weapon"
-  }
-
-  value() {
-    return 1
+    draw_text(this.ctx, "+ " + this.bonus_value, this.x + 5, this.y + 20 * this.W_ratio, 17 * this.W_ratio, this.color)
+    draw_text(this.ctx, this.tag, this.x + 3, this.y + 32 * this.W_ratio, 9 * this.W_ratio, this.color)
   }
 }
 
 
-class BonusFuel extends Bonus {
+
+class BonusWeapon extends BonusRectangle {
+  constructor(ctx, w, h, x0, y0, angle, v, fps_ratio) {
+    super(ctx, w, h, x0, y0, angle, v, fps_ratio, "orange")
+
+    this.tag = "WEAPON"
+    this.bonus_value = 1
+  }
+}
+
+class BonusLaserCount extends BonusRectangle {
+  constructor(ctx, w, h, x0, y0, angle, v, fps_ratio) {
+    super(ctx, w, h, x0, y0, angle, v, fps_ratio, "red")
+
+    this.bonus_value = randint(20, 100)
+    this.tag = "LASER"
+  }
+}
+
+class BonusFuel extends BonusRectangle {
   constructor(ctx, w, h, x0, y0, angle, v, fps_ratio) {
     super(ctx, w, h, x0, y0, angle, v, fps_ratio, "blue")
 
-    this.fuel = randint(2, 10)
-    this.l = 35 + 10 / this.fuel
+    this.bonus_value = randint(2, 10)
+    this.tag = "FUEL"
   }
+}
 
-  draw() {
-    draw_rect(this.ctx, this.x, this.y, this.l * this.W_ratio, this.l * this.H_ratio, this.color, false, 3)
-    draw_text(this.ctx, "+" + this.fuel, this.x + 5, this.y + 20 * this.W_ratio, 17 * this.W_ratio, this.color)
-    draw_text(this.ctx, "FUEL", this.x + 3, this.y + 32 * this.W_ratio, 11 * this.W_ratio, this.color)
-  }
+class BonusLive extends BonusRectangle {
+  constructor(ctx, w, h, x0, y0, angle, v, fps_ratio) {
+    super(ctx, w, h, x0, y0, angle, v, fps_ratio, "green")
 
-  name() {
-    return "fuel"
-  }
-
-  value() {
-    return this.fuel
+    this.bonus_value = 1
+    this.tag = "LIVE"
   }
 }

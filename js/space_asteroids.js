@@ -36,7 +36,6 @@ class SpaceAsteroids extends Game {
     this.rockets = []
 
     this.bonuses = []
-    this.bonus_types = [BonusWeapon, BonusFuel]
 
     this.help.show = true
     setTimeout(this.on_fps.bind(this), 1500)
@@ -61,6 +60,8 @@ class SpaceAsteroids extends Game {
     ]
 
     this.init_asteroids()
+
+    this.bonus_types = this.rockets[0].bonus_types
 
     this.help.controls(this.rockets, "Ракета")
     this.help.show = false
@@ -193,7 +194,7 @@ class SpaceAsteroids extends Game {
           )
         )
 
-        if (randint(0, 10) == 1) {
+        if (randint(0, 4) == 1) {
 
           this.bonuses.push(
             new this.bonus_types[randint(0, this.bonus_types.length - 1)](

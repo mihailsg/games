@@ -17,11 +17,6 @@ class RocketBase extends BaseMoveConstantVelocity {
     this.vaccelerate = 0
     this.ratio_fire = new RatioRunner(10 / this.fps_ratio, this.fire.bind(this))
 
-    this.my_bonuses = {
-      "weapon": 0,
-      "fuel": 0
-    }
-
     this.mx = -1
     this.my = -1
 
@@ -199,9 +194,17 @@ class Rocket extends RocketBase {
 
     this.laser_count = laser_count
     this.lasers = []
+    this.weapon_type = 0
 
     this.fuel_bar = new VolumeBar(this.ctx, this.volume_bar_pos, this.fuel, "Гориво " + this.tag, "blue")
     this.laser_bar = new VolumeBar(this.ctx, [this.volume_bar_pos[0], this.volume_bar_pos[1] + 20], this.laser_count, "Лазер " + this.tag, "red")
+
+    this.bonus_types = [BonusWeapon, BonusLaserCount, BonusFuel]
+    this.my_bonuses = {
+      "BonusWeapon": function(bonus_value) { this.weapon_type += bonus_value }.bind(this),
+      "BonusLaserCount": function(bonus_value) { this.laser_count += bonus_value }.bind(this),
+      "BonusFuel": function(bonus_value) { this.fuel += bonus_value }.bind(this)
+    }
   }
 
   accelerate(a) {
@@ -289,22 +292,22 @@ class Rocket extends RocketBase {
       this.laser_count -= 1;
       this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle, 2.5, this.fps_ratio))
 
-      if (this.my_bonuses["weapon"] > 0) {
+      if (this.weapon_type > 0) {
         this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle, 3.0, this.fps_ratio))
         this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle, 3.0, this.fps_ratio))
       }
 
-      if (this.my_bonuses["weapon"] > 1) {
+      if (this.weapon_type > 1) {
         this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle - 30, 2.0, this.fps_ratio))
         this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle + 30, 2.0, this.fps_ratio))
       }
 
-      if (this.my_bonuses["weapon"] > 2) {
+      if (this.weapon_type > 2) {
         this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_left[0][0], this.pr_left[0][1], this.angle - 60, 1.5, this.fps_ratio))
         this.lasers.push(new Laser(this.ctx, this.W, this.H, this.pr_right[1][0], this.pr_right[1][1], this.angle + 60, 1.5, this.fps_ratio))
       }
 
-      if (this.my_bonuses["weapon"] > 3) {
+      if (this.weapon_type > 3) {
         this.lasers.push(new Laser(this.ctx, this.W, this.H, this.x, this.y, this.angle, -2.5, this.fps_ratio))
       }
     }
@@ -353,10 +356,7 @@ class Rocket extends RocketBase {
       let d = Math.sqrt((pb[0] - this.x) ** 2 + (pb[1] - this.y) ** 2)
       if (d < this.l + list_movables[i].l / 2) {
         list_collected_bonuses.push(i)
-        this.my_bonuses[list_movables[i].name()] += list_movables[i].value()
-        if (list_movables[i].name() == "fuel") {
-          this.fuel += list_movables[i].value()
-        }
+        this.my_bonuses[list_movables[i].name()](list_movables[i].value())
       }
     }
 
