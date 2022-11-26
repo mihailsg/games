@@ -23,6 +23,8 @@ class LanderGame extends Game {
 
     this.rocket_lives_bar = new VolumeBar(this.ctx, [100, 20], this.rocket_lives, "Мишо животи", "green")
 
+    this.danger = new DangerBall(this.ctx, w, h)
+
     this.controls = [
       {
         "ускорение": {
@@ -138,6 +140,19 @@ class LanderGame extends Game {
 
     draw_text(this.ctx, "ESC за Помощ", 5, 20, 10, "white")
     draw_text(this.ctx, "FPS " + Math.round(this.fps_counter.fps), 5, 40, 10, "white")
+
+    this.danger.draw()
+    for (let i = 0; i < this.rockets.length; i++) {
+      if (! this.rockets[i].alive()) {
+        continue
+      }
+
+      let d = Math.sqrt((this.rockets[i].y - this.danger.y) ** 2 + (this.rockets[i].x - this.danger.x) ** 2)
+      if (d <= this.rockets[i].l + this.danger.r) {
+        this.rocket_lives -= 1
+        this.rockets[i] = new RocketExplosion(this.ctx, this.W, this.H, this.rockets[i].x, this.rockets[i].y, this.fps_ratio)
+      }
+    }
   }
 
   generate_rocks() {
