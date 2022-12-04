@@ -14,26 +14,37 @@ class DangerBall {
 
     this.x = 70
     this.y = 60
-    this.r = 80
+    this.r = 40
 
     this.vx = 0.5
     this.vy = 0.5
   }
 
   draw() {
-    if (randint(0, 100) == 1) {
-      this.vx += randuniform(-0.3, 0.3)
-      this.vy += randuniform(-0.3, 0.3)
+    if (randint(0, 30) == 1) {
+      this.vx += randuniform(-0.2, 0.2)
+      this.vy += randuniform(-0.2, 0.2)
     }
 
     this.x = this.x + this.vx
     this.y = this.y + this.vy
 
-    if (this.x <= 0) { this.x = this.W }
-    if (this.x >= this.W) { this.x = 0 }
-    if (this.y <= 0) { this.y = this.H }
-    if (this.y >= this.H) { this.y = 0 }
-
+    if (this.y + this.r >= this.H) {
+      this.vy = - this.vy
+      this.y = this.H - this.r
+    }
+    if (this.y - this.r <= 0) {
+      this.vy = - this.vy
+      this.y = this.r
+    }
+    if (this.x + this.r >= this.W) {
+      this.vx = - this.vx
+      this.x = this.W - this.r
+    }
+    if (this.x - this.r <= 0) {
+      this.vx = - this.vx
+      this.x = this.r
+    }
 
     draw_circle(this.ctx, this.x, this.y, this.r, "red", true)
   }

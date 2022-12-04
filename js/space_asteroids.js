@@ -64,7 +64,7 @@ class SpaceAsteroids extends Game {
     this.bonus_types = this.rockets[0].bonus_types
 
     this.help.controls(this.rockets, "Ракета")
-    this.help.show = false
+    // this.help.show = false
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
   }

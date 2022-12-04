@@ -63,7 +63,7 @@ class SnakeGame extends Game {
     ]
 
     this.help.controls(this.snakes, "Змия")
-    this.help.show = false
+    // this.help.show = false
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
   }

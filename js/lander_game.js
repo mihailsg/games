@@ -74,7 +74,7 @@ class LanderGame extends Game {
     }
 
     this.help.controls(this.rockets, "Ракета")
-    this.help.show = false
+    // this.help.show = false
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
   }

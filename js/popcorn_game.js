@@ -46,7 +46,7 @@ class PopCornGame extends Game {
     )
 
     this.help.controls([this.paddle], "Мишо")
-    this.help.show = false
+    // this.help.show = false
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
   }
