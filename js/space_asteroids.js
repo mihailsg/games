@@ -105,7 +105,7 @@ class SpaceAsteroids extends Game {
       }
     }
 
-    this.asteroids_bar = new VolumeBar(this.ctx, [100, 40], this.asteroids.length * 2, "Астероиди", "yellow")
+    this.asteroids_bar = new VolumeBar(this.ctx, [100, 40], this.asteroids.length * 2, "Астероиди", "orange")
   }
 
   draw() {

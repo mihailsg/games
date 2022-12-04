@@ -257,7 +257,7 @@ class Rocket extends RocketBase {
     }
 
     let txt = "V ( " + this.vx.toFixed(2) + " , " + this.vy.toFixed(2) + " ) A " + this.angle.toFixed(2) //Math.round(this.angle, 3)
-    draw_text(this.ctx, txt, this.volume_bar_pos[0], this.volume_bar_pos[1] + 40, 10, "white")
+    draw_text(this.ctx, txt, this.volume_bar_pos[0], this.volume_bar_pos[1] + 50, 10, "white")
     // draw_text(this.ctx, this.x.toFixed(2) + ", " + this.y.toFixed(2), 5, 50, 10, "white")
 
     this.move_lasers()

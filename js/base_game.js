@@ -46,6 +46,7 @@ class Game {
     canvas.height = h
     this.ctx = canvas.getContext('2d')
     this.ctx["BoundingClientRect"] = canvas.getBoundingClientRect()
+    this.ctx["WH"] = {"W": this.W, "H": this.H, "W_ratio": this.W_ratio, "H_ratio": this.H_ratio}
 
     this.fps_counter = new FPSCounter(10000)
   }
