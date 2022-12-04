@@ -36,12 +36,12 @@ class BonusRectangle extends Bonus {
   constructor(ctx, w, h, x0, y0, angle, v, fps_ratio, color) {
     super(ctx, w, h, x0, y0, angle, v, fps_ratio, color)
 
-    this.l = 40
+    this.l = 50
     this.tag = "NONE"
   }
 
   draw() {
-    draw_rect(this.ctx, this.x, this.y, this.l * this.W_ratio, this.l * this.H_ratio, this.color, false, 3)
+    draw_rect(this.ctx, this.x, this.y, this.l * this.W_ratio, this.l * this.W_ratio, this.color, false, 3)
     draw_text(this.ctx, "+ " + this.bonus_value, this.x + 5, this.y + 20 * this.W_ratio, 17 * this.W_ratio, this.color)
     draw_text(this.ctx, this.tag, this.x + 3, this.y + 32 * this.W_ratio, 9 * this.W_ratio, this.color)
   }
