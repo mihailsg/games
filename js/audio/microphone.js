@@ -45,11 +45,11 @@ class MicrophoneAudio {
   }
 
   start(stream) {
-    let gain_node = this.ctx.createGain()
-    gain_node.connect(this.ctx.destination)
+    // let gain_node = this.ctx.createGain()
+    // gain_node.connect(this.ctx.destination)
 
     this.microphone_stream = this.ctx.createMediaStreamSource(stream);
-    this.microphone_stream.connect(gain_node);
+    // this.microphone_stream.connect(gain_node);
 
     let script_processor_node = this.ctx.createScriptProcessor(this.buff_size, 1, 1);
     script_processor_node.onaudioprocess = this.on_audio.bind(this);
@@ -57,7 +57,7 @@ class MicrophoneAudio {
     this.microphone_stream.connect(script_processor_node);
 
     let script_processor_fft_node = this.ctx.createScriptProcessor(2048, 1, 1);
-    script_processor_fft_node.connect(gain_node);
+    // script_processor_fft_node.connect(gain_node);
 
     this.analyser_node = this.ctx.createAnalyser();
     this.analyser_node.smoothingTimeConstant = 0;
