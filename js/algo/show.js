@@ -40,10 +40,32 @@ class AlgoShow extends Game {
     }
   }
 
+  set(from, to, d, m) {
+    for (var i = from; i < to; i += d) {
+      this.a[i][this.n - k - 1] = m
+      m++
+    }
+    return m
+  }
+
   fill_matrix() {
-    for (var i = 0; i < this.n; i++) {
-      for (var j = 0; j < this.n; j++) {
-        this.a[i][j] = 3 *  this.a[i][j]
+    var m = this.m
+    for (var k = 0; k < this.n / 2 + 1; k++) {
+      for (var j = k; j < this.n - k; j++) {
+        this.a[k][j] = m
+        m++
+      }
+      for (var i = k + 1; i < this.n - k; i++) {
+        this.a[i][this.n - k - 1] = m
+        m++
+      }
+      for (var j = this.n - k - 2; j >= k; j--) {
+        this.a[this.n - k - 1][j] = m
+        m++
+      }
+      for (var i = this.n - k - 2; i >= k + 1; i--) {
+        this.a[i][k] = m
+        m++
       }
     }
 
