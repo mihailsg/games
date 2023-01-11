@@ -69,6 +69,7 @@ class RatioRunner {
     this.fn = fn
     this.count = 0
     this.count_inc = count_inc
+    console.log("RatioRunner", "ratio", this.ratio, "count_inc", count_inc)
   }
 
   set_ratio(ratio) {

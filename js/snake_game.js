@@ -7,9 +7,10 @@
 
 
 class SnakeGame extends Game {
-  constructor(canvas, w, h, lives) {
+  constructor(canvas, w, h, lives, is_run) {
     super(canvas, w, h)
 
+    this.is_run = is_run
     this.lives = lives
     this.vapples = 100
 
@@ -63,7 +64,7 @@ class SnakeGame extends Game {
     ]
 
     this.help.controls(this.snakes, "Змия")
-    // this.help.show = false
+    if (this.is_run) { this.help.show = false }
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
   }
@@ -122,6 +123,7 @@ game = new SnakeGame(
               document.getElementsByTagName('canvas')[0],
               params.get("w") || 1200,
               params.get("h") || 800,
-              params.get("lives") || 10
+              params.get("lives") || 10,
+              params.get("run") || 0
 )
 game.run()

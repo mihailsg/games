@@ -7,9 +7,10 @@
 
 
 class SpaceAsteroids extends Game {
-  constructor(canvas, w, h, rocket_lives=10, asteroids_count=30, mouse=false) {
+  constructor(canvas, w, h, rocket_lives=10, asteroids_count=30, mouse=false, is_run) {
     super(canvas, w, h)
 
+    this.is_run = is_run
     this.rocket_lives = rocket_lives
     this.asteroids_count = asteroids_count
 
@@ -64,7 +65,7 @@ class SpaceAsteroids extends Game {
     this.bonus_types = this.rockets[0].bonus_types
 
     this.help.controls(this.rockets, "Ракета")
-    // this.help.show = false
+    if (this.is_run) { this.help.show = false }
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
   }
@@ -255,6 +256,7 @@ game = new SpaceAsteroids(
               params.get("h") || 800,
               params.get("lives") || 10,
               params.get("asteroids") || 20,
-              params.get("mouse") || false
+              params.get("mouse") || false,
+              params.get("run") || 0
 )
 game.run()

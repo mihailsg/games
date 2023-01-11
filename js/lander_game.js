@@ -7,11 +7,12 @@
 
 
 class LanderGame extends Game {
-  constructor(canvas, w, h, lives, players) {
+  constructor(canvas, w, h, lives, players, is_run) {
     super(canvas, w, h)
 
     this.players = players
     this.rocket_lives = lives
+    this.is_run = is_run
 
     this.rockets = []
     this.rocks = []
@@ -74,7 +75,7 @@ class LanderGame extends Game {
     }
 
     this.help.controls(this.rockets, "Ракета")
-    // this.help.show = false
+    if (this.is_run) { this.help.show = false }
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
   }
@@ -184,6 +185,7 @@ game = new LanderGame(
               params.get("w") || 1200,
               params.get("h") || 800,
               params.get("lives") || 10,
-              params.get("players") || 1
+              params.get("players") || 1,
+              params.get("run") || 0
 )
 game.run()

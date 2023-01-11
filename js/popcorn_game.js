@@ -7,12 +7,13 @@
 
 
 class PopCornGame extends Game {
-  constructor(canvas, w, h, lives, n_balls) {
+  constructor(canvas, w, h, lives, n_balls, is_run) {
     super(canvas, w, h)
 
     this.paddle = 0
     this.balls = 0
     this.n_balls = n_balls
+    this.is_run = is_run
 
     this.lives = lives
     this.lives_bar = new VolumeBar(this.ctx, [100, 10], this.lives, "животи", "green")
@@ -46,7 +47,7 @@ class PopCornGame extends Game {
     )
 
     this.help.controls([this.paddle], "Мишо")
-    // this.help.show = false
+    if (this.is_run) { this.help.show = false }
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
   }
@@ -231,6 +232,7 @@ game = new PopCornGame(
               params.get("w") || 1200,
               params.get("h") || 800,
               params.get("lives") || 10,
-              params.get("balls") || 1
+              params.get("balls") || 1,
+              params.get("run") || 0
 )
 game.run()

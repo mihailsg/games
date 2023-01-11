@@ -6,7 +6,7 @@
 */
 
 
-class AlgoShow extends Game {
+class MatrixSnail extends Game {
   constructor(canvas, w, h, n, m) {
     super(canvas, w, h)
 
@@ -114,17 +114,3 @@ class AlgoShow extends Game {
     // }
   }
 }
-
-
-const query = window.location.search
-const params = new URLSearchParams(query)
-
-math = new AlgoShow(
-    document.getElementsByTagName('canvas')[0],
-    params.get("w") || 1200,
-    params.get("h") || 800,
-    params.get("n") || 10,
-    params.get("m") || 1
-)
-
-math.run()
