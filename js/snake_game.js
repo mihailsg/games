@@ -60,6 +60,21 @@ class SnakeGame extends Game {
         },
         "змия 2", "blue",
         [450, 20]
+      ),
+      new Snake(
+          this.ctx, this.W, this.H,
+          250, 250,
+          this.lives,
+          this.fps_ratio,
+          {
+            "нагоре": 't',
+            "надолу": 'v',
+            "наляво": 'f',
+            "надясно": 'g',
+            "бързо": ' ',
+          },
+          "змия 3", "orange",
+          [350, 20]
       )
     ]
 

@@ -31,6 +31,7 @@ class Snake {
     this.lives_bar = new VolumeBar(this.ctx, this.info_pos, this.lives, this.name + " животи", this.color)
 
     this.bitten = new IDraw()
+    this.apple_bitten = new IDraw()
 
     document.addEventListener('keydown', this.on_keydown.bind(this))
     // document.addEventListener('keyup', this.on_keyup.bind(this))
@@ -126,6 +127,7 @@ class Snake {
     draw_circle(this.ctx, this.body[this.body.length - 1][0], this.body[this.body.length - 1][1], this.d / 2 + 3, "#AA5511", true)
 
     this.bitten.draw()
+    this.apple_bitten.draw()
 
     this.lives_bar.draw(this.lives)
   }
@@ -137,6 +139,7 @@ class Snake {
       let d = Math.sqrt((pn[0] - apples[i].x) ** 2 + (pn[1] - apples[i].y) ** 2)
       if (d < apples[i].r + this.d / 2) {
         this.body.push(pn)
+        this.apple_bitten = new Bitten(this.ctx, apples[i].x, apples[i].y, apples[i].r, "orange", 77)
         return i
       }
     }
@@ -160,13 +163,14 @@ class Apple {
 
 
 class Bitten {
-  constructor(ctx, x0, y0, r) {
+  constructor(ctx, x0, y0, r, color="red", counter=100) {
+    this.color = color
     this.ctx = ctx
     this.x = x0
     this.y = y0
     this.r = r
 
-    this.counter = 100
+    this.counter = counter
     this.active = true
   }
 
@@ -177,7 +181,7 @@ class Bitten {
   }
 
   draw_active() {
-    draw_circle(this.ctx, this.x, this.y, this.r + this.counter / 10, "red", true)
+    draw_circle(this.ctx, this.x, this.y, this.r + this.counter / 10, this.color, true)
     this.counter -= 1
 
     if (this.counter == 0) {
