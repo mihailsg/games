@@ -1,9 +1,3 @@
 # games
 
-## Installation
-
-pip install -r requirements.txt
-
-## Run
-
-python game.py
+https://softel.bg/misho/
