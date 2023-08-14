@@ -52,23 +52,23 @@ class BaseGravityBounce {
 
 class BounceCube extends BaseGravityBounce {
   init() {
-    this.bounce = new Cube(this.ctx, 100)
+    this.bounce = new Cube(this.ctx, randint(20, 100))
   }
 }
 
 class BounceCylinder extends BaseGravityBounce {
   init() {
-    this.bounce = new Cylinder(this.ctx, 100, 50, 36)
+    this.bounce = new Cylinder(this.ctx, randint(30, 100), randint(20, 50), 36)
   }
 }
 
 
 class BounceView extends Game {
-  constructor(canvas, w, h) {
+  constructor(canvas, w, h, n) {
     super(canvas, w, h)
 
     this.bounce_list = []
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < n; i++) {
       this.bounce_list.push(new BounceCube(this.ctx, randint(30, w - 30), randint(0, 200), randuniform(-3.0, 3.0)))
       this.bounce_list.push(new BounceCylinder(this.ctx, randint(30, w - 30), randint(0, 200), randuniform(-3.0, 3.0)))
     }

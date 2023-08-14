@@ -7,7 +7,7 @@
 
 
 class Base3D {
-  constructor(ctx, l=100) {
+  constructor(ctx) {
     this.ctx = ctx
 
     this.x = 400
@@ -18,8 +18,9 @@ class Base3D {
     this.vA = 1.0
 
     this.random_points = []
+    let ra = 1.5
     for (let i = 0; i < 20; i++) {
-      this.random_points.push([randuniform(-2.0, 2.0), randuniform(-2.0, 2.0), randuniform(-2.0, 2.0)])
+      this.random_points.push([randuniform(-ra, ra), randuniform(-ra, ra), randuniform(-ra, ra)])
     }
   }
 
@@ -110,6 +111,14 @@ class Base3D {
       draw_line(this.ctx, projection_coord[0].data, projection_coord[i].data, "red", 1)
     }
   }
+
+  draw_contour(points, from, to, color="blue", w=3, filled=false) {
+    let points_list = []
+    for (let i = from; i < to; i++) {
+      points_list.push(points[i].data)
+    }
+    draw_contours(this.ctx, points_list, color, w, filled)
+  }
 }
 
 
@@ -177,12 +186,16 @@ class Cylinder extends Base3D {
     for (let i = 0; i < points.length / 2; i++) {
       draw_line(this.ctx, rotated[i].data, rotated[i + points.length / 2].data, "green", 2)
     }
-    for (let i = 0; i < points.length / 2 - 1; i++) {
-      draw_line(this.ctx, rotated[i].data, rotated[i + 1].data, "green", 2)
-      draw_line(this.ctx, rotated[i + points.length / 2].data, rotated[i + points.length / 2 + 1].data, "green", 2)
-    }
-    draw_line(this.ctx, rotated[0].data, rotated[points.length / 2 - 1].data, "green", 2)
-    draw_line(this.ctx, rotated[points.length / 2].data, rotated[points.length - 1].data, "green", 2)
+
+    // for (let i = 0; i < points.length / 2 - 1; i++) {
+    //   draw_line(this.ctx, rotated[i].data, rotated[i + 1].data, "green", 2)
+    //   draw_line(this.ctx, rotated[i + points.length / 2].data, rotated[i + points.length / 2 + 1].data, "green", 2)
+    // }
+    // draw_line(this.ctx, rotated[0].data, rotated[points.length / 2 - 1].data, "green", 2)
+    // draw_line(this.ctx, rotated[points.length / 2].data, rotated[points.length - 1].data, "green", 2)
+
+    this.draw_contour(rotated, 0, rotated.length / 2, "blue", 1, true)
+    this.draw_contour(rotated, rotated.length / 2, rotated.length, "orange", 1, true)
 
     for (let i = 0; i < rotated.length; i++) {
       draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 5, "red", true)
