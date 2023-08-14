@@ -13,6 +13,7 @@
   <script src="../game_over.js"></script>
   <script src="../algo/matrix.js"></script>
   <script src="cube.js"></script>
+  <script src="games.js"></script>
 
   <canvas></canvas>
   <canvas></canvas>
@@ -23,7 +24,7 @@
     const query = window.location.search
     const params = new URLSearchParams(query)
 
-    new CubeView(
+    new BounceView(
       document.getElementsByTagName('canvas')[0],
       params.get("w") || 1200,
       params.get("h") || 800,

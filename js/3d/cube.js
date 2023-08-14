@@ -6,10 +6,9 @@
 */
 
 
-class Cube {
+class Base3D {
   constructor(ctx, l=100) {
     this.ctx = ctx
-    this.L = l
 
     this.x = 400
     this.y = 200
@@ -25,12 +24,6 @@ class Cube {
   }
 
   rotate() {
-    this.rotateZ = new Matrix([
-      [Math.cos(to_radians(this.A)), -Math.sin(to_radians(this.A)), 0],
-      [Math.sin(to_radians(this.A)),  Math.cos(to_radians(this.A)), 0],
-      [0, 0, 1]
-    ])
-
     this.rotateX = new Matrix([
       [1, 0, 0],
       [0, Math.cos(to_radians(this.A)), -Math.sin(to_radians(this.A))],
@@ -41,6 +34,12 @@ class Cube {
       [Math.cos(to_radians(this.A)), 0, -Math.sin(to_radians(this.A))],
       [0, 1, 0],
       [Math.sin(to_radians(this.A)),  0, Math.cos(to_radians(this.A))],
+    ])
+
+    this.rotateZ = new Matrix([
+      [Math.cos(to_radians(this.A)), -Math.sin(to_radians(this.A)), 0],
+      [Math.sin(to_radians(this.A)),  Math.cos(to_radians(this.A)), 0],
+      [0, 0, 1]
     ])
 
     this.projection = new Matrix([
@@ -69,19 +68,17 @@ class Cube {
 
   draw() {
     this.rotate()
+    this.draw_rotation()
+    this.draw_coordinates()
 
-    // console.log("rotateZ", this.rotateZ.print())
+    this.A += this.vA
+    this.A = this.A % 360
 
-    let points = [
-      [-0.5, -0.5, -0.5],
-      [0.5, -0.5, -0.5],
-      [0.5, 0.5, -0.5],
-      [-0.5, 0.5, -0.5],
-      [-0.5, -0.5, 0.5],
-      [0.5, -0.5, 0.5],
-      [0.5, 0.5, 0.5],
-      [-0.5, 0.5, 0.5],
-    ]
+    // draw_text(this.ctx, "A " + Math.round(this.A), 5, 60, 10, "white")
+  }
+
+  draw_rotation() {
+    let points = []
 
     points = points.concat(this.random_points)
 
@@ -89,24 +86,7 @@ class Cube {
     for (let i = 0; i < points.length; i++) {
       rotated.push(this.rotate_point(points[i]))
     }
-
-    this.draw_cube(rotated)
-    this.draw_coordinates()
-
-    this.A += this.vA
-    this.A = this.A % 360
-
-    draw_text(this.ctx, "A " + Math.round(this.A), 5, 60, 10, "white")
-  }
-
-  draw_cube(points) {
-    for (let i = 0; i < 4; i++) {
-      draw_line(this.ctx, points[i].data, points[(i + 1) % 4].data, "green", 2)
-      draw_line(this.ctx, points[i + 4].data, points[((i + 1) % 4) + 4].data, "green", 2)
-      draw_line(this.ctx, points[i].data, points[i + 4].data, "green", 2)
-    }
-
-    for (let i = 0; i < points.length; i++) {
+    for (let i = 0; i < rotated.length; i++) {
       draw_circle(this.ctx, points[i].data[0], points[i].data[1], 5, "red", true)
     }
   }
@@ -133,63 +113,79 @@ class Cube {
 }
 
 
-class CubeView extends Game {
-  constructor(canvas, w, h) {
-    super(canvas, w, h)
-
-
-    this.cube = new Cube(this.ctx, 100)
-
-    this.L = 50
-
-    this.A = 45
-    this.vA = 0.1
-    this.avA = 0.001
-
-    this.x = 400
-    this.y = 200
-
-    this.vx = 1.0
-    this.vy = 0.0
-    this.vloss = 1.0
-
-    this.G = 0.01
-    this.GA = 90
+class Cube extends Base3D {
+  constructor(ctx, l=100) {
+    super(ctx)
+    this.L = l
   }
 
-  draw() {
-    draw_text(this.ctx, "FPS " + Math.round(this.fps_counter.fps), 5, 40, 10, "white")
-    // draw_text(this.ctx, "A " + Math.round(this.A), 5, 60, 10, "white")
-    draw_text(this.ctx, "X,Y " + Math.round(this.x) + "," + Math.round(this.y), 5, 80, 10, "white")
-    draw_text(this.ctx, "V " + this.vx.toFixed(2) + "," + this.vy.toFixed(2), 5, 100, 10, "white")
+  draw_rotation() {
+    let points = [
+      [-0.5, -0.5, -0.5],
+      [0.5, -0.5, -0.5],
+      [0.5, 0.5, -0.5],
+      [-0.5, 0.5, -0.5],
+      [-0.5, -0.5, 0.5],
+      [0.5, -0.5, 0.5],
+      [0.5, 0.5, 0.5],
+      [-0.5, 0.5, 0.5],
+    ]
 
-    let GA_radians = to_radians(this.GA)
-    let gx = this.G * Math.cos(GA_radians)
-    let gy = this.G * Math.sin(GA_radians)
+    points = points.concat(this.random_points)
 
-    this.vx += gx
-    this.vy += gy
+    let rotated = []
+    for (let i = 0; i < points.length; i++) {
+      rotated.push(this.rotate_point(points[i]))
+    }
 
-    this.x += this.vx
-    this.y += this.vy
+    for (let i = 0; i < 4; i++) {
+      draw_line(this.ctx, rotated[i].data, rotated[(i + 1) % 4].data, "green", 2)
+      draw_line(this.ctx, rotated[i + 4].data, rotated[((i + 1) % 4) + 4].data, "green", 2)
+      draw_line(this.ctx, rotated[i].data, rotated[i + 4].data, "green", 2)
+    }
 
-    if (this.x > this.W || this.x < 0) { this.vx = - this.vloss * this.vx }
-    if (this.y > this.H || this.y < 0) { this.vy = - this.vloss * this.vy }
-    let xy = frame_bounds(this.W, this.H, this.x, this.y)
-    this.x = xy[0]
-    this.y = xy[1]
-
-    // let x2 = this.x + this.L * Math.cos(to_radians(this.A))
-    // let y2 = this.y + this.L * Math.sin(to_radians(this.A))
-    // draw_line(this.ctx, [this.x, this.y], [x2, y2], "green", 2)
-
-    this.cube.x = this.x
-    this.cube.y = this.y
-    this.cube.draw()
-
-    this.A += this.vA
-    this.vA += this.avA
-    this.A = this.A % 360
+    for (let i = 0; i < rotated.length; i++) {
+      draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 5, "red", true)
+    }
   }
 }
 
+
+class Cylinder extends Base3D {
+  constructor(ctx, l=100, r=50, s=12) {
+    super(ctx)
+    this.L = l
+    this.R = r
+    this.S = s
+    this.step = 360 / this.S
+  }
+
+  draw_rotation() {
+    let points = []
+    for (let a = 0; a < 360; a += this.step) {
+      points.push([Math.sin(to_radians(a)), Math.cos(to_radians(a)), 1.0])
+    }
+    for (let a = 0; a < 360; a += this.step) {
+      points.push([Math.sin(to_radians(a)), Math.cos(to_radians(a)), -1.0])
+    }
+
+    let rotated = []
+    for (let i = 0; i < points.length; i++) {
+      rotated.push(this.rotate_point(points[i]))
+    }
+
+    for (let i = 0; i < points.length / 2; i++) {
+      draw_line(this.ctx, rotated[i].data, rotated[i + points.length / 2].data, "green", 2)
+    }
+    for (let i = 0; i < points.length / 2 - 1; i++) {
+      draw_line(this.ctx, rotated[i].data, rotated[i + 1].data, "green", 2)
+      draw_line(this.ctx, rotated[i + points.length / 2].data, rotated[i + points.length / 2 + 1].data, "green", 2)
+    }
+    draw_line(this.ctx, rotated[0].data, rotated[points.length / 2 - 1].data, "green", 2)
+    draw_line(this.ctx, rotated[points.length / 2].data, rotated[points.length - 1].data, "green", 2)
+
+    for (let i = 0; i < rotated.length; i++) {
+      draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 5, "red", true)
+    }
+  }
+}
