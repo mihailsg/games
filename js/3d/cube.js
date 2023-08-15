@@ -163,7 +163,7 @@ class Cube extends Base3D {
 
 
 class Cylinder extends Base3D {
-  constructor(ctx, l=100, r=50, s=12) {
+  constructor(ctx, l=100, r=1.0, s=12) {
     super(ctx)
     this.L = l
     this.R = r
@@ -174,10 +174,10 @@ class Cylinder extends Base3D {
   draw_rotation() {
     let points = []
     for (let a = 0; a < 360; a += this.step) {
-      points.push([Math.sin(to_radians(a)), Math.cos(to_radians(a)), 1.0])
+      points.push([this.R * Math.sin(to_radians(a)), this.R * Math.cos(to_radians(a)), 1.0])
     }
     for (let a = 0; a < 360; a += this.step) {
-      points.push([Math.sin(to_radians(a)), Math.cos(to_radians(a)), -1.0])
+      points.push([this.R * Math.sin(to_radians(a)), this.R * Math.cos(to_radians(a)), -1.0])
     }
 
     let rotated = []
@@ -261,10 +261,42 @@ class Pyramid extends Base3D {
     draw_line(this.ctx, rotated[0].data, rotated[2].data, "green", 2)
     draw_line(this.ctx, rotated[0].data, rotated[3].data, "green", 2)
 
-    this.draw_contour(rotated, 1, rotated.length, "green", 2, false)
+    // this.draw_contour(rotated, 0, rotated.length - 1, "blue", 2, true)
+    this.draw_contour(rotated, 1, rotated.length, "green", 2, true)
 
     for (let i = 0; i < rotated.length; i++) {
       draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 3, "red", true)
     }
+  }
+}
+
+
+class Cone extends Base3D {
+  constructor(ctx, l=100, r=1.0, s=12) {
+    super(ctx)
+    this.L = l
+    this.R = r
+    this.S = s
+    this.step = 360 / this.S
+  }
+
+  draw_rotation() {
+    let points = []
+    for (let z = 1.0; z >= 0.0; z -= 0.2) {
+      for (let a = 0; a < 360; a += this.step) {
+        points.push([z * this.R * Math.sin(to_radians(a)), z * this.R * Math.cos(to_radians(a)), z])
+      }
+    }
+
+    let rotated = []
+    for (let i = 0; i < points.length; i++) {
+      rotated.push(this.rotate_point(points[i]))
+    }
+
+    for (let i = 0; i < rotated.length; i++) {
+      draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 2, "red", true)
+    }
+
+    // this.draw_contour(rotated, 0, this.S, "orange", 1, true)
   }
 }

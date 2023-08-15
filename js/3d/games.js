@@ -63,7 +63,7 @@ class BounceView extends Game {
       )
       this.bounce_list.push(new BaseGravityBounce(
         this.ctx,
-        new Cylinder(this.ctx, randint(30, 100), randint(20, 50), 12),
+        new Cylinder(this.ctx, randint(30, 100), randuniform(0.5, 2.0), 12),
         randint(30, w - 30), randint(0, max_y), randuniform(-3.0, 3.0), vy, g)
       )
       this.bounce_list.push(new BaseGravityBounce(
@@ -74,6 +74,11 @@ class BounceView extends Game {
       this.bounce_list.push(new BaseGravityBounce(
         this.ctx,
         new Pyramid(this.ctx, randint(100, 200)),
+        randint(30, w - 30), randint(0, max_y), randuniform(-3.0, 3.0), vy, g)
+      ),
+      this.bounce_list.push(new BaseGravityBounce(
+        this.ctx,
+        new Cone(this.ctx, randint(50, 200), randuniform(0.5, 1.0), 12),
         randint(30, w - 30), randint(0, max_y), randuniform(-3.0, 3.0), vy, g)
       )
     }
