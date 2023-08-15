@@ -112,6 +112,7 @@ class Base3D {
     for (let i = 1; i < projection_coord.length; i++) {
       draw_line(this.ctx, projection_coord[0].data, projection_coord[i].data, "blue", 1)
     }
+    draw_circle(this.ctx, projection_coord[0].data[0], projection_coord[0].data[1], 5, "blue", true)
   }
 
   draw_contour(points, from, to, color="blue", w=3, filled=false) {
@@ -293,8 +294,51 @@ class Cone extends Base3D {
       rotated.push(this.rotate_point(points[i]))
     }
 
+    for (let i = 0; i < rotated.length - 1; i++) {
+      draw_line(this.ctx, rotated[i].data, rotated[i + 1].data, "red", 2)
+    }
+
     for (let i = 0; i < rotated.length; i++) {
-      draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 2, "red", true)
+      draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 3, "red", true)
+    }
+
+    // this.draw_contour(rotated, 0, this.S, "orange", 1, true)
+  }
+}
+
+
+class Spiral extends Base3D {
+  constructor(ctx, l=100, r=1.0, s=12, c=5) {
+    super(ctx)
+    this.L = l
+    this.R = r
+    this.C = c
+    this.S = s
+    this.step = 360 / this.S
+    this.step_z = 2.0 / (s * c)
+  }
+
+  draw_rotation() {
+    let points = []
+    let z = -1.0
+    for (let c = 0; c < this.C; c++) {
+      for (let a = 0; a < 360; a += this.step) {
+        points.push([this.R * Math.sin(to_radians(a)), this.R * Math.cos(to_radians(a)), z])
+        z += this.step_z
+      }
+    }
+
+    let rotated = []
+    for (let i = 0; i < points.length; i++) {
+      rotated.push(this.rotate_point(points[i]))
+    }
+
+    for (let i = 0; i < rotated.length - 1; i++) {
+      draw_line(this.ctx, rotated[i].data, rotated[i + 1].data, "red", 2)
+    }
+
+    for (let i = 0; i < rotated.length; i++) {
+      draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 3, "red", true)
     }
 
     // this.draw_contour(rotated, 0, this.S, "orange", 1, true)
