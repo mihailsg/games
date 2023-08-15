@@ -48,30 +48,33 @@ class BaseGravityBounce {
 
 
 class BounceView extends Game {
-  constructor(canvas, w, h, n) {
+  constructor(canvas, w, h, n, g) {
     super(canvas, w, h)
+
+    let vy = 0.0
+    let max_y = h / 2
 
     this.bounce_list = []
     for (let i = 0; i < n; i++) {
       this.bounce_list.push(new BaseGravityBounce(
         this.ctx,
         new Cube(this.ctx, randint(20, 100)),
-        randint(30, w - 30), randint(0, 200), randuniform(-3.0, 3.0))
+        randint(30, w - 30), randint(0, max_y), randuniform(-3.0, 3.0), vy, g)
       )
       this.bounce_list.push(new BaseGravityBounce(
         this.ctx,
         new Cylinder(this.ctx, randint(30, 100), randint(20, 50), 12),
-        randint(30, w - 30), randint(0, 200), randuniform(-3.0, 3.0))
+        randint(30, w - 30), randint(0, max_y), randuniform(-3.0, 3.0), vy, g)
       )
       this.bounce_list.push(new BaseGravityBounce(
         this.ctx,
         new Sphere(this.ctx, randint(30, 100), 20),
-        randint(30, w - 30), randint(0, 200), randuniform(-3.0, 3.0))
+        randint(30, w - 30), randint(0, max_y), randuniform(-3.0, 3.0), vy, g)
       ),
       this.bounce_list.push(new BaseGravityBounce(
         this.ctx,
         new Pyramid(this.ctx, randint(100, 200)),
-        randint(30, w - 30), randint(0, 200), randuniform(-3.0, 3.0))
+        randint(30, w - 30), randint(0, max_y), randuniform(-3.0, 3.0), vy, g)
       )
     }
   }
