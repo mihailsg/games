@@ -10,6 +10,8 @@ class Base3D {
   constructor(ctx) {
     this.ctx = ctx
 
+    this.L = 100
+
     this.x = 400
     this.y = 200
     this.z = 0
@@ -140,7 +142,7 @@ class Cube extends Base3D {
       [-0.5, 0.5, 0.5],
     ]
 
-    points = points.concat(this.random_points)
+    // points = points.concat(this.random_points)
 
     let rotated = []
     for (let i = 0; i < points.length; i++) {
@@ -199,6 +201,70 @@ class Cylinder extends Base3D {
 
     for (let i = 0; i < rotated.length; i++) {
       draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 5, "red", true)
+    }
+  }
+}
+
+
+class Sphere extends Base3D {
+  constructor(ctx, r=50, s=12) {
+    super(ctx)
+    this.L = r
+    this.S = s
+    this.step = 360 / this.S
+  }
+
+  draw_rotation() {
+    let points = []
+
+    for (let phi = 0; phi < 360; phi += this.step) {
+      for (let theta = 0; theta < 360; theta += this.step) {
+        const x = Math.sin(to_radians(phi)) * Math.cos(to_radians(theta))
+        const y = Math.sin(to_radians(phi)) * Math.sin(to_radians(theta))
+        const z = Math.cos(to_radians(phi))
+        points.push([x, y, z])
+      }
+    }
+
+    let rotated = []
+    for (let i = 0; i < points.length; i++) {
+      rotated.push(this.rotate_point(points[i]))
+    }
+
+    for (let i = 0; i < rotated.length; i++) {
+      draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 2, "red", true)
+    }
+  }
+}
+
+
+class Pyramid extends Base3D {
+  constructor(ctx, h=50) {
+    super(ctx)
+    this.L = h
+  }
+
+  draw_rotation() {
+    let points = [
+      [0, 0, 0.5],
+      [  0, -0.5, -0.5],
+      [-0.4, 0.2, -0.5],
+      [ 0.4, 0.2, -0.5]
+    ]
+
+    let rotated = []
+    for (let i = 0; i < points.length; i++) {
+      rotated.push(this.rotate_point(points[i]))
+    }
+
+    draw_line(this.ctx, rotated[0].data, rotated[1].data, "green", 2)
+    draw_line(this.ctx, rotated[0].data, rotated[2].data, "green", 2)
+    draw_line(this.ctx, rotated[0].data, rotated[3].data, "green", 2)
+
+    this.draw_contour(rotated, 1, rotated.length, "green", 2, false)
+
+    for (let i = 0; i < rotated.length; i++) {
+      draw_circle(this.ctx, rotated[i].data[0], rotated[i].data[1], 3, "red", true)
     }
   }
 }
