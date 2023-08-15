@@ -7,7 +7,7 @@
 
 
 class BaseGravityBounce {
-  constructor(ctx, bounce, x, y, vx=1.0, vy=0.0, g=0.01, ga=90) {
+  constructor(ctx, bounce, x, y, vx=1.0, vy=0.0, g=0.03, ga=90) {
     this.ctx = ctx
 
     this.x = x
@@ -65,7 +65,7 @@ class BounceView extends Game {
       )
       this.bounce_list.push(new BaseGravityBounce(
         this.ctx,
-        new Sphere(this.ctx, randint(30, 100), 36),
+        new Sphere(this.ctx, randint(30, 100), 20),
         randint(30, w - 30), randint(0, 200), randuniform(-3.0, 3.0))
       ),
       this.bounce_list.push(new BaseGravityBounce(
@@ -77,7 +77,8 @@ class BounceView extends Game {
   }
 
   draw() {
-    draw_text(this.ctx, "FPS " + Math.round(this.fps_counter.fps), 5, 40, 10, "white")
+    draw_text(this.ctx, "FPS " + Math.round(this.fps_counter.fps), 5, 20, 10, "white")
+    draw_text(this.ctx, "3D rotations on plain 2D (using only line, circrle draw)", 5, 40, 10, "white")
     for (let i = 0; i < this.bounce_list.length; i++) {
       this.bounce_list[i].draw()
     }

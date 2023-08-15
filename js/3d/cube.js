@@ -105,12 +105,12 @@ class Base3D {
     for (let i = 0; i < points_coord.length; i++) {
       let p = new Matrix([points_coord[i]]).transpose()
       p = this.projection.mult(p)
-      p.mult_by(300)
+      p.mult_by(50)
       p = p.sum(new Matrix([[this.x, this.y, 0]]).transpose())
       projection_coord.push(p)
     }
     for (let i = 1; i < projection_coord.length; i++) {
-      draw_line(this.ctx, projection_coord[0].data, projection_coord[i].data, "red", 1)
+      draw_line(this.ctx, projection_coord[0].data, projection_coord[i].data, "blue", 1)
     }
   }
 
