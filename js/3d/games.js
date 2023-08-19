@@ -85,6 +85,11 @@ class BounceView extends Game {
         this.ctx,
         new Spiral(this.ctx, randint(50, 100), randuniform(0.5, 1.0), 12, randint(3, 7)),
         randint(30, w - 30), randint(0, max_y), randuniform(-3.0, 3.0), vy, g)
+      ),
+      this.bounce_list.push(new BaseGravityBounce(
+        this.ctx,
+        new SinSpiral(this.ctx, randint(50, 100), randuniform(0.8, 1.2), 10, 20, randuniform(0.03, 0.05)),
+        randint(30, w - 30), randint(0, max_y), randuniform(-3.0, 3.0), vy, g)
       )
     }
   }
